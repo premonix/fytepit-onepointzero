@@ -103,10 +103,10 @@ const Worlds = () => {
                     const fighterCount = fighters.filter(f => f.world === world.id).length;
                     
                     return (
-                      <div
+                      <Link
                         key={world.id}
+                        to={`/realm/${world.id}`}
                         className={`absolute ${positions[index]} cursor-pointer transition-all duration-300 hover:scale-105`}
-                        onClick={() => handleRealmSelection(world.id)}
                         onMouseEnter={() => handleRealmHover(world.id)}
                       >
                         <div className={`w-24 h-24 rounded-lg border-2 ${
@@ -119,7 +119,7 @@ const Worlds = () => {
                             {fighterCount} fighters
                           </Badge>
                         </div>
-                      </div>
+                      </Link>
                     );
                   })}
 
@@ -214,9 +214,11 @@ const Worlds = () => {
                       
                       <div className="grid grid-cols-2 gap-2 pt-2">
                         {worldFighters.slice(0, 4).map(fighter => (
-                          <Badge key={fighter.id} variant="outline" className="text-xs">
-                            {fighter.name}
-                          </Badge>
+                          <Link key={fighter.id} to={`/fighter/${fighter.id}`}>
+                            <Badge variant="outline" className="text-xs hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors">
+                              {fighter.name}
+                            </Badge>
+                          </Link>
                         ))}
                         {worldFighters.length > 4 && (
                           <Badge variant="secondary" className="text-xs">
@@ -224,6 +226,12 @@ const Worlds = () => {
                           </Badge>
                         )}
                       </div>
+                      
+                      <Link to={`/realm/${selectedRealm}`}>
+                        <Button variant="outline" size="sm" className="w-full mt-4">
+                          Explore {world.name}
+                        </Button>
+                      </Link>
                     </CardContent>
                   </Card>
                 );

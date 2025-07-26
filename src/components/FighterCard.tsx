@@ -4,8 +4,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Sword, Shield, Zap, Heart, TrendingUp, Users } from 'lucide-react';
+import { Sword, Shield, Zap, Heart, TrendingUp, Users, Eye } from 'lucide-react';
 import { useSound } from '@/hooks/useSound';
+import { Link } from 'react-router-dom';
 
 interface FighterCardProps {
   fighter: Fighter;
@@ -151,6 +152,13 @@ export const FighterCard = ({ fighter, onInvest, onBet, showActions = true }: Fi
             </Button>
           </div>
         )}
+        
+        <Link to={`/fighter/${fighter.id}`}>
+          <Button variant="ghost" size="sm" className="w-full">
+            <Eye className="w-4 h-4 mr-2" />
+            View Fighter
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );
