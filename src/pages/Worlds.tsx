@@ -8,6 +8,7 @@ import { ArrowLeft, MapPin, Users, Zap, Lock, Volume2, VolumeX, Globe } from 'lu
 import { Link } from 'react-router-dom';
 import { useSound } from '@/hooks/useSound';
 import { WorldsMap3D } from '@/components/WorldsMap3D';
+import { Footer } from '@/components/Footer';
 
 const expansionZones = [
   { id: 'shatter-point', name: 'The Shatter Point', position: 'top-left', description: 'Chaotic realm entry for rogue zones', status: 'dormant' },
@@ -203,6 +204,9 @@ const Worlds = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

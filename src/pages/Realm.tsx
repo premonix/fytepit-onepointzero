@@ -25,6 +25,7 @@ import {
   Activity
 } from 'lucide-react';
 import { useSound } from '@/hooks/useSound';
+import { Footer } from '@/components/Footer';
 
 const realmLore = {
   'dark-arena': {
@@ -565,6 +566,9 @@ const Realm = () => {
           )}
         </motion.div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
