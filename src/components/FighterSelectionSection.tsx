@@ -30,11 +30,40 @@ export const FighterSelectionSection = () => {
   return (
     <section id="fighter-selection" className="relative py-20 bg-gradient-to-b from-black to-gray-900">
       <div className="max-w-7xl mx-auto px-4">
+        {/* Lore Section */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="max-w-4xl mx-auto mb-16">
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+              In the fractured expanse of <span className="text-primary font-semibold">FYTEPIT</span>, war is not waged by armies — but by champions.
+            </p>
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+              Across three rival realms, elite fighters are summoned, forged, and evolved to settle ancient codes of honor and supremacy.
+            </p>
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+              You don't lead the charge. <span className="text-primary font-semibold">You own the warrior.</span>
+            </p>
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+              Stake your claim. Train your champion.<br />
+              Wager on every clash — and reap the spoils of victory.
+            </p>
+            <p className="text-xl md:text-2xl text-primary font-bold">
+              The Pit awaits.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Selection Section */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
           viewport={{ once: true }}
         >
           <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
