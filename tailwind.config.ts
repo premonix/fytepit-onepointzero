@@ -79,6 +79,11 @@ export default {
 				'glow-accent': 'var(--glow-accent)',
 				'glow-danger': 'var(--glow-danger)'
 			},
+			fontFamily: {
+				sans: ["Inter", "sans-serif"],
+				orbitron: ["Orbitron", "monospace"],
+				rajdhani: ["Rajdhani", "sans-serif"],
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
