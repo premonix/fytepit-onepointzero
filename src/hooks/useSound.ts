@@ -1,49 +1,68 @@
-// Simplified sound hook that doesn't break the app
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { soundManager } from '@/services/SoundManager';
 
 export const useSound = () => {
-  const [muted, setMuted] = useState(false);
+  const [soundState, setSoundState] = useState(soundManager.getState());
 
-  console.log('useSound hook initialized'); // Debug log
+  useEffect(() => {
+    // Initialize sound manager
+    soundManager.initialize().catch(console.error);
+    
+    // Update state periodically or on events
+    const updateState = () => setSoundState(soundManager.getState());
+    const interval = setInterval(updateState, 1000);
+    
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const playUI = useCallback((soundName: string, variant?: string) => {
-    console.log(`Would play UI sound: ${soundName}${variant ? ` (${variant})` : ''}`);
-    // For now, just log instead of playing actual sounds
+    soundManager.playUI(soundName, variant);
   }, []);
 
   const playRealmHover = useCallback((realmId: string) => {
-    console.log(`Would play realm hover sound for: ${realmId}`);
+    soundManager.playRealmHover(realmId);
   }, []);
 
   const selectRealm = useCallback((realmId: string) => {
-    console.log(`Would select realm and play ambient: ${realmId}`);
+    soundManager.selectRealm(realmId);
   }, []);
 
   const stopAmbient = useCallback(() => {
-    console.log('Would stop ambient sound');
+    soundManager.stopAmbient();
+  }, []);
+
+  const setMasterVolume = useCallback((volume: number) => {
+    soundManager.setMasterVolume(volume);
+    setSoundState(soundManager.getState());
+  }, []);
+
+  const setUIVolume = useCallback((volume: number) => {
+    soundManager.setUIVolume(volume);
+    setSoundState(soundManager.getState());
+  }, []);
+
+  const setAmbientVolume = useCallback((volume: number) => {
+    soundManager.setAmbientVolume(volume);
+    setSoundState(soundManager.getState());
   }, []);
 
   const toggleMute = useCallback(() => {
-    const newMuted = !muted;
-    setMuted(newMuted);
-    console.log(`Sound ${newMuted ? 'muted' : 'unmuted'}`);
-    return newMuted;
-  }, [muted]);
+    const muted = soundManager.toggleMute();
+    setSoundState(soundManager.getState());
+    return muted;
+  }, []);
 
   return {
-    muted,
+    ...soundState,
     playUI,
     playRealmHover,
     selectRealm,
     stopAmbient,
-    toggleMute,
-    // Default values for other expected properties
-    masterVolume: 0.7,
-    uiVolume: 0.5,
-    ambientVolume: 0.3,
-    currentAmbient: false,
-    setMasterVolume: () => {},
-    setUIVolume: () => {},
-    setAmbientVolume: () => {}
+    setMasterVolume,
+    setUIVolume,
+    setAmbientVolume,
+    toggleMute
   };
 };
