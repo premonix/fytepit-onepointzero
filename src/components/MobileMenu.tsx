@@ -25,6 +25,8 @@ export const MobileMenu = () => {
     { to: "/worlds", label: "Worlds", icon: Globe },
     { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
     { to: "/codex", label: "Codex", icon: Book },
+    { to: "/how-it-works", label: "How It Works", icon: Book },
+    { to: "/pricing", label: "Pricing", icon: Trophy },
   ];
 
   const handleMenuClick = () => {

@@ -10,6 +10,8 @@ import Fighter from "./pages/Fighter";
 import Realm from "./pages/Realm";
 import Leaderboard from "./pages/Leaderboard";
 import Codex from "./pages/Codex";
+import HowItWorks from "./pages/HowItWorks";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import { MobileMenu } from "./components/MobileMenu";
 
@@ -26,6 +28,8 @@ const AppContent = () => {
         <Route path="/realm/:realmId" element={<Realm />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/codex" element={<Codex />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

@@ -34,6 +34,16 @@ export const Footer = () => {
               Codex
             </Button>
           </Link>
+          <Link to="/how-it-works">
+            <Button variant="ghost" className="text-gray-400 hover:text-white">
+              How It Works
+            </Button>
+          </Link>
+          <Link to="/pricing">
+            <Button variant="ghost" className="text-gray-400 hover:text-white">
+              Pricing
+            </Button>
+          </Link>
         </div>
         
         <div className="flex justify-center gap-6 mb-6 text-gray-400">
