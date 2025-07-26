@@ -9,18 +9,22 @@ import Worlds from "./pages/Worlds";
 import Fighter from "./pages/Fighter";
 import Realm from "./pages/Realm";
 import NotFound from "./pages/NotFound";
+import { MobileMenu } from "./components/MobileMenu";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Index />} />
-      <Route path="/worlds" element={<Worlds />} />
-      <Route path="/fighter/:fighterId" element={<Fighter />} />
-      <Route path="/realm/:realmId" element={<Realm />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      <MobileMenu />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/worlds" element={<Worlds />} />
+        <Route path="/fighter/:fighterId" element={<Fighter />} />
+        <Route path="/realm/:realmId" element={<Realm />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 };
 
