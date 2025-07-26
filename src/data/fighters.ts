@@ -1,14 +1,41 @@
 import { Fighter } from '@/types/fighter';
-import fighter1Image from '@/assets/fighter-1.jpg';
-import fighter2Image from '@/assets/fighter-2.jpg';
-import fighter3Image from '@/assets/fighter-3.jpg';
+import nullbyteImage from '@/assets/nullbyte.jpg';
+import gorehoundImage from '@/assets/gorehound.jpg';
+import rendExeImage from '@/assets/rend-exe.jpg';
+import tremorjackImage from '@/assets/tremorjack.jpg';
+import blayzeCoilImage from '@/assets/blayze-coil.jpg';
+import fraktaImage from '@/assets/frakta.jpg';
+import vantaMawImage from '@/assets/vanta-maw.jpg';
+import crushwareImage from '@/assets/crushware.jpg';
+import slagPriestImage from '@/assets/slag-priest.jpg';
+import redline09Image from '@/assets/redline-09.jpg';
+import axiomV3Image from '@/assets/axiom-v3.jpg';
+import novaShardImage from '@/assets/nova-shard.jpg';
+import logicZeroImage from '@/assets/logic-zero.jpg';
+import veloraImage from '@/assets/velora.jpg';
+import mezzarImage from '@/assets/mezzar.jpg';
+import echelonImage from '@/assets/echelon.jpg';
+import ionrainImage from '@/assets/ionrain.jpg';
+import circuitraImage from '@/assets/circuitra.jpg';
+import helixStrideImage from '@/assets/helix-stride.jpg';
+import pulsesyncImage from '@/assets/pulsesync.jpg';
+import thornhelmImage from '@/assets/thornhelm.jpg';
+import caerithCursedImage from '@/assets/caerith-cursed.jpg';
+import skarnHollowImage from '@/assets/skarn-hollow.jpg';
+import seraphyxImage from '@/assets/seraphyx.jpg';
+import myxaImage from '@/assets/myxa.jpg';
+import dreadRelicImage from '@/assets/dread-relic.jpg';
+import vyreEmberchatImage from '@/assets/vyre-emberchant.jpg';
+import korrunImage from '@/assets/korrun.jpg';
+import feydrillImage from '@/assets/feydrill.jpg';
+import sigmarisImage from '@/assets/sigmaris.jpg';
 
 export const fighters: Fighter[] = [
   // DARK ARENA BRUTALISM
   {
     id: '1',
     name: 'Nullbyte',
-    image: fighter1Image,
+    image: nullbyteImage,
     world: 'dark-arena',
     stats: { attack: 95, defense: 70, speed: 85, health: 90 },
     wins: 24, losses: 3,
@@ -21,7 +48,7 @@ export const fighters: Fighter[] = [
   {
     id: '2',
     name: 'Gorehound',
-    image: fighter2Image,
+    image: gorehoundImage,
     world: 'dark-arena',
     stats: { attack: 100, defense: 65, speed: 70, health: 95 },
     wins: 31, losses: 7,
@@ -34,7 +61,7 @@ export const fighters: Fighter[] = [
   {
     id: '3',
     name: 'Rend.exe',
-    image: fighter3Image,
+    image: rendExeImage,
     world: 'dark-arena',
     stats: { attack: 88, defense: 55, speed: 98, health: 75 },
     wins: 22, losses: 4,
@@ -47,7 +74,7 @@ export const fighters: Fighter[] = [
   {
     id: '4',
     name: 'TremorJack',
-    image: fighter1Image,
+    image: tremorjackImage,
     world: 'dark-arena',
     stats: { attack: 85, defense: 90, speed: 45, health: 100 },
     wins: 19, losses: 8,
@@ -60,7 +87,7 @@ export const fighters: Fighter[] = [
   {
     id: '5',
     name: 'Blayze Coil',
-    image: fighter2Image,
+    image: blayzeCoilImage,
     world: 'dark-arena',
     stats: { attack: 92, defense: 60, speed: 88, health: 80 },
     wins: 26, losses: 5,
@@ -73,7 +100,7 @@ export const fighters: Fighter[] = [
   {
     id: '6',
     name: 'Frakta',
-    image: fighter3Image,
+    image: fraktaImage,
     world: 'dark-arena',
     stats: { attack: 78, defense: 85, speed: 82, health: 85 },
     wins: 18, losses: 6,
@@ -86,7 +113,7 @@ export const fighters: Fighter[] = [
   {
     id: '7',
     name: 'Vanta Maw',
-    image: fighter1Image,
+    image: vantaMawImage,
     world: 'dark-arena',
     stats: { attack: 90, defense: 75, speed: 65, health: 95 },
     wins: 21, losses: 9,
@@ -99,7 +126,7 @@ export const fighters: Fighter[] = [
   {
     id: '8',
     name: 'Crushware',
-    image: fighter2Image,
+    image: crushwareImage,
     world: 'dark-arena',
     stats: { attack: 95, defense: 80, speed: 50, health: 100 },
     wins: 17, losses: 11,
@@ -112,7 +139,7 @@ export const fighters: Fighter[] = [
   {
     id: '9',
     name: 'Slag Priest',
-    image: fighter3Image,
+    image: slagPriestImage,
     world: 'dark-arena',
     stats: { attack: 87, defense: 70, speed: 75, health: 88 },
     wins: 20, losses: 7,
@@ -125,7 +152,7 @@ export const fighters: Fighter[] = [
   {
     id: '10',
     name: 'Redline 09',
-    image: fighter1Image,
+    image: redline09Image,
     world: 'dark-arena',
     stats: { attack: 85, defense: 55, speed: 100, health: 70 },
     wins: 28, losses: 4,
@@ -140,7 +167,7 @@ export const fighters: Fighter[] = [
   {
     id: '11',
     name: 'Axiom V3',
-    image: fighter2Image,
+    image: axiomV3Image,
     world: 'sci-fi-ai',
     stats: { attack: 85, defense: 90, speed: 85, health: 90 },
     wins: 35, losses: 2,
@@ -153,7 +180,7 @@ export const fighters: Fighter[] = [
   {
     id: '12',
     name: 'NOVA Shard',
-    image: fighter3Image,
+    image: novaShardImage,
     world: 'sci-fi-ai',
     stats: { attack: 92, defense: 75, speed: 90, health: 85 },
     wins: 29, losses: 5,
@@ -166,7 +193,7 @@ export const fighters: Fighter[] = [
   {
     id: '13',
     name: 'Logic_Zero',
-    image: fighter1Image,
+    image: logicZeroImage,
     world: 'sci-fi-ai',
     stats: { attack: 80, defense: 85, speed: 88, health: 87 },
     wins: 32, losses: 3,
@@ -179,7 +206,7 @@ export const fighters: Fighter[] = [
   {
     id: '14',
     name: 'Velora',
-    image: fighter2Image,
+    image: veloraImage,
     world: 'sci-fi-ai',
     stats: { attack: 88, defense: 70, speed: 95, health: 82 },
     wins: 27, losses: 6,
@@ -192,7 +219,7 @@ export const fighters: Fighter[] = [
   {
     id: '15',
     name: 'Mezzar',
-    image: fighter3Image,
+    image: mezzarImage,
     world: 'sci-fi-ai',
     stats: { attack: 90, defense: 80, speed: 75, health: 90 },
     wins: 25, losses: 7,
@@ -205,7 +232,7 @@ export const fighters: Fighter[] = [
   {
     id: '16',
     name: 'Echelon',
-    image: fighter1Image,
+    image: echelonImage,
     world: 'sci-fi-ai',
     stats: { attack: 70, defense: 75, speed: 80, health: 85 },
     wins: 23, losses: 4,
@@ -218,7 +245,7 @@ export const fighters: Fighter[] = [
   {
     id: '17',
     name: 'IonRain',
-    image: fighter2Image,
+    image: ionrainImage,
     world: 'sci-fi-ai',
     stats: { attack: 95, defense: 65, speed: 85, health: 80 },
     wins: 26, losses: 8,
@@ -231,7 +258,7 @@ export const fighters: Fighter[] = [
   {
     id: '18',
     name: 'Circuitra',
-    image: fighter3Image,
+    image: circuitraImage,
     world: 'sci-fi-ai',
     stats: { attack: 82, defense: 78, speed: 92, health: 83 },
     wins: 24, losses: 6,
@@ -244,7 +271,7 @@ export const fighters: Fighter[] = [
   {
     id: '19',
     name: 'Helix Stride',
-    image: fighter1Image,
+    image: helixStrideImage,
     world: 'sci-fi-ai',
     stats: { attack: 87, defense: 72, speed: 88, health: 85 },
     wins: 22, losses: 9,
@@ -257,7 +284,7 @@ export const fighters: Fighter[] = [
   {
     id: '20',
     name: 'PulseSync',
-    image: fighter2Image,
+    image: pulsesyncImage,
     world: 'sci-fi-ai',
     stats: { attack: 85, defense: 85, speed: 85, health: 85 },
     wins: 30, losses: 5,
@@ -272,7 +299,7 @@ export const fighters: Fighter[] = [
   {
     id: '21',
     name: 'Thornhelm',
-    image: fighter3Image,
+    image: thornhelmImage,
     world: 'fantasy-tech',
     stats: { attack: 88, defense: 92, speed: 70, health: 95 },
     wins: 33, losses: 4,
@@ -285,7 +312,7 @@ export const fighters: Fighter[] = [
   {
     id: '22',
     name: 'Caerith the Cursed',
-    image: fighter1Image,
+    image: caerithCursedImage,
     world: 'fantasy-tech',
     stats: { attack: 95, defense: 68, speed: 82, health: 90 },
     wins: 27, losses: 11,
@@ -298,7 +325,7 @@ export const fighters: Fighter[] = [
   {
     id: '23',
     name: 'Skarn the Hollow',
-    image: fighter2Image,
+    image: skarnHollowImage,
     world: 'fantasy-tech',
     stats: { attack: 75, defense: 98, speed: 60, health: 100 },
     wins: 19, losses: 8,
@@ -311,7 +338,7 @@ export const fighters: Fighter[] = [
   {
     id: '24',
     name: 'Seraphyx',
-    image: fighter3Image,
+    image: seraphyxImage,
     world: 'fantasy-tech',
     stats: { attack: 90, defense: 85, speed: 95, health: 80 },
     wins: 31, losses: 6,
@@ -324,7 +351,7 @@ export const fighters: Fighter[] = [
   {
     id: '25',
     name: 'Myxa',
-    image: fighter1Image,
+    image: myxaImage,
     world: 'fantasy-tech',
     stats: { attack: 85, defense: 70, speed: 88, health: 82 },
     wins: 24, losses: 9,
@@ -337,7 +364,7 @@ export const fighters: Fighter[] = [
   {
     id: '26',
     name: 'The Dread Relic',
-    image: fighter2Image,
+    image: dreadRelicImage,
     world: 'fantasy-tech',
     stats: { attack: 80, defense: 100, speed: 40, health: 100 },
     wins: 16, losses: 12,
@@ -350,7 +377,7 @@ export const fighters: Fighter[] = [
   {
     id: '27',
     name: 'Vyre Emberchant',
-    image: fighter3Image,
+    image: vyreEmberchatImage,
     world: 'fantasy-tech',
     stats: { attack: 88, defense: 75, speed: 85, health: 87 },
     wins: 26, losses: 7,
@@ -363,7 +390,7 @@ export const fighters: Fighter[] = [
   {
     id: '28',
     name: 'Korrun',
-    image: fighter1Image,
+    image: korrunImage,
     world: 'fantasy-tech',
     stats: { attack: 92, defense: 88, speed: 65, health: 95 },
     wins: 21, losses: 10,
@@ -376,7 +403,7 @@ export const fighters: Fighter[] = [
   {
     id: '29',
     name: 'Feydrill',
-    image: fighter2Image,
+    image: feydrillImage,
     world: 'fantasy-tech',
     stats: { attack: 83, defense: 78, speed: 92, health: 85 },
     wins: 28, losses: 5,
@@ -389,7 +416,7 @@ export const fighters: Fighter[] = [
   {
     id: '30',
     name: 'Sigmaris',
-    image: fighter3Image,
+    image: sigmarisImage,
     world: 'fantasy-tech',
     stats: { attack: 95, defense: 90, speed: 80, health: 95 },
     wins: 38, losses: 2,
