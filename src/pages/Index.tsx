@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import { fighters } from '@/data/fighters';
+import { worlds } from '@/data/worlds';
 import { FighterCard } from '@/components/FighterCard';
 import { FightArena } from '@/components/FightArena';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Fighter } from '@/types/fighter';
-import { Swords, TrendingUp, Users, DollarSign, Trophy } from 'lucide-react';
+import { Fighter, WorldType } from '@/types/fighter';
+import { Swords, TrendingUp, Users, DollarSign, Trophy, Globe, Filter } from 'lucide-react';
 
 const Index = () => {
   const [selectedFighters, setSelectedFighters] = useState<Fighter[]>([]);
   const [showArena, setShowArena] = useState(false);
+  const [selectedWorld, setSelectedWorld] = useState<WorldType | 'all'>('all');
   const [portfolio, setPortfolio] = useState([
     { fighterId: '1', shares: 50, totalInvestment: 122.50 },
-    { fighterId: '2', shares: 25, totalInvestment: 93.00 }
+    { fighterId: '11', shares: 25, totalInvestment: 93.00 }
   ]);
 
   const handleFighterSelect = (fighter: Fighter) => {
@@ -48,6 +50,11 @@ const Index = () => {
 
   const totalInvestment = portfolio.reduce((total, holding) => total + holding.totalInvestment, 0);
   const portfolioReturn = ((totalPortfolioValue - totalInvestment) / totalInvestment * 100);
+
+  // Filter fighters by selected world
+  const filteredFighters = selectedWorld === 'all' 
+    ? fighters 
+    : fighters.filter(fighter => fighter.world === selectedWorld);
 
   if (showArena && selectedFighters.length === 2) {
     return (
@@ -124,6 +131,61 @@ const Index = () => {
           </TabsList>
 
           <TabsContent value="fighters" className="space-y-6">
+            {/* World Selection */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="w-5 h-5" />
+                  Select World
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    variant={selectedWorld === 'all' ? 'default' : 'outline'}
+                    onClick={() => setSelectedWorld('all')}
+                    className="flex items-center gap-2"
+                  >
+                    <Filter className="w-4 h-4" />
+                    All Worlds ({fighters.length})
+                  </Button>
+                  {worlds.map(world => {
+                    const worldFighters = fighters.filter(f => f.world === world.id);
+                    return (
+                      <Button
+                        key={world.id}
+                        variant={selectedWorld === world.id ? 'default' : 'outline'}
+                        onClick={() => setSelectedWorld(world.id)}
+                        className="flex flex-col items-start gap-1 h-auto p-3"
+                      >
+                        <div className="font-semibold">{world.name}</div>
+                        <div className="text-xs opacity-75">{worldFighters.length} fighters</div>
+                      </Button>
+                    );
+                  })}
+                </div>
+                
+                {selectedWorld !== 'all' && (
+                  <div className="mt-4 p-4 bg-secondary/20 rounded-lg">
+                    {(() => {
+                      const world = worlds.find(w => w.id === selectedWorld);
+                      if (!world) return null;
+                      return (
+                        <div>
+                          <h4 className="font-semibold mb-2">{world.name}</h4>
+                          <p className="text-sm text-muted-foreground mb-2">"{world.description}"</p>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+                            <div><strong>Power:</strong> {world.powerSource}</div>
+                            <div><strong>Style:</strong> {world.visualStyle}</div>
+                            <div><strong>Combat:</strong> {world.combatFlavor}</div>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
             {/* Fight Setup */}
             {selectedFighters.length > 0 && (
               <Card className="bg-gradient-accent/10 border-accent/20">
@@ -155,7 +217,7 @@ const Index = () => {
 
             {/* Fighter Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {fighters.map(fighter => (
+              {filteredFighters.map(fighter => (
                 <div 
                   key={fighter.id}
                   className={`cursor-pointer transition-all duration-300 ${
@@ -173,6 +235,12 @@ const Index = () => {
                 </div>
               ))}
             </div>
+            
+            {filteredFighters.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No fighters found in the selected world.</p>
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="portfolio" className="space-y-6">
@@ -272,6 +340,7 @@ const Index = () => {
                     .sort((a, b) => (b.wins / (b.wins + b.losses)) - (a.wins / (a.wins + a.losses)))
                     .map((fighter, index) => {
                       const winRate = (fighter.wins / (fighter.wins + fighter.losses)) * 100;
+                      const world = worlds.find(w => w.id === fighter.world);
                       return (
                         <div key={fighter.id} className="flex items-center justify-between p-4 bg-secondary/20 rounded-lg">
                           <div className="flex items-center gap-3">
@@ -279,7 +348,14 @@ const Index = () => {
                             <img src={fighter.image} alt={fighter.name} className="w-12 h-12 rounded object-cover" />
                             <div>
                               <h4 className="font-semibold">{fighter.name}</h4>
-                              <p className="text-sm text-muted-foreground">{fighter.wins}W - {fighter.losses}L</p>
+                              <div className="flex items-center gap-2">
+                                <p className="text-sm text-muted-foreground">{fighter.wins}W - {fighter.losses}L</p>
+                                {world && (
+                                  <Badge variant="outline" className="text-xs">
+                                    {world.name.split(' ')[0]}
+                                  </Badge>
+                                )}
+                              </div>
                             </div>
                           </div>
                           <div className="text-right">

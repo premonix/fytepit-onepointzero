@@ -1,4 +1,5 @@
 import { Fighter } from '@/types/fighter';
+import { worlds } from '@/data/worlds';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -14,6 +15,7 @@ interface FighterCardProps {
 
 export const FighterCard = ({ fighter, onInvest, onBet, showActions = true }: FighterCardProps) => {
   const winRate = (fighter.wins / (fighter.wins + fighter.losses)) * 100;
+  const world = worlds.find(w => w.id === fighter.world);
 
   return (
     <Card className="bg-card border-border hover:shadow-glow-primary transition-all duration-300 overflow-hidden">
@@ -23,14 +25,19 @@ export const FighterCard = ({ fighter, onInvest, onBet, showActions = true }: Fi
           alt={fighter.name}
           className="w-full h-48 object-cover"
         />
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 right-2 flex gap-2">
           <Badge variant="secondary" className="bg-primary/20 text-primary border-primary/30">
-            {winRate.toFixed(0)}% Win Rate
+            {winRate.toFixed(0)}% WR
           </Badge>
+          {world && (
+            <Badge variant="outline" className="bg-background/80 text-xs">
+              {world.name.split(' ')[0]}
+            </Badge>
+          )}
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-card to-transparent p-4">
           <h3 className="text-xl font-bold text-foreground mb-1">{fighter.name}</h3>
-          <p className="text-sm text-muted-foreground">{fighter.backstory}</p>
+          <p className="text-sm text-muted-foreground line-clamp-2">{fighter.description}</p>
         </div>
       </div>
       
@@ -81,6 +88,18 @@ export const FighterCard = ({ fighter, onInvest, onBet, showActions = true }: Fi
           <div className="text-center">
             <div className="text-sm text-muted-foreground">Share Price</div>
             <div className="font-bold text-primary">${fighter.valuePerShare}</div>
+          </div>
+        </div>
+
+        {/* Abilities */}
+        <div className="space-y-2">
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Abilities</div>
+          <div className="flex flex-wrap gap-1">
+            {fighter.abilities.map(ability => (
+              <Badge key={ability} variant="outline" className="text-xs px-2 py-1 bg-accent/10">
+                {ability}
+              </Badge>
+            ))}
           </div>
         </div>
 

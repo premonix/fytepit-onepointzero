@@ -1,7 +1,24 @@
+export type WorldType = 'dark-arena' | 'sci-fi-ai' | 'fantasy-tech';
+
+export interface World {
+  id: WorldType;
+  name: string;
+  description: string;
+  powerSource: string;
+  visualStyle: string;
+  combatFlavor: string;
+  theme: {
+    primary: string;
+    accent: string;
+    gradient: string;
+  };
+}
+
 export interface Fighter {
   id: string;
   name: string;
   image: string;
+  world: WorldType;
   stats: {
     attack: number;
     defense: number;
@@ -14,6 +31,8 @@ export interface Fighter {
   valuePerShare: number;
   specialMove: string;
   backstory: string;
+  description: string;
+  abilities: string[];
 }
 
 export interface Ownership {
