@@ -3,7 +3,7 @@ import { World } from '@/types/fighter';
 export const worlds: World[] = [
   {
     id: 'dark-arena',
-    name: 'Dark Arena Brutalism',
+    name: 'BRUTALIS PRIME',
     description: 'You don\'t just watch. You own the war.',
     powerSource: 'Raw energy, glitches',
     visualStyle: 'Dirty neon, sparks',
@@ -16,7 +16,7 @@ export const worlds: World[] = [
   },
   {
     id: 'sci-fi-ai',
-    name: 'Slick Sci-Fi AI Combat',
+    name: 'VIRELIA CONSTLL',
     description: 'Own the mind. Train the warrior. Bet the future.',
     powerSource: 'Neural sync, precision',
     visualStyle: 'Clean lines, HUD overlays',
@@ -29,7 +29,7 @@ export const worlds: World[] = [
   },
   {
     id: 'fantasy-tech',
-    name: 'Lore-Driven Fantasy Tech',
+    name: 'MYTHRENDAHL',
     description: 'The arena remembers its champions.',
     powerSource: 'Bio-sigils, relic code',
     visualStyle: 'Ancient runes + tech artifacts',
