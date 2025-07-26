@@ -82,7 +82,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="text-center space-y-6">
             <h1 className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              CyberFight Arena
+              Fyte Pit
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Own fractions of elite fighters, place strategic bets, and watch epic battles unfold in the most advanced combat arena in the metaverse.
