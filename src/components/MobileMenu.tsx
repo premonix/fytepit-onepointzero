@@ -51,7 +51,7 @@ export const MobileMenu = () => {
       </Button>
 
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerContent className="h-[300px]">
+        <DrawerContent className="max-h-[80vh]">
           <DrawerHeader className="flex items-center justify-between">
             <DrawerTitle className="text-lg font-bold">Navigation</DrawerTitle>
             <DrawerClose asChild>
@@ -61,7 +61,7 @@ export const MobileMenu = () => {
             </DrawerClose>
           </DrawerHeader>
           
-          <div className="px-4 pb-4 space-y-2">
+          <div className="px-4 pb-4 space-y-2 overflow-y-auto flex-1">
             {menuItems.map((item) => {
               const isActive = location.pathname === item.to;
               return (
