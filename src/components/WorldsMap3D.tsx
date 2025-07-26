@@ -93,15 +93,17 @@ const RealmSphere = ({ world, position, onSelect, selected }: RealmSphereProps) 
       
       {/* Orbital rings for visual flair */}
       <group rotation={[Math.PI / 4, 0, 0]}>
-        <Cylinder args={[1.5, 1.5, 0.05, 64, 1, true]} position={[0, 0, 0]}>
+        <mesh>
+          <torusGeometry args={[1.5, 0.05, 16, 64]} />
           <meshBasicMaterial color={primaryColor} transparent opacity={0.3} />
-        </Cylinder>
+        </mesh>
       </group>
       
       <group rotation={[Math.PI / 3, Math.PI / 4, 0]}>
-        <Cylinder args={[1.8, 1.8, 0.03, 64, 1, true]} position={[0, 0, 0]}>
+        <mesh>
+          <torusGeometry args={[1.8, 0.03, 16, 64]} />
           <meshBasicMaterial color={accentColor} transparent opacity={0.2} />
-        </Cylinder>
+        </mesh>
       </group>
     </group>
   );
@@ -156,36 +158,25 @@ const ExpansionNode = ({ position, name, description }: {
 };
 
 const ConnectionLines = () => {
-  const points1 = [
-    new THREE.Vector3(-4, 0, -2),
-    new THREE.Vector3(0, 2, 0),
-  ];
-  
-  const points2 = [
-    new THREE.Vector3(0, 2, 0),
-    new THREE.Vector3(4, 0, -2),
-  ];
-  
-  const points3 = [
-    new THREE.Vector3(-4, 0, -2),
-    new THREE.Vector3(4, 0, -2),
-  ];
-
   return (
     <group>
-      {[points1, points2, points3].map((points, index) => (
-        <line key={index}>
-          <bufferGeometry>
-            <bufferAttribute
-              attach="attributes-position"
-              count={points.length}
-              array={new Float32Array(points.flatMap(p => [p.x, p.y, p.z]))}
-              itemSize={3}
-            />
-          </bufferGeometry>
-          <lineBasicMaterial color="#00ffff" transparent opacity={0.3} />
-        </line>
-      ))}
+      {/* Line from Brutalis to Virelia */}
+      <mesh position={[-2, 1, -1]} rotation={[0, 0, Math.PI / 4]}>
+        <cylinderGeometry args={[0.02, 0.02, 5, 8]} />
+        <meshBasicMaterial color="#00ffff" transparent opacity={0.3} />
+      </mesh>
+      
+      {/* Line from Virelia to Mythrendahl */}
+      <mesh position={[2, 1, -1]} rotation={[0, 0, -Math.PI / 4]}>
+        <cylinderGeometry args={[0.02, 0.02, 5, 8]} />
+        <meshBasicMaterial color="#00ffff" transparent opacity={0.3} />
+      </mesh>
+      
+      {/* Line from Brutalis to Mythrendahl */}
+      <mesh position={[0, 0, -2]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.02, 0.02, 8, 8]} />
+        <meshBasicMaterial color="#00ffff" transparent opacity={0.3} />
+      </mesh>
     </group>
   );
 };
