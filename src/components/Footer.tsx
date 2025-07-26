@@ -104,12 +104,17 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">
-            © 2024 FYTEPIT. The arena awaits.
-          </p>
-          <p className="text-muted-foreground text-xs">
-            Built for warriors, by warriors.
+        <div className="border-t border-border mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+            <p className="text-muted-foreground text-sm">
+              © 2024 FYTEPIT. The arena awaits.
+            </p>
+            <p className="text-muted-foreground text-xs">
+              Built for warriors, by warriors.
+            </p>
+          </div>
+          <p className="text-muted-foreground text-xs text-center">
+            FYTEPIT is a wholly owned subsidiary of DYP Media & Publishing Limited
           </p>
         </div>
       </div>
