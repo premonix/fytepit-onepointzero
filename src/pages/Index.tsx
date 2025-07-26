@@ -126,6 +126,16 @@ const Index = () => {
                   Explore Worlds
                 </Button>
               </Link>
+              <Link to="/leaderboard">
+                <Button 
+                  variant="ghost" 
+                  className="text-white hover:text-primary"
+                  onMouseEnter={() => playUI('hover')}
+                  onClick={() => playUI('click')}
+                >
+                  Leaderboard
+                </Button>
+              </Link>
               <Button 
                 variant="ghost" 
                 className="text-white hover:text-primary"
@@ -266,6 +276,11 @@ const Index = () => {
             <Link to="/worlds">
               <Button variant="ghost" className="text-gray-400 hover:text-white">
                 Explore Worlds
+              </Button>
+            </Link>
+            <Link to="/leaderboard">
+              <Button variant="ghost" className="text-gray-400 hover:text-white">
+                Leaderboard
               </Button>
             </Link>
             <Button 
