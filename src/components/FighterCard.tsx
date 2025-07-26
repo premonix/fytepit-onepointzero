@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Sword, Shield, Zap, Heart, TrendingUp, Users } from 'lucide-react';
+import { useSound } from '@/hooks/useSound';
 
 interface FighterCardProps {
   fighter: Fighter;
@@ -16,9 +17,26 @@ interface FighterCardProps {
 export const FighterCard = ({ fighter, onInvest, onBet, showActions = true }: FighterCardProps) => {
   const winRate = (fighter.wins / (fighter.wins + fighter.losses)) * 100;
   const world = worlds.find(w => w.id === fighter.world);
+  const { playUI } = useSound();
+
+  const handleClick = (action: 'invest' | 'bet') => {
+    playUI('click', world?.id);
+    if (action === 'invest') {
+      onInvest?.(fighter.id);
+    } else {
+      onBet?.(fighter.id);
+    }
+  };
+
+  const handleHover = () => {
+    playUI('hover');
+  };
 
   return (
-    <Card className="bg-card border-border hover:shadow-glow-primary transition-all duration-300 overflow-hidden">
+    <Card 
+      className="bg-card border-border hover:shadow-glow-primary transition-all duration-300 overflow-hidden cursor-pointer"
+      onMouseEnter={handleHover}
+    >
       <div className="relative">
         <img 
           src={fighter.image} 
@@ -116,7 +134,8 @@ export const FighterCard = ({ fighter, onInvest, onBet, showActions = true }: Fi
             <Button 
               variant="neon" 
               className="flex-1"
-              onClick={() => onInvest?.(fighter.id)}
+              onClick={() => handleClick('invest')}
+              onMouseEnter={handleHover}
             >
               <TrendingUp className="w-4 h-4 mr-2" />
               Invest
@@ -124,7 +143,8 @@ export const FighterCard = ({ fighter, onInvest, onBet, showActions = true }: Fi
             <Button 
               variant="cyber"
               className="flex-1"
-              onClick={() => onBet?.(fighter.id)}
+              onClick={() => handleClick('bet')}
+              onMouseEnter={handleHover}
             >
               <Users className="w-4 h-4 mr-2" />
               Bet
