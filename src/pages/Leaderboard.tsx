@@ -9,7 +9,7 @@ import { Trophy, TrendingUp, Zap, Shield, Gauge, Heart } from 'lucide-react';
 import { Fighter, WorldType } from '@/types/fighter';
 
 const Leaderboard = () => {
-  const [selectedRealm, setSelectedRealm] = useState<WorldType>('dark-arena');
+  const [selectedWorld, setSelectedWorld] = useState<WorldType>('dark-arena');
 
   // Calculate overall rankings
   const overallRankings = fighters
@@ -20,9 +20,9 @@ const Leaderboard = () => {
     }))
     .sort((a, b) => b.winRate - a.winRate || b.wins - a.wins);
 
-  // Calculate realm-specific rankings
-  const realmRankings = fighters
-    .filter(fighter => fighter.world === selectedRealm)
+  // Calculate world-specific rankings
+  const worldRankings = fighters
+    .filter(fighter => fighter.world === selectedWorld)
     .map(fighter => ({
       ...fighter,
       winRate: fighter.wins / (fighter.wins + fighter.losses),
@@ -30,7 +30,7 @@ const Leaderboard = () => {
     }))
     .sort((a, b) => b.winRate - a.winRate || b.wins - a.wins);
 
-  const getRealmBadgeVariant = (world: WorldType) => {
+  const getWorldBadgeVariant = (world: WorldType) => {
     switch (world) {
       case 'dark-arena': return 'destructive';
       case 'sci-fi-ai': return 'default';
@@ -53,7 +53,7 @@ const Leaderboard = () => {
           <TableRow>
             <TableHead className="w-16">Rank</TableHead>
             <TableHead>Fighter</TableHead>
-            <TableHead>Realm</TableHead>
+            <TableHead>World</TableHead>
             <TableHead className="text-center">W/L</TableHead>
             <TableHead className="text-center">Win Rate</TableHead>
             <TableHead className="text-center">Value</TableHead>
@@ -80,7 +80,7 @@ const Leaderboard = () => {
                 </div>
               </TableCell>
               <TableCell>
-                <Badge variant={getRealmBadgeVariant(fighter.world)}>
+                <Badge variant={getWorldBadgeVariant(fighter.world)}>
                   {worlds.find(w => w.id === fighter.world)?.name}
                 </Badge>
               </TableCell>
@@ -140,7 +140,7 @@ const Leaderboard = () => {
         <Tabs defaultValue="overall" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 max-w-md">
             <TabsTrigger value="overall">Overall Rankings</TabsTrigger>
-            <TabsTrigger value="realms">By Realm</TabsTrigger>
+            <TabsTrigger value="worlds">By World</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overall" className="space-y-6">
@@ -157,14 +157,14 @@ const Leaderboard = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="realms" className="space-y-6">
+          <TabsContent value="worlds" className="space-y-6">
             <div className="flex gap-4 mb-6">
               {worlds.map(world => (
                 <button
                   key={world.id}
-                  onClick={() => setSelectedRealm(world.id)}
+                  onClick={() => setSelectedWorld(world.id)}
                   className={`px-4 py-2 rounded-lg border transition-colors ${
-                    selectedRealm === world.id 
+                    selectedWorld === world.id 
                       ? 'bg-primary text-primary-foreground' 
                       : 'bg-background hover:bg-muted'
                   }`}
@@ -178,11 +178,11 @@ const Leaderboard = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Trophy className="h-6 w-6 text-yellow-500" />
-                  {worlds.find(w => w.id === selectedRealm)?.name} Champions
+                  {worlds.find(w => w.id === selectedWorld)?.name} Champions
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <FighterTable fighters={realmRankings} />
+                <FighterTable fighters={worldRankings} />
               </CardContent>
             </Card>
           </TabsContent>
