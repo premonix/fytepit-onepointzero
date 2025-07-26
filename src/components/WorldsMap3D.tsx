@@ -1,6 +1,6 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text, Sphere, Box, Cylinder } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { worlds } from '@/data/worlds';
 import { fighters } from '@/data/fighters';
 import { useSound } from '@/hooks/useSound';
@@ -38,19 +38,15 @@ const RealmSphere = ({ world, position, onSelect, selected }: RealmSphereProps) 
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.01;
-      if (hovered || selected) {
-        meshRef.current.scale.setScalar(1.2);
-      } else {
-        meshRef.current.scale.setScalar(1);
-      }
+      const targetScale = (hovered || selected) ? 1.2 : 1;
+      meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
     }
   });
 
   return (
     <group position={position}>
-      <Sphere
+      <mesh
         ref={meshRef}
-        args={[1, 32, 32]}
         onClick={() => onSelect(world.id)}
         onPointerEnter={() => {
           setHovered(true);
@@ -58,6 +54,7 @@ const RealmSphere = ({ world, position, onSelect, selected }: RealmSphereProps) 
         }}
         onPointerLeave={() => setHovered(false)}
       >
+        <sphereGeometry args={[1, 32, 32]} />
         <meshStandardMaterial
           color={selected ? accentColor : primaryColor}
           metalness={0.7}
@@ -65,54 +62,24 @@ const RealmSphere = ({ world, position, onSelect, selected }: RealmSphereProps) 
           emissive={selected ? accentColor : primaryColor}
           emissiveIntensity={selected ? 0.3 : 0.1}
         />
-      </Sphere>
+      </mesh>
       
-      {/* Floating text label */}
-      <Text
-        position={[0, 1.8, 0]}
-        fontSize={0.3}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-        fillOpacity={hovered || selected ? 1 : 0.7}
-      >
-        {world.name.split(' ')[0]}
-      </Text>
-      
-      {/* Fighter count indicator */}
-      <Text
-        position={[0, -1.8, 0]}
-        fontSize={0.2}
-        color="cyan"
-        anchorX="center"
-        anchorY="middle"
-        fillOpacity={0.8}
-      >
-        {fighterCount} fighters
-      </Text>
-      
-      {/* Orbital rings for visual flair */}
-      <group rotation={[Math.PI / 4, 0, 0]}>
-        <mesh>
-          <torusGeometry args={[1.5, 0.05, 16, 64]} />
-          <meshBasicMaterial color={primaryColor} transparent opacity={0.3} />
-        </mesh>
-      </group>
-      
-      <group rotation={[Math.PI / 3, Math.PI / 4, 0]}>
-        <mesh>
-          <torusGeometry args={[1.8, 0.03, 16, 64]} />
-          <meshBasicMaterial color={accentColor} transparent opacity={0.2} />
-        </mesh>
-      </group>
+      {/* Simple ring indicator */}
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[1.5, 0.05, 8, 32]} />
+        <meshBasicMaterial 
+          color={primaryColor} 
+          transparent 
+          opacity={0.3} 
+        />
+      </mesh>
     </group>
   );
 };
 
-const ExpansionNode = ({ position, name, description }: { 
+const ExpansionNode = ({ position, name }: { 
   position: [number, number, number]; 
   name: string; 
-  description: string;
 }) => {
   const [hovered, setHovered] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
@@ -126,12 +93,12 @@ const ExpansionNode = ({ position, name, description }: {
 
   return (
     <group position={position}>
-      <Box
+      <mesh
         ref={meshRef}
-        args={[0.8, 0.8, 0.8]}
         onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
       >
+        <boxGeometry args={[0.8, 0.8, 0.8]} />
         <meshStandardMaterial
           color="#444444"
           metalness={0.9}
@@ -139,43 +106,6 @@ const ExpansionNode = ({ position, name, description }: {
           transparent
           opacity={0.6}
         />
-      </Box>
-      
-      {hovered && (
-        <Text
-          position={[0, 1.5, 0]}
-          fontSize={0.2}
-          color="white"
-          anchorX="center"
-          anchorY="middle"
-          maxWidth={3}
-        >
-          {name}
-        </Text>
-      )}
-    </group>
-  );
-};
-
-const ConnectionLines = () => {
-  return (
-    <group>
-      {/* Line from Brutalis to Virelia */}
-      <mesh position={[-2, 1, -1]} rotation={[0, 0, Math.PI / 4]}>
-        <cylinderGeometry args={[0.02, 0.02, 5, 8]} />
-        <meshBasicMaterial color="#00ffff" transparent opacity={0.3} />
-      </mesh>
-      
-      {/* Line from Virelia to Mythrendahl */}
-      <mesh position={[2, 1, -1]} rotation={[0, 0, -Math.PI / 4]}>
-        <cylinderGeometry args={[0.02, 0.02, 5, 8]} />
-        <meshBasicMaterial color="#00ffff" transparent opacity={0.3} />
-      </mesh>
-      
-      {/* Line from Brutalis to Mythrendahl */}
-      <mesh position={[0, 0, -2]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.02, 0.02, 8, 8]} />
-        <meshBasicMaterial color="#00ffff" transparent opacity={0.3} />
       </mesh>
     </group>
   );
@@ -188,10 +118,10 @@ interface WorldsMap3DProps {
 
 export const WorldsMap3D = ({ selectedRealm, onRealmSelect }: WorldsMap3DProps) => {
   const expansionZones = [
-    { name: 'The Shatter Point', description: 'Chaotic realm entry', position: [-6, 3, 2] as [number, number, number] },
-    { name: 'The Frostline Rift', description: 'Frozen combat plains', position: [0, -3, 3] as [number, number, number] },
-    { name: 'The Echo Span', description: 'Time-looped warriors', position: [-6, 0, 0] as [number, number, number] },
-    { name: 'The Ember Arc', description: 'Fire-forged tech realm', position: [6, 3, 2] as [number, number, number] }
+    { name: 'The Shatter Point', position: [-6, 3, 2] as [number, number, number] },
+    { name: 'The Frostline Rift', position: [0, -3, 3] as [number, number, number] },
+    { name: 'The Echo Span', position: [-6, 0, 0] as [number, number, number] },
+    { name: 'The Ember Arc', position: [6, 3, 2] as [number, number, number] }
   ];
 
   return (
@@ -200,7 +130,6 @@ export const WorldsMap3D = ({ selectedRealm, onRealmSelect }: WorldsMap3DProps) 
         <ambientLight intensity={0.4} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
         <pointLight position={[-10, -10, -5]} intensity={0.5} color="#0066ff" />
-        <spotLight position={[0, 15, 0]} intensity={0.8} color="#ff6600" castShadow />
         
         {/* Starfield background */}
         <mesh>
@@ -227,21 +156,18 @@ export const WorldsMap3D = ({ selectedRealm, onRealmSelect }: WorldsMap3DProps) 
           );
         })}
         
-        {/* Connection lines between realms */}
-        <ConnectionLines />
-        
         {/* Expansion zones */}
         {expansionZones.map((zone, index) => (
           <ExpansionNode
             key={index}
             position={zone.position}
             name={zone.name}
-            description={zone.description}
           />
         ))}
         
         {/* Central void/nexus */}
-        <Sphere args={[0.5, 16, 16]} position={[0, 0, 0]}>
+        <mesh position={[0, 0, 0]}>
+          <sphereGeometry args={[0.5, 16, 16]} />
           <meshStandardMaterial
             color="#000000"
             metalness={1}
@@ -249,7 +175,7 @@ export const WorldsMap3D = ({ selectedRealm, onRealmSelect }: WorldsMap3DProps) 
             emissive="#0044ff"
             emissiveIntensity={0.5}
           />
-        </Sphere>
+        </mesh>
         
         <OrbitControls
           enablePan={false}
@@ -267,6 +193,24 @@ export const WorldsMap3D = ({ selectedRealm, onRealmSelect }: WorldsMap3DProps) 
         <p className="text-xs text-muted-foreground">
           Click and drag to orbit • Scroll to zoom • Click spheres to select realms
         </p>
+      </div>
+      
+      {/* Realm labels overlay */}
+      <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm border border-border rounded-lg p-3 space-y-2">
+        {worlds.map((world, index) => {
+          const fighterCount = fighters.filter(f => f.world === world.id).length;
+          return (
+            <div 
+              key={world.id} 
+              className={`text-xs cursor-pointer hover:text-primary transition-colors ${
+                selectedRealm === world.id ? 'text-primary font-semibold' : 'text-muted-foreground'
+              }`}
+              onClick={() => onRealmSelect(world.id)}
+            >
+              {world.name.split(' ')[0]} ({fighterCount} fighters)
+            </div>
+          );
+        })}
       </div>
     </div>
   );
