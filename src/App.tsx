@@ -12,6 +12,7 @@ import Leaderboard from "./pages/Leaderboard";
 import Codex from "./pages/Codex";
 import HowItWorks from "./pages/HowItWorks";
 import Pricing from "./pages/Pricing";
+import Pit from "./pages/Pit";
 import NotFound from "./pages/NotFound";
 import { MobileMenu } from "./components/MobileMenu";
 
@@ -30,6 +31,7 @@ const AppContent = () => {
         <Route path="/codex" element={<Codex />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path="/pit" element={<Pit />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, Home, Globe, Trophy, Book, X } from "lucide-react";
+import { Menu, Home, Globe, Trophy, Book, X, Swords, HelpCircle, DollarSign } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
@@ -23,10 +23,11 @@ export const MobileMenu = () => {
   const menuItems = [
     { to: "/", label: "Home", icon: Home },
     { to: "/worlds", label: "Worlds", icon: Globe },
+    { to: "/pit", label: "The Pit", icon: Swords },
     { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
     { to: "/codex", label: "Codex", icon: Book },
-    { to: "/how-it-works", label: "How It Works", icon: Book },
-    { to: "/pricing", label: "Pricing", icon: Trophy },
+    { to: "/how-it-works", label: "How It Works", icon: HelpCircle },
+    { to: "/pricing", label: "Pricing", icon: DollarSign },
   ];
 
   const handleMenuClick = () => {
