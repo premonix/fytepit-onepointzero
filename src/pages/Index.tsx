@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sword, ChevronDown, Play, Volume2, VolumeX } from 'lucide-react';
+import { Sword, ChevronDown, Play, Volume2, VolumeX, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { Hero3DBackground } from '@/components/Hero3DBackground';
 import { RealmSection } from '@/components/RealmSection';
 import { PortalSection } from '@/components/PortalSection';
 import { OwnTheFyteSection } from '@/components/OwnTheFyteSection';
+import { FighterSelectionSection } from '@/components/FighterSelectionSection';
 import { useSound } from '@/hooks/useSound';
 import { Link } from 'react-router-dom';
 import worldMapImage from '@/assets/fytepit-world-map.jpg';
@@ -83,8 +84,8 @@ const Index = () => {
 
   const handleEnterPit = () => {
     playUI('click');
-    // Scroll to realms section
-    document.getElementById('realms')?.scrollIntoView({ behavior: 'smooth' });
+    // Scroll to fighter selection section
+    document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   if (showLoading) {
@@ -104,38 +105,49 @@ const Index = () => {
         {/* Header */}
         <div className="absolute top-0 left-0 right-0 z-30">
           <div className="max-w-7xl mx-auto px-4 py-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
-                  <Sword className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-white">FYTEPIT</h1>
-                  <p className="text-sm text-gray-400">Interdimensional Combat Arena</p>
-                </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
+                <Sword className="w-6 h-6 text-white" />
               </div>
-              <div className="flex items-center gap-4">
-                <Link to="/worlds">
-                  <Button 
-                    variant="ghost" 
-                    className="text-white hover:text-primary"
-                    onMouseEnter={() => playUI('hover')}
-                    onClick={() => playUI('click')}
-                  >
-                    Worlds
-                  </Button>
-                </Link>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={toggleMute}
-                  onMouseEnter={() => playUI('hover')}
-                  className="text-white hover:text-primary"
-                >
-                  {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                </Button>
+              <div>
+                <h1 className="text-2xl font-bold text-white">FYTEPIT</h1>
+                <p className="text-sm text-gray-400">Interdimensional Combat Arena</p>
               </div>
             </div>
+            <div className="flex items-center gap-4">
+              <Link to="/worlds">
+                <Button 
+                  variant="ghost" 
+                  className="text-white hover:text-primary"
+                  onMouseEnter={() => playUI('hover')}
+                  onClick={() => playUI('click')}
+                >
+                  Explore Worlds
+                </Button>
+              </Link>
+              <Button 
+                variant="ghost" 
+                className="text-white hover:text-primary"
+                onMouseEnter={() => playUI('hover')}
+                onClick={() => {
+                  playUI('click');
+                  document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Select Fighters
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={toggleMute}
+                onMouseEnter={() => playUI('hover')}
+                className="text-white hover:text-primary"
+              >
+                {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </Button>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -173,6 +185,7 @@ const Index = () => {
             </motion.p>
 
             <motion.div
+              className="flex gap-4 justify-center"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 1.5 }}
@@ -185,6 +198,18 @@ const Index = () => {
                 <Play className="w-6 h-6 mr-3" />
                 Enter The Pit
               </Button>
+              
+              <Link to="/worlds">
+                <Button
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-white px-12 py-6 text-xl font-bold"
+                  onMouseEnter={() => playUI('hover')}
+                  onClick={() => playUI('click')}
+                >
+                  <Zap className="w-6 h-6 mr-3" />
+                  Explore Worlds
+                </Button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -211,6 +236,9 @@ const Index = () => {
         </AnimatePresence>
       </section>
 
+      {/* Fighter Selection Section */}
+      <FighterSelectionSection />
+
       {/* Realms Section */}
       <div id="realms">
         {realms.map((realm, index) => (
@@ -235,14 +263,23 @@ const Index = () => {
           </div>
           
           <div className="flex justify-center gap-8 mb-6 text-gray-400">
+            <Link to="/worlds">
+              <Button variant="ghost" className="text-gray-400 hover:text-white">
+                Explore Worlds
+              </Button>
+            </Link>
+            <Button 
+              variant="ghost" 
+              className="text-gray-400 hover:text-white"
+              onClick={() => document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Select Fighters
+            </Button>
             <Button variant="ghost" className="text-gray-400 hover:text-white">
               Codex
             </Button>
             <Button variant="ghost" className="text-gray-400 hover:text-white">
               Legal
-            </Button>
-            <Button variant="ghost" className="text-gray-400 hover:text-white">
-              Community
             </Button>
           </div>
           

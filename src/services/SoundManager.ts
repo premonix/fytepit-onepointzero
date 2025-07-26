@@ -38,12 +38,7 @@ class SoundManager {
     const uiSounds = {
       click: {
         src: ['/sounds/ui/fyte-click.wav'],
-        volume: this.uiVolume,
-        sprite: {
-          brutalis: [0, 300],
-          virelia: [400, 300],
-          mythrendahl: [800, 300]
-        }
+        volume: this.uiVolume
       },
       hover: {
         src: ['/sounds/ui/menu-hover.wav'],
@@ -96,11 +91,7 @@ class SoundManager {
     
     const sound = this.sounds.get(soundName);
     if (sound) {
-      if (variant && sound._sprite && sound._sprite[variant]) {
-        sound.play(variant);
-      } else {
-        sound.play();
-      }
+      sound.play();
     }
   }
 
@@ -148,9 +139,7 @@ class SoundManager {
     this.uiVolume = Math.max(0, Math.min(1, volume));
     // Update existing UI sounds
     this.sounds.forEach(sound => {
-      if (!sound._loop) {
-        sound.volume(this.uiVolume);
-      }
+      sound.volume(this.uiVolume);
     });
   }
 
