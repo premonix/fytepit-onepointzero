@@ -1,68 +1,68 @@
-import { useCallback, useEffect, useState } from 'react';
-import { soundManager } from '@/services/SoundManager';
+import { useState, useCallback } from 'react';
 
 export const useSound = () => {
-  const [soundState, setSoundState] = useState(soundManager.getState());
+  const [muted, setMuted] = useState(false);
 
-  useEffect(() => {
-    // Initialize sound manager
-    soundManager.initialize().catch(console.error);
+  const playTone = useCallback((frequency: number, duration: number = 200) => {
+    if (muted) return;
     
-    // Update state periodically or on events
-    const updateState = () => setSoundState(soundManager.getState());
-    const interval = setInterval(updateState, 1000);
-    
-    return () => {
-      clearInterval(interval);
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = frequency;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration / 1000);
+    } catch (error) {
+      console.log('[Sound] Audio not supported:', error);
+    }
+  }, [muted]);
+
+  const playUI = useCallback((type: string, variant?: string) => {
+    const tones = {
+      click: 800,
+      hover: 600,
+      transition: 400
     };
-  }, []);
-
-  const playUI = useCallback((soundName: string, variant?: string) => {
-    soundManager.playUI(soundName, variant);
-  }, []);
+    playTone(tones[type as keyof typeof tones] || 500, 150);
+  }, [playTone]);
 
   const playRealmHover = useCallback((realmId: string) => {
-    soundManager.playRealmHover(realmId);
-  }, []);
+    const realmTones = {
+      'dark-arena': 300,
+      'sci-fi-ai': 800,
+      'fantasy-tech': 500
+    };
+    playTone(realmTones[realmId as keyof typeof realmTones] || 400, 300);
+  }, [playTone]);
 
   const selectRealm = useCallback((realmId: string) => {
-    soundManager.selectRealm(realmId);
-  }, []);
+    playRealmHover(realmId);
+  }, [playRealmHover]);
 
   const stopAmbient = useCallback(() => {
-    soundManager.stopAmbient();
-  }, []);
-
-  const setMasterVolume = useCallback((volume: number) => {
-    soundManager.setMasterVolume(volume);
-    setSoundState(soundManager.getState());
-  }, []);
-
-  const setUIVolume = useCallback((volume: number) => {
-    soundManager.setUIVolume(volume);
-    setSoundState(soundManager.getState());
-  }, []);
-
-  const setAmbientVolume = useCallback((volume: number) => {
-    soundManager.setAmbientVolume(volume);
-    setSoundState(soundManager.getState());
+    // Placeholder for ambient sound stopping
   }, []);
 
   const toggleMute = useCallback(() => {
-    const muted = soundManager.toggleMute();
-    setSoundState(soundManager.getState());
-    return muted;
+    setMuted(prev => !prev);
   }, []);
 
   return {
-    ...soundState,
     playUI,
     playRealmHover,
     selectRealm,
     stopAmbient,
-    setMasterVolume,
-    setUIVolume,
-    setAmbientVolume,
-    toggleMute
+    toggleMute,
+    muted
   };
 };
