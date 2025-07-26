@@ -14,6 +14,7 @@ import HowItWorks from "./pages/HowItWorks";
 import Pricing from "./pages/Pricing";
 import Pit from "./pages/Pit";
 import FyteCard from "./pages/FyteCard";
+import Bloodbook from "./pages/Bloodbook";
 import NotFound from "./pages/NotFound";
 import { MobileMenu } from "./components/MobileMenu";
 
@@ -34,6 +35,7 @@ const AppContent = () => {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/pit" element={<Pit />} />
         <Route path="/fyte-card" element={<FyteCard />} />
+        <Route path="/bloodbook" element={<Bloodbook />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

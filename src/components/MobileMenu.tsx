@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, Home, Globe, Trophy, Book, X, Swords, HelpCircle, DollarSign, Calendar } from "lucide-react";
+import { Menu, Home, Globe, Trophy, Book, X, Swords, HelpCircle, DollarSign, Calendar, Scroll } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
@@ -25,6 +25,7 @@ export const MobileMenu = () => {
     { to: "/worlds", label: "Worlds", icon: Globe },
     { to: "/pit", label: "The Pit", icon: Swords },
     { to: "/fyte-card", label: "Fyte Card", icon: Calendar },
+    { to: "/bloodbook", label: "Bloodbook", icon: Scroll },
     { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
     { to: "/codex", label: "Codex", icon: Book },
     { to: "/how-it-works", label: "How It Works", icon: HelpCircle },
