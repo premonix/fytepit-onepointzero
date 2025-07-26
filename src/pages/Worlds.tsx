@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { worlds } from '@/data/worlds';
 import { fighters } from '@/data/fighters';
-import { ArrowLeft, MapPin, Users, Zap, Lock } from 'lucide-react';
+import { ArrowLeft, MapPin, Users, Zap, Lock, Volume2, VolumeX } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSound } from '@/hooks/useSound';
 
 const expansionZones = [
   { id: 'shatter-point', name: 'The Shatter Point', position: 'top-left', description: 'Chaotic realm entry for rogue zones', status: 'dormant' },
@@ -17,6 +18,33 @@ const expansionZones = [
 const Worlds = () => {
   const [selectedRealm, setSelectedRealm] = useState<string | null>(null);
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
+  const { playUI, playRealmHover, selectRealm, stopAmbient, toggleMute, muted } = useSound();
+
+  // Cleanup ambient sound when leaving the page
+  useEffect(() => {
+    return () => {
+      stopAmbient();
+    };
+  }, [stopAmbient]);
+
+  const handleRealmSelection = (worldId: string) => {
+    const newSelection = selectedRealm === worldId ? null : worldId;
+    setSelectedRealm(newSelection);
+    
+    if (newSelection) {
+      selectRealm(worldId);
+    } else {
+      stopAmbient();
+    }
+  };
+
+  const handleRealmHover = (worldId: string) => {
+    playRealmHover(worldId);
+  };
+
+  const handleUIClick = (variant?: string) => {
+    playUI('click', variant);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -25,11 +53,19 @@ const Worlds = () => {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
             <Link to="/">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => handleUIClick()}>
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Arena
               </Button>
             </Link>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={toggleMute}
+              className="ml-auto"
+            >
+              {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            </Button>
             <div>
               <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 The Fracture Core
@@ -70,7 +106,8 @@ const Worlds = () => {
                       <div
                         key={world.id}
                         className={`absolute ${positions[index]} cursor-pointer transition-all duration-300 hover:scale-105`}
-                        onClick={() => setSelectedRealm(selectedRealm === world.id ? null : world.id)}
+                        onClick={() => handleRealmSelection(world.id)}
+                        onMouseEnter={() => handleRealmHover(world.id)}
                       >
                         <div className={`w-24 h-24 rounded-lg border-2 ${
                           selectedRealm === world.id ? 'border-primary ring-2 ring-primary/50' : 'border-border'
@@ -99,7 +136,10 @@ const Worlds = () => {
                       <div
                         key={zone.id}
                         className={`absolute ${positions[zone.position]} cursor-pointer transition-all duration-300 hover:scale-110`}
-                        onMouseEnter={() => setHoveredZone(zone.id)}
+                        onMouseEnter={() => {
+                          setHoveredZone(zone.id);
+                          playUI('hover');
+                        }}
                         onMouseLeave={() => setHoveredZone(null)}
                       >
                         <div className="w-16 h-16 rounded-full border-2 border-border/50 bg-secondary/30 flex items-center justify-center hover:border-accent transition-colors">
