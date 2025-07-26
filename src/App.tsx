@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Worlds from "./pages/Worlds";
 import Fighter from "./pages/Fighter";
 import Realm from "./pages/Realm";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 import { MobileMenu } from "./components/MobileMenu";
 
@@ -22,6 +23,7 @@ const AppContent = () => {
         <Route path="/worlds" element={<Worlds />} />
         <Route path="/fighter/:fighterId" element={<Fighter />} />
         <Route path="/realm/:realmId" element={<Realm />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
