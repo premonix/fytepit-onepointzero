@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Fighter, WorldType } from '@/types/fighter';
 import { Swords, TrendingUp, Users, DollarSign, Trophy, Globe, Filter } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   const [selectedFighters, setSelectedFighters] = useState<Fighter[]>([]);
@@ -88,9 +89,17 @@ const Index = () => {
       <div className="bg-gradient-dark border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="text-center space-y-6">
-            <h1 className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Fyte Pit
-            </h1>
+            <div className="flex items-center justify-between">
+              <h1 className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                Fyte Pit
+              </h1>
+              <Link to="/worlds">
+                <Button variant="outline">
+                  <Globe className="w-4 h-4 mr-2" />
+                  Explore Worlds
+                </Button>
+              </Link>
+            </div>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Own fractions of elite fighters, place strategic bets, and watch epic battles unfold in the most advanced combat arena in the metaverse.
             </p>
