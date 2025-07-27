@@ -15,6 +15,7 @@ import Pricing from "./pages/Pricing";
 import Pit from "./pages/Pit";
 import FyteCard from "./pages/FyteCard";
 import Bloodbook from "./pages/Bloodbook";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import { MobileMenu } from "./components/MobileMenu";
 
@@ -36,6 +37,7 @@ const AppContent = () => {
         <Route path="/pit" element={<Pit />} />
         <Route path="/fyte-card" element={<FyteCard />} />
         <Route path="/bloodbook" element={<Bloodbook />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
