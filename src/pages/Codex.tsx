@@ -77,6 +77,14 @@ const Codex = () => {
       strengths: ["Elemental powers", "Healing abilities", "Unpredictability"],
       weaknesses: ["Mana dependency", "Casting time"],
       icon: Shield
+    },
+    {
+      name: "Media Warfare",
+      realm: "Earth 1.0",
+      description: "Ego-driven, satirical combat",
+      strengths: ["Viral surge power", "Unpredictable moves", "Crowd manipulation"],
+      weaknesses: ["Media dependency", "Ego vulnerabilities"],
+      icon: Globe
     }
   ];
 
@@ -313,7 +321,7 @@ const Codex = () => {
             </TabsContent>
 
             <TabsContent value="realms" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
                 <Card className="bg-gradient-to-br from-red-900/20 to-black border-red-800">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-3">
@@ -402,6 +410,37 @@ const Codex = () => {
                       <div className="text-sm">
                         <span className="text-gray-400">Specialty:</span>
                         <span className="text-white ml-2">Mystical Arts</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-gradient-to-br from-blue-600/20 to-orange-600/20 border-blue-600">
+                  <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-3">
+                      <Globe className="w-6 h-6 text-blue-400" />
+                      Earth 1.0
+                    </CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Realm of Politics and Viral Power
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-gray-300">
+                      A satirical battleground where global leaders settle disputes through combat. Media manipulation and viral surges fuel unpredictable power.
+                    </p>
+                    <div className="space-y-2">
+                      <div className="text-sm">
+                        <span className="text-gray-400">Dominant Element:</span>
+                        <span className="text-blue-400 ml-2">Media Hype</span>
+                      </div>
+                      <div className="text-sm">
+                        <span className="text-gray-400">Fighting Style:</span>
+                        <span className="text-white ml-2">Ego-Driven</span>
+                      </div>
+                      <div className="text-sm">
+                        <span className="text-gray-400">Specialty:</span>
+                        <span className="text-white ml-2">Viral Manipulation</span>
                       </div>
                     </div>
                   </CardContent>

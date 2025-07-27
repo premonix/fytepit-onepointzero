@@ -65,6 +65,22 @@ Stone circles older than memory serve as training grounds where flesh and code m
     fighterSilhouette: sigmarisImage,
     primaryColor: '#aa44ff',
     accentColor: '#44ffaa'
+  },
+  {
+    id: 'earth-1-0',
+    name: 'EARTH 1.0',
+    description: 'They weren\'t ready. But the Pit doesn\'t care.',
+    lore: `Earth was a peaceful(ish) planet orbiting a third-rate star, mostly concerned with streaming content, arguing on the internet, and stockpiling nuclear weapons. Then the Pit breached the atmosphere.
+
+Dragged across dimensions, Earth is now a reluctant battleground. Its survival, sovereignty, and natural resources are no longer governed by treaties or elections — only by how well its global "leaders" can brawl.
+
+The arena remembers its champions, but Earth's fighters fight with ego, media manipulation, and viral surges of power. They're unpredictable, satirical, and driven by the need to trend at any cost.
+
+History won't remember the speeches — just the smackdowns.`,
+    backgroundImage: worldMapImage,
+    fighterSilhouette: nullbyteImage,
+    primaryColor: '#0088cc',
+    accentColor: '#cc6600'
   }
 ];
 
