@@ -59,6 +59,7 @@ const Leaderboard = () => {
       case 'dark-arena': return 'destructive';
       case 'sci-fi-ai': return 'default';
       case 'fantasy-tech': return 'secondary';
+      case 'earth-1-0': return 'outline';
       default: return 'outline';
     }
   };

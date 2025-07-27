@@ -96,6 +96,29 @@ Stone circles older than memory serve as training grounds where flesh and code m
       'Divine memory fragments',
       'Reality-warping effects'
     ]
+  },
+  'earth-1-0': {
+    fullName: 'EARTH 1.0',
+    tagline: 'They Weren\'t Ready. But the Pit Doesn\'t Care.',
+    story: `Earth was a peaceful(ish) planet orbiting a third-rate star, mostly concerned with streaming content, arguing on the internet, and stockpiling nuclear weapons. Then the Pit breached the atmosphere.
+
+Dragged across dimensions, Earth is now a reluctant battleground. Its survival, sovereignty, and natural resources are no longer governed by treaties or elections — only by how well its global "leaders" can brawl.
+
+The arena remembers its champions, but Earth's fighters fight with ego, media manipulation, and viral surges of power. They're unpredictable, satirical, and driven by the need to trend at any cost.
+
+History won't remember the speeches — just the smackdowns.`,
+    locations: [
+      { name: 'The Capitol Clash Arena', description: 'Where political giants settle disputes through combat' },
+      { name: 'The Tweetstorm Zone', description: 'Digital battlefield powered by social media chaos' },
+      { name: 'Parliament Pit', description: 'Diplomatic arena turned gladiatorial spectacle' },
+      { name: 'The Viral Colosseum', description: 'Where internet fame becomes raw power' }
+    ],
+    challenges: [
+      'Viral surge unpredictability',
+      'Media manipulation warfare',
+      'Ego-driven power fluctuations',
+      'Social trending algorithm interference'
+    ]
   }
 };
 

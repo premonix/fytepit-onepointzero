@@ -171,9 +171,10 @@ export const WorldsMap3D = ({ selectedRealm, onRealmSelect }: WorldsMap3DProps) 
         {/* Main realms positioned like in reference image */}
         {worlds.map((world, index) => {
           const positions: [number, number, number][] = [
-            [-4, 0, -2], // Brutalis Prime - lower left
-            [0, 3, 0],   // Virelia Constll - top center
-            [4, 0, -2]   // Mythrendahl - lower right
+            [-4, 0, -2],   // Brutalis Prime - lower left
+            [0, 3, 0],     // Virelia Constll - top center
+            [4, 0, -2],    // Mythrendahl - lower right
+            [0, -2, -2]    // Earth 1.0 - bottom center
           ];
           
           return (
@@ -241,7 +242,7 @@ export const WorldsMap3D = ({ selectedRealm, onRealmSelect }: WorldsMap3DProps) 
         <div className="text-xs font-semibold text-primary mb-2">THE WORLDS OF FYTEPIT</div>
         {worlds.map((world, index) => {
           const fighterCount = fighters.filter(f => f.world === world.id).length;
-          const realmNames = ['BRUTALIS PRIME', 'VIRELIA CONSTLL', 'MYTHRENDAHL'];
+          const realmNames = ['BRUTALIS PRIME', 'VIRELIA CONSTLL', 'MYTHRENDAHL', 'EARTH 1.0'];
           return (
             <div 
               key={world.id} 
