@@ -39,5 +39,18 @@ export const worlds: World[] = [
       accent: 'hsl(120, 70%, 50%)', // Green
       gradient: 'linear-gradient(135deg, hsl(280, 80%, 60%), hsl(120, 70%, 50%))'
     }
+  },
+  {
+    id: 'earth-1-0',
+    name: 'EARTH 1.0',
+    description: 'They weren\'t ready. But the Pit doesn\'t care.',
+    powerSource: 'Media hype, viral surges',
+    visualStyle: 'Political propaganda + post-apocalyptic landmarks',
+    combatFlavor: 'Unpredictable, ego-driven, satirical',
+    theme: {
+      primary: 'hsl(200, 80%, 50%)', // Earth Blue
+      accent: 'hsl(25, 85%, 55%)', // Earth Orange/Brown
+      gradient: 'linear-gradient(135deg, hsl(200, 80%, 50%), hsl(25, 85%, 55%))'
+    }
   }
 ];

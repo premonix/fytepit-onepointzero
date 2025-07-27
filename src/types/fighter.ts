@@ -1,4 +1,4 @@
-export type WorldType = 'dark-arena' | 'sci-fi-ai' | 'fantasy-tech';
+export type WorldType = 'dark-arena' | 'sci-fi-ai' | 'fantasy-tech' | 'earth-1-0';
 
 export interface World {
   id: WorldType;

@@ -30,6 +30,18 @@ import korrunImage from '@/assets/korrun.jpg';
 import feydrillImage from '@/assets/feydrill.jpg';
 import sigmarisImage from '@/assets/sigmaris.jpg';
 
+// Earth 1.0 fighters
+import globomaximus from '@/assets/globomaximus.jpg';
+import kremlord from '@/assets/kremlord.jpg';
+import thePeacemaker from '@/assets/the-peacemaker.jpg';
+import pandarok from '@/assets/pandarok.jpg';
+import laResistance from '@/assets/la-resistance.jpg';
+import empireExe from '@/assets/empire-exe.jpg';
+import wokeflare from '@/assets/wokeflare.jpg';
+import zafar1 from '@/assets/zafar-1.jpg';
+import cashmir from '@/assets/cashmir.jpg';
+import elDataSupremo from '@/assets/el-data-supremo.jpg';
+
 export const fighters: Fighter[] = [
   // DARK ARENA BRUTALISM
   {
@@ -425,5 +437,137 @@ export const fighters: Fighter[] = [
     backstory: 'Forgotten god-core trapped in mortal form. Each win unlocks an old divine memory.',
     description: 'Divinity slowly awakening.',
     abilities: ['Divine Core', 'Memory Unlock', 'God Power']
+  },
+
+  // ============= EARTH 1.0 FIGHTERS =============
+  {
+    id: 'globomaximus',
+    name: 'GloboMaximus',
+    image: globomaximus,
+    world: 'earth-1-0',
+    stats: { attack: 88, defense: 75, speed: 70, health: 85 },
+    wins: 24, losses: 8,
+    totalShares: 1200, valuePerShare: 3.45,
+    specialMove: 'The Patriot Slam',
+    backstory: 'Former reality TV star turned interdimensional wrestler. Believes the arena was built specifically for him.',
+    description: 'Media-powered brawler with ego-driven strength.',
+    abilities: ['Media Cyclone', 'Attention Surge', 'Patriotic Fury']
+  },
+  {
+    id: 'kremlord',
+    name: 'Kremlord',
+    image: kremlord,
+    world: 'earth-1-0',
+    stats: { attack: 82, defense: 95, speed: 45, health: 98 },
+    wins: 31, losses: 4,
+    totalShares: 950, valuePerShare: 4.12,
+    specialMove: 'Red Winter Crush',
+    backstory: 'Strategic tank who treats every fight like a chess match. Never retreats, never explains.',
+    description: 'Immovable force with frozen resolve.',
+    abilities: ['Frozen Resolve', 'Strategic Mind', 'Winter Armor']
+  },
+  {
+    id: 'the-peacemaker',
+    name: 'The Peacemaker',
+    image: thePeacemaker,
+    world: 'earth-1-0',
+    stats: { attack: 60, defense: 85, speed: 75, health: 80 },
+    wins: 18, losses: 12,
+    totalShares: 800, valuePerShare: 2.89,
+    specialMove: 'Taxed to Death',
+    backstory: 'Diplomatic mystic who somehow makes violence look civilized. Funds universal healthcare between matches.',
+    description: 'Support mystic who neutralizes through negotiation.',
+    abilities: ['Neutralize', 'Diplomatic Immunity', 'Welfare State']
+  },
+  {
+    id: 'pandarok',
+    name: 'Pandarok',
+    image: pandarok,
+    world: 'earth-1-0',
+    stats: { attack: 85, defense: 70, speed: 92, health: 75 },
+    wins: 27, losses: 6,
+    totalShares: 1100, valuePerShare: 3.78,
+    specialMove: 'Silkstrike Barrage',
+    backstory: 'Agile counter-fighter who adapts and evolves. Studies opponents like manufacturing blueprints.',
+    description: 'Swift adapter who copies and improves enemy techniques.',
+    abilities: ['Copy Code', 'Adaptive Learning', 'Silk Road Speed']
+  },
+  {
+    id: 'la-resistance',
+    name: 'La Résistánce',
+    image: laResistance,
+    world: 'earth-1-0',
+    stats: { attack: 78, defense: 65, speed: 88, health: 70 },
+    wins: 22, losses: 10,
+    totalShares: 900, valuePerShare: 3.21,
+    specialMove: 'Vive la Kick!',
+    backstory: 'Philosophical rogue who treats combat as performance art. Writes poetry between roundhouse kicks.',
+    description: 'Elegant saboteur who weakens minds before bodies.',
+    abilities: ['Sabotage', 'Artistic Inspiration', 'Revolutionary Spirit']
+  },
+  {
+    id: 'empire-exe',
+    name: 'Empire.exe',
+    image: empireExe,
+    world: 'earth-1-0',
+    stats: { attack: 72, defense: 90, speed: 68, health: 88 },
+    wins: 26, losses: 7,
+    totalShares: 1050, valuePerShare: 4.01,
+    specialMove: 'Rule BRITalitya',
+    backstory: 'Noble tech-mage who maintains decorum even in interdimensional brawling. Has tea breaks scheduled between fights.',
+    description: 'Dignified defender with protocol-based combat.',
+    abilities: ['Decorum Protocol', 'Royal Guard', 'Empire Legacy']
+  },
+  {
+    id: 'wokeflare',
+    name: 'Wokeflare',
+    image: wokeflare,
+    world: 'earth-1-0',
+    stats: { attack: 70, defense: 55, speed: 85, health: 65 },
+    wins: 19, losses: 14,
+    totalShares: 750, valuePerShare: 2.67,
+    specialMove: 'Cancel Cannon',
+    backstory: 'Psionic trickster who weaponizes internet culture. Can literally make opponents trend for all the wrong reasons.',
+    description: 'Digital mystic who burns through moral superiority.',
+    abilities: ['Moral Burn', 'Viral Manipulation', 'Echo Chamber']
+  },
+  {
+    id: 'zafar-1',
+    name: 'ZAFAR-1',
+    image: zafar1,
+    world: 'earth-1-0',
+    stats: { attack: 80, defense: 95, speed: 55, health: 92 },
+    wins: 29, losses: 5,
+    totalShares: 1000, valuePerShare: 4.56,
+    specialMove: 'Motherland Meteor',
+    backstory: 'Mech guardian powered by ancestral wisdom and modern engineering. Grows stronger the more damage taken.',
+    description: 'Ancient-tech juggernaut with defensive evolution.',
+    abilities: ['Echo of Ancients', 'Adaptive Armor', 'Guardian Protocol']
+  },
+  {
+    id: 'cashmir',
+    name: 'Cashmir',
+    image: cashmir,
+    world: 'earth-1-0',
+    stats: { attack: 75, defense: 80, speed: 70, health: 85 },
+    wins: 25, losses: 8,
+    totalShares: 950, valuePerShare: 3.89,
+    specialMove: 'Sandstorm Sovereign',
+    backstory: 'Energy mage who controls markets and mystic forces equally. Can dodge death itself through shrewd positioning.',
+    description: 'Strategic mystic who trades in power and survival.',
+    abilities: ['Oil Veil', 'Market Manipulation', 'Energy Control']
+  },
+  {
+    id: 'el-data-supremo',
+    name: 'El Data Supremo',
+    image: elDataSupremo,
+    world: 'earth-1-0',
+    stats: { attack: 68, defense: 70, speed: 82, health: 75 },
+    wins: 21, losses: 11,
+    totalShares: 850, valuePerShare: 3.12,
+    specialMove: 'Algorithm Ascendant',
+    backstory: 'AI-enhanced populist who promises to optimize everything. Campaigns for digital democracy while hacking opponents.',
+    description: 'Charismatic controller who disrupts through data flood.',
+    abilities: ['Viral Flood', 'Data Mining', 'Algorithmic Control']
   }
 ];
