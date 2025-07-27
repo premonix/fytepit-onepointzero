@@ -126,6 +126,13 @@ const getRealmTheme = (world: WorldType) => {
       glow: 'shadow-emerald-400/30',
       bg: 'bg-gradient-to-br from-gray-900 via-emerald-900/20 to-black',
       name: 'MYTHRENDAHL'
+    },
+    'earth-1-0': {
+      primary: 'from-blue-900 to-orange-600',
+      accent: 'bg-blue-500',
+      glow: 'shadow-blue-500/30',
+      bg: 'bg-gradient-to-br from-gray-900 via-blue-900/20 to-black',
+      name: 'EARTH 1.0'
     }
   };
   return themes[world];
