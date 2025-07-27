@@ -43,7 +43,7 @@ export const FighterSelectionSection = () => {
               In the fractured expanse of <span className="text-primary font-semibold">FYTEPIT</span>, war is not waged by armies — but by champions.
             </p>
             <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-              Across three rival realms, elite fighters are summoned, forged, and evolved to settle ancient codes of honor and supremacy.
+              Across four interdimensional realms, elite fighters are summoned, forged, and evolved to settle ancient codes of honor and supremacy.
             </p>
             <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
               You don't lead the charge. <span className="text-primary font-semibold">You own the warrior.</span>
@@ -70,7 +70,7 @@ export const FighterSelectionSection = () => {
             SELECT YOUR CHAMPIONS
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
-            Choose two fighters from across the three realms. Watch them battle for supremacy in the arena.
+            Choose two fighters from across the four realms. Watch them battle for supremacy in the arena.
           </p>
           {selectedFighters.length > 0 && (
             <p className="text-lg text-primary">
@@ -81,7 +81,7 @@ export const FighterSelectionSection = () => {
 
         {/* Fighter Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-          {fighters.slice(0, 12).map((fighter, index) => (
+          {fighters.slice(0, 16).map((fighter, index) => (
             <motion.div
               key={fighter.id}
               initial={{ opacity: 0, y: 50 }}
