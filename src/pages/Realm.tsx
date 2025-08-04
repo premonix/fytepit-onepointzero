@@ -181,12 +181,18 @@ const Realm = () => {
       <div 
         className="relative h-96 bg-cover bg-center"
         style={{ 
-          backgroundImage: `linear-gradient(135deg, ${world.theme.primary}15, ${world.theme.accent}15), url('${realmHeroImages[world.id as keyof typeof realmHeroImages]}')`,
+          backgroundImage: `url('${realmHeroImages[world.id as keyof typeof realmHeroImages]}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
         <div className="absolute inset-0 bg-black/60" />
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            background: `linear-gradient(135deg, ${world.theme.primary}, ${world.theme.accent})`
+          }}
+        />
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
             <div className="flex items-center gap-4 mb-6">
