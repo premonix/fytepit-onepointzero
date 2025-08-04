@@ -97,30 +97,7 @@ export const CinematicHero = () => {
               </div>
             </motion.div>
             
-            <div className="flex items-center gap-4">
-              {['Explore Worlds', 'Leaderboard', 'Select Fighters'].map((text, index) => (
-                <motion.div
-                  key={text}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                >
-                  <Link to={text === 'Explore Worlds' ? '/worlds' : text === 'Leaderboard' ? '/leaderboard' : '#fighter-selection'}>
-                    <Button 
-                      variant="ghost" 
-                      className="text-white hover:text-primary hover:bg-white/10 transition-all duration-300"
-                      onMouseEnter={() => playUI('hover')}
-                      onClick={text === 'Select Fighters' ? () => {
-                        playUI('click');
-                        document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' });
-                      } : () => playUI('click')}
-                    >
-                      {text}
-                    </Button>
-                  </Link>
-                </motion.div>
-              ))}
-              
+            <div className="flex items-center gap-2">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
