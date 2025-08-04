@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { fighters } from '@/data/fighters';
+import { useFightersWithStats, useFightersByWorld } from '@/hooks/useFighters';
 import { worlds } from '@/data/worlds';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -21,24 +21,22 @@ const Leaderboard = () => {
   const [currentWorldPage, setCurrentWorldPage] = useState(1);
   const fightersPerPage = 10;
 
-  // Calculate overall rankings
-  const overallRankings = fighters
-    .map(fighter => ({
-      ...fighter,
-      winRate: fighter.wins / (fighter.wins + fighter.losses),
-      totalFights: fighter.wins + fighter.losses
-    }))
-    .sort((a, b) => b.winRate - a.winRate || b.wins - a.wins);
+  // Get live fighter data
+  const { data: allFighters, isLoading: loadingAll } = useFightersWithStats();
+  const { data: worldFighters, isLoading: loadingWorld } = useFightersByWorld(selectedWorld);
 
-  // Calculate world-specific rankings
-  const worldRankings = fighters
-    .filter(fighter => fighter.world === selectedWorld)
-    .map(fighter => ({
+  // Calculate overall rankings with live data
+  const overallRankings = allFighters
+    ?.sort((a, b) => b.winRate - a.winRate || b.wins - a.wins) || [];
+
+  // Calculate world-specific rankings with live data
+  const worldRankings = worldFighters
+    ?.map(fighter => ({
       ...fighter,
-      winRate: fighter.wins / (fighter.wins + fighter.losses),
-      totalFights: fighter.wins + fighter.losses
+      winRate: fighter.wins / (fighter.wins + fighter.losses) || 0,
+      totalFights: fighter.wins + fighter.losses,
     }))
-    .sort((a, b) => b.winRate - a.winRate || b.wins - a.wins);
+    .sort((a, b) => b.winRate - a.winRate || b.wins - a.wins) || [];
 
   // Pagination logic
   const totalPages = Math.ceil(overallRankings.length / fightersPerPage);
@@ -187,6 +185,22 @@ const Leaderboard = () => {
       </div>
     </div>
   );
+
+  // Loading state
+  if (loadingAll || loadingWorld) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center space-y-4">
+              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+              <p className="text-muted-foreground">Loading live fighter data...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

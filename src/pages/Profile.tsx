@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserProfile, useUserTransactions, useUserBets } from '@/hooks/useUserProfile';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -10,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { 
   User, 
   Trophy, 
@@ -21,7 +23,9 @@ import {
   Settings,
   Sword,
   BarChart3,
-  History
+  History,
+  CreditCard,
+  ArrowUpDown
 } from 'lucide-react';
 
 interface UserProfile {
@@ -85,10 +89,15 @@ interface Notification {
 const Profile = () => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  
+  // Use unified data hooks
+  const { data: profile, isLoading: profileLoading } = useUserProfile();
+  const { data: transactions, isLoading: transactionsLoading } = useUserTransactions();
+  const { data: bets, isLoading: betsLoading } = useUserBets();
+  
+  // Keep existing state for other features
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [fighterOwnerships, setFighterOwnerships] = useState<FighterOwnership[]>([]);
-  const [betHistory, setBetHistory] = useState<BetHistory[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -114,7 +123,6 @@ const Profile = () => {
         .single();
 
       if (profileData) {
-        setProfile(profileData);
         setFormData({
           username: profileData.username || '',
           display_name: profileData.display_name || '',
@@ -171,9 +179,7 @@ const Profile = () => {
         .order('created_at', { ascending: false })
         .limit(10);
 
-      if (betsData) {
-        setBetHistory(betsData);
-      }
+      // Bets are now handled by useUserBets hook
 
       // Fetch notifications
       const { data: notificationsData } = await supabase
@@ -244,7 +250,7 @@ const Profile = () => {
     }
   };
 
-  if (loading) {
+  if (loading || profileLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white">Loading profile...</div>
@@ -347,7 +353,7 @@ const Profile = () => {
                 <Target className="h-8 w-8 text-blue-400 mr-3" />
                 <div>
                   <p className="text-sm text-gray-400">Total Bets</p>
-                  <p className="text-2xl font-bold text-white">{betHistory.length}</p>
+                  <p className="text-2xl font-bold text-white">{bets?.length || 0}</p>
                 </div>
               </div>
             </CardContent>
@@ -368,6 +374,10 @@ const Profile = () => {
             <TabsTrigger value="history" className="data-[state=active]:bg-gray-700">
               <History className="w-4 h-4 mr-2" />
               Bet History
+            </TabsTrigger>
+            <TabsTrigger value="transactions" className="data-[state=active]:bg-gray-700">
+              <CreditCard className="w-4 h-4 mr-2" />
+              Transactions
             </TabsTrigger>
             <TabsTrigger value="achievements" className="data-[state=active]:bg-gray-700">
               <Trophy className="w-4 h-4 mr-2" />
@@ -483,7 +493,7 @@ const Profile = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {betHistory.map((bet) => (
+                  {bets?.map((bet) => (
                     <div key={bet.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
                       <div>
                         <p className="text-white font-medium">Bet Amount: {bet.amount}</p>
@@ -506,6 +516,67 @@ const Profile = () => {
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="transactions" className="space-y-6">
+            <Card className="bg-gray-900 border-gray-800">
+              <CardHeader>
+                <CardTitle className="text-white">Transaction History</CardTitle>
+                <CardDescription>Your recent financial transactions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {transactionsLoading ? (
+                  <div className="text-center py-4">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                    <p className="text-muted-foreground mt-2">Loading transactions...</p>
+                  </div>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-gray-400">Type</TableHead>
+                        <TableHead className="text-gray-400">Amount</TableHead>
+                        <TableHead className="text-gray-400">Description</TableHead>
+                        <TableHead className="text-gray-400">Date</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {transactions?.map((transaction) => (
+                        <TableRow key={transaction.id}>
+                          <TableCell>
+                            <Badge 
+                              variant={
+                                transaction.type.includes('payout') || transaction.type.includes('winnings') 
+                                  ? 'default' 
+                                  : transaction.type.includes('bet') || transaction.type.includes('purchase')
+                                  ? 'destructive'
+                                  : 'secondary'
+                              }
+                            >
+                              {transaction.type.replace('_', ' ').toUpperCase()}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className={`font-mono ${
+                            transaction.type.includes('payout') || transaction.type.includes('winnings')
+                              ? 'text-green-400'
+                              : 'text-red-400'
+                          }`}>
+                            {transaction.type.includes('payout') || transaction.type.includes('winnings') ? '+' : '-'}
+                            {transaction.amount.toLocaleString()}
+                          </TableCell>
+                          <TableCell className="text-gray-300">
+                            {transaction.description || 'No description'}
+                          </TableCell>
+                          <TableCell className="text-gray-400">
+                            {new Date(transaction.created_at).toLocaleDateString()}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

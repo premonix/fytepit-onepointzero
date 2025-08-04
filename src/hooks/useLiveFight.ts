@@ -164,6 +164,9 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
         queryClient.invalidateQueries({ queryKey: ['fights'] });
         queryClient.invalidateQueries({ queryKey: ['fighters'] });
         queryClient.invalidateQueries({ queryKey: ['bets'] });
+        queryClient.invalidateQueries({ queryKey: ['user-profile'] });
+        queryClient.invalidateQueries({ queryKey: ['user-transactions'] });
+        queryClient.invalidateQueries({ queryKey: ['user-bets'] });
         queryClient.invalidateQueries({ queryKey: ['profile'] });
         queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
         queryClient.invalidateQueries({ queryKey: ['notifications'] });
