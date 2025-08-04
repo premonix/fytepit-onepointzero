@@ -669,6 +669,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      admin_advance_tournament_round: {
+        Args: { _tournament_id: string; _current_round: number }
+        Returns: boolean
+      }
       admin_create_fight: {
         Args: {
           _fighter1_id: string
@@ -764,6 +768,10 @@ export type Database = {
           user_role: Database["public"]["Enums"]["app_role"]
           email_confirmed_at: string
         }[]
+      }
+      get_tournament_bracket: {
+        Args: { _tournament_id: string }
+        Returns: Json
       }
       get_user_role: {
         Args: { _user_id: string }
