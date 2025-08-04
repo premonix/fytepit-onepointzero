@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,8 @@ import {
   Crown,
   BarChart3
 } from 'lucide-react';
+
+console.log('Admin.tsx file loaded');
 
 export default function Admin() {
   const { user } = useAuth();
