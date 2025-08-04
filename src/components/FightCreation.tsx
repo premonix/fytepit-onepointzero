@@ -119,12 +119,14 @@ export function FightCreation() {
         _fighter1_id: formData.fighter1_id,
         _fighter2_id: formData.fighter2_id,
         _fight_type: formData.fight_type,
-        _scheduled_at: scheduledAt?.toISOString(),
+        _scheduled_at: scheduledAt?.toISOString() || null,
         _venue: formData.venue || null,
         _max_betting_amount: formData.max_betting_amount ? parseFloat(formData.max_betting_amount) : null,
         _tournament_id: formData.tournament_id || null,
         _rules: formData.rules
       });
+
+      console.log('Fight creation result:', { fightId, error });
 
       if (error) throw error;
 
