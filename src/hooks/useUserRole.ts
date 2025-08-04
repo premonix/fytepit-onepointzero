@@ -17,14 +17,18 @@ export function useUserRole() {
 
     const fetchUserRole = async () => {
       try {
+        console.log('Fetching user role for user:', user.id, user.email);
         const { data, error } = await supabase.rpc('get_user_role', {
           _user_id: user.id
         });
+
+        console.log('Role fetch result:', { data, error });
 
         if (error) {
           console.error('Error fetching user role:', error);
           setUserRole('user');
         } else {
+          console.log('Setting user role to:', data || 'user');
           setUserRole(data || 'user');
         }
       } catch (error) {

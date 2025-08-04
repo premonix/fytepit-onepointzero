@@ -40,8 +40,10 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const { playUI } = useSound();
-  const { isAdmin } = useUserRole();
+  const { isAdmin, userRole, loading } = useUserRole();
   const currentPath = location.pathname;
+
+  console.log('AppSidebar - isAdmin:', isAdmin(), 'userRole:', userRole, 'loading:', loading);
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
