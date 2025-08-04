@@ -91,6 +91,11 @@ export const Footer = () => {
                   Pricing
                 </Button>
               </Link>
+              <Link to="/admin" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  Admin Panel
+                </Button>
+              </Link>
               <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
                 Terms of Service
               </Button>

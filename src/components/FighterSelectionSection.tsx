@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Play } from 'lucide-react';
+import { Play, Map, Eye } from 'lucide-react';
 import { FighterCard } from '@/components/FighterCard';
 import { fighters } from '@/data/fighters';
+import { worlds } from '@/data/worlds';
 import { useSound } from '@/hooks/useSound';
+import { Link } from 'react-router-dom';
 
 export const FighterSelectionSection = () => {
   const [selectedFighters, setSelectedFighters] = useState<string[]>([]);
@@ -24,7 +26,8 @@ export const FighterSelectionSection = () => {
 
   const handleStartBattle = () => {
     playUI('click');
-    // Future: Start battle functionality
+    // For now, navigate to The Pit
+    window.location.href = '/pit';
   };
 
   return (
@@ -72,6 +75,24 @@ export const FighterSelectionSection = () => {
           <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
             Choose two fighters from across the four realms. Watch them battle for supremacy in the arena.
           </p>
+          
+          {/* Quick Realm Navigation */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <Link to="/worlds">
+              <Button variant="outline" size="sm" onClick={() => playUI('click')}>
+                <Map className="w-4 h-4 mr-2" />
+                Explore All Realms
+              </Button>
+            </Link>
+            {worlds.map(world => (
+              <Link key={world.id} to={`/realm/${world.id}`}>
+                <Button variant="ghost" size="sm" onClick={() => playUI('click')}>
+                  <Eye className="w-4 h-4 mr-2" />
+                  {world.name.split(' ')[0]}
+                </Button>
+              </Link>
+            ))}
+          </div>
           {selectedFighters.length > 0 && (
             <p className="text-lg text-primary">
               {selectedFighters.length}/2 fighters selected

@@ -69,7 +69,8 @@ export const VideoMediaHero = () => {
 
   const handleEnterPit = () => {
     playUI('click');
-    document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' });
+    // Navigate to the specific realm page
+    window.location.href = `/realm/${currentRealm.id}`;
   };
 
   return (
