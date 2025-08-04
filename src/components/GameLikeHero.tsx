@@ -7,6 +7,14 @@ import { worlds } from '@/data/worlds';
 import { fighters } from '@/data/fighters';
 import { useSound } from '@/hooks/useSound';
 
+// Placeholder background images for realms
+const realmBackgrounds = {
+  'dark-arena': 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&h=600',
+  'sci-fi-ai': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&h=600',
+  'fantasy-tech': 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&h=600',
+  'earth-1-0': 'https://images.unsplash.com/photo-1494891848038-7bd20242006b?auto=format&fit=crop&w=800&h=600'
+};
+
 export const GameLikeHero = () => {
   const [selectedRealm, setSelectedRealm] = useState<string>('dark-arena');
   const [selectedFighters, setSelectedFighters] = useState<string[]>([]);
@@ -17,10 +25,34 @@ export const GameLikeHero = () => {
   const realmFighters = fighters.filter(f => f.world === selectedRealm);
 
   const mainMenuOptions = [
-    { id: 'battle', label: 'ENTER BATTLE', icon: Sword, action: () => setGameMenuState('fighters') },
-    { id: 'realms', label: 'SELECT REALM', icon: Zap, action: () => setGameMenuState('realms') },
-    { id: 'leaderboard', label: 'LEADERBOARD', icon: Trophy, action: () => {} },
-    { id: 'fighters', label: 'FIGHTER CODEX', icon: Users, action: () => {} },
+    { 
+      id: 'battle', 
+      label: 'ENTER BATTLE', 
+      icon: Sword, 
+      action: () => setGameMenuState('fighters'),
+      bgImage: 'https://images.unsplash.com/photo-1500673922987-e212871f6c22?auto=format&fit=crop&w=400&h=100'
+    },
+    { 
+      id: 'realms', 
+      label: 'SELECT REALM', 
+      icon: Zap, 
+      action: () => setGameMenuState('realms'),
+      bgImage: 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=400&h=100'
+    },
+    { 
+      id: 'leaderboard', 
+      label: 'LEADERBOARD', 
+      icon: Trophy, 
+      action: () => {},
+      bgImage: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=400&h=100'
+    },
+    { 
+      id: 'fighters', 
+      label: 'FIGHTER CODEX', 
+      icon: Users, 
+      action: () => {},
+      bgImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&h=100'
+    },
   ];
 
   const handleRealmSelect = (realmId: string) => {
@@ -51,6 +83,14 @@ export const GameLikeHero = () => {
   return (
     <section className="relative h-screen flex overflow-hidden bg-gradient-to-br from-cyber-darker via-cyber-dark to-background">
       {/* Dynamic Background based on selected realm */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: `url(${realmBackgrounds[selectedRealm as keyof typeof realmBackgrounds]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      />
       <div 
         className="absolute inset-0 opacity-20"
         style={{
@@ -140,13 +180,22 @@ export const GameLikeHero = () => {
                       <Button
                         onClick={option.action}
                         onMouseEnter={() => playUI('hover')}
-                        className="w-full justify-between p-6 text-xl font-bold bg-card hover:bg-secondary border-2 border-border hover:border-primary transition-all duration-300"
+                        className="relative w-full justify-between p-6 text-xl font-bold bg-card hover:bg-secondary border-2 border-border hover:border-primary transition-all duration-300 overflow-hidden group"
                       >
-                        <div className="flex items-center gap-4">
+                        {/* Background Image */}
+                        <div 
+                          className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+                          style={{
+                            backgroundImage: `url(${option.bgImage})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center'
+                          }}
+                        />
+                        <div className="relative z-10 flex items-center gap-4">
                           <option.icon className="w-6 h-6" />
                           {option.label}
                         </div>
-                        <ChevronRight className="w-6 h-6" />
+                        <ChevronRight className="relative z-10 w-6 h-6" />
                       </Button>
                     </motion.div>
                   ))}
@@ -184,13 +233,28 @@ export const GameLikeHero = () => {
                       <Button
                         onClick={() => handleRealmSelect(world.id)}
                         onMouseEnter={() => playUI('hover')}
-                        className={`w-full p-6 text-left transition-all duration-300 ${
+                        className={`relative w-full p-6 text-left transition-all duration-300 overflow-hidden group ${
                           selectedRealm === world.id 
                             ? 'bg-primary/20 border-primary' 
                             : 'bg-card hover:bg-secondary border-border'
                         } border-2`}
                       >
-                        <div>
+                        {/* Background Image */}
+                        <div 
+                          className="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity duration-300"
+                          style={{
+                            backgroundImage: `url(${realmBackgrounds[world.id as keyof typeof realmBackgrounds]})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center'
+                          }}
+                        />
+                        <div 
+                          className="absolute inset-0 opacity-60"
+                          style={{
+                            background: `linear-gradient(135deg, ${world.theme.primary}20, ${world.theme.accent}20)`
+                          }}
+                        />
+                        <div className="relative z-10">
                           <h3 className="text-xl font-bold mb-2" style={{ color: world.theme.primary }}>
                             {world.name}
                           </h3>
@@ -233,13 +297,20 @@ export const GameLikeHero = () => {
                       <Button
                         onClick={() => handleFighterSelect(fighter.id)}
                         onMouseEnter={() => playUI('hover')}
-                        className={`w-full p-4 h-auto transition-all duration-300 ${
+                        className={`relative w-full p-4 h-20 transition-all duration-300 overflow-hidden group ${
                           selectedFighters.includes(fighter.id)
                             ? 'bg-primary/20 border-primary'
                             : 'bg-card hover:bg-secondary border-border'
                         } border-2`}
                       >
-                        <div className="text-left">
+                        {/* Fighter Portrait */}
+                        <div 
+                          className="absolute left-2 top-2 bottom-2 w-12 rounded bg-cover bg-center opacity-80"
+                          style={{
+                            backgroundImage: `url(${fighter.image})`
+                          }}
+                        />
+                        <div className="relative z-10 text-left pl-16">
                           <h4 className="font-bold text-sm mb-1">{fighter.name}</h4>
                           <p className="text-xs text-muted-foreground">{fighter.wins}W-{fighter.losses}L</p>
                         </div>
@@ -276,9 +347,17 @@ export const GameLikeHero = () => {
           transition={{ duration: 1, delay: 0.5 }}
         >
           <div className="relative w-full h-96 bg-card/50 rounded-lg border-2 border-border overflow-hidden">
-            {/* Realm Preview */}
+            {/* Realm Preview Background */}
             <div 
-              className="absolute inset-0 opacity-30"
+              className="absolute inset-0 opacity-40"
+              style={{
+                backgroundImage: `url(${realmBackgrounds[selectedRealm as keyof typeof realmBackgrounds]})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            />
+            <div 
+              className="absolute inset-0 opacity-50"
               style={{
                 background: currentWorld?.theme.gradient
               }}
@@ -339,9 +418,19 @@ export const GameLikeHero = () => {
                         {selectedFighters.map(fighterId => {
                           const fighter = fighters.find(f => f.id === fighterId);
                           return (
-                            <div key={fighterId} className="bg-card/80 p-3 rounded">
-                              <p className="font-bold">{fighter?.name}</p>
-                              <p className="text-xs text-muted-foreground">{fighter?.wins}W-{fighter?.losses}L</p>
+                            <div key={fighterId} className="relative bg-card/80 p-3 rounded overflow-hidden">
+                              <div 
+                                className="absolute inset-0 opacity-30"
+                                style={{
+                                  backgroundImage: `url(${fighter?.image})`,
+                                  backgroundSize: 'cover',
+                                  backgroundPosition: 'center'
+                                }}
+                              />
+                              <div className="relative z-10">
+                                <p className="font-bold">{fighter?.name}</p>
+                                <p className="text-xs text-muted-foreground">{fighter?.wins}W-{fighter?.losses}L</p>
+                              </div>
                             </div>
                           );
                         })}
