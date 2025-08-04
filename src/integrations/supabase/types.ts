@@ -234,6 +234,42 @@ export type Database = {
         }
         Relationships: []
       }
+      subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          stripe_customer_id: string | null
+          subscribed: boolean
+          subscription_end: string | null
+          subscription_tier: Database["public"]["Enums"]["subscription_tier"]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: Database["public"]["Enums"]["subscription_tier"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: Database["public"]["Enums"]["subscription_tier"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number
@@ -349,6 +385,10 @@ export type Database = {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
       }
+      get_user_subscription: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["subscription_tier"]
+      }
       has_role: {
         Args: {
           _user_id: string
@@ -356,9 +396,17 @@ export type Database = {
         }
         Returns: boolean
       }
+      has_subscription_access: {
+        Args: {
+          _user_id: string
+          _required_tier: Database["public"]["Enums"]["subscription_tier"]
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "user" | "admin" | "super_admin"
+      subscription_tier: "free" | "fractional" | "premium"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -487,6 +535,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["user", "admin", "super_admin"],
+      subscription_tier: ["free", "fractional", "premium"],
     },
   },
 } as const
