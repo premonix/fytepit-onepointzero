@@ -201,10 +201,14 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          banned_at: string | null
+          banned_reason: string | null
           bio: string | null
           created_at: string
           display_name: string | null
           id: string
+          is_active: boolean | null
+          is_banned: boolean | null
           total_balance: number | null
           updated_at: string
           user_id: string
@@ -212,10 +216,14 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          banned_at?: string | null
+          banned_reason?: string | null
           bio?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
+          is_active?: boolean | null
+          is_banned?: boolean | null
           total_balance?: number | null
           updated_at?: string
           user_id: string
@@ -223,10 +231,14 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          banned_at?: string | null
+          banned_reason?: string | null
           bio?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
+          is_active?: boolean | null
+          is_banned?: boolean | null
           total_balance?: number | null
           updated_at?: string
           user_id?: string
@@ -381,6 +393,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_all_users_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          email: string
+          username: string
+          display_name: string
+          avatar_url: string
+          bio: string
+          total_balance: number
+          is_active: boolean
+          is_banned: boolean
+          banned_at: string
+          banned_reason: string
+          created_at: string
+          updated_at: string
+          user_role: Database["public"]["Enums"]["app_role"]
+          email_confirmed_at: string
+        }[]
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -401,6 +433,17 @@ export type Database = {
           _user_id: string
           _required_tier: Database["public"]["Enums"]["subscription_tier"]
         }
+        Returns: boolean
+      }
+      update_user_role: {
+        Args: {
+          _user_id: string
+          _new_role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: boolean
+      }
+      update_user_status: {
+        Args: { _user_id: string; _is_banned: boolean; _ban_reason?: string }
         Returns: boolean
       }
     }
