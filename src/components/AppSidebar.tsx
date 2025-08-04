@@ -49,7 +49,8 @@ export function AppSidebar() {
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-muted/50";
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (item: typeof mainItems[0]) => () => {
+    console.log('Navigating to:', item.url, 'Title:', item.title);
     playUI('click');
   };
 
@@ -62,7 +63,7 @@ export function AppSidebar() {
               to={item.url} 
               end 
               className={getNavCls}
-              onClick={handleLinkClick}
+              onClick={handleLinkClick(item)}
             >
               <item.icon className="h-4 w-4" />
               {state !== "collapsed" && <span>{item.title}</span>}
