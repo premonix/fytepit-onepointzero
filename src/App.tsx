@@ -17,14 +17,13 @@ import FyteCard from "./pages/FyteCard";
 import Bloodbook from "./pages/Bloodbook";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
-import { MobileMenu } from "./components/MobileMenu";
+import { SidebarLayout } from "./components/SidebarLayout";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
   return (
-    <>
-      <MobileMenu />
+    <SidebarLayout>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/worlds" element={<Worlds />} />
@@ -40,7 +39,7 @@ const AppContent = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </SidebarLayout>
   );
 };
 
