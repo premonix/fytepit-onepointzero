@@ -87,7 +87,6 @@ export function FightCreation() {
   };
 
   const handleCreateFight = async () => {
-    console.log('Form data before validation:', formData);
     
     if (!formData.fighter1_id || !formData.fighter2_id) {
       toast({
@@ -115,7 +114,6 @@ export function FightCreation() {
         const [hours, minutes] = formData.scheduled_time.split(':');
         scheduledAt = new Date(formData.scheduled_date);
         scheduledAt.setHours(parseInt(hours), parseInt(minutes));
-        console.log('Scheduled at:', scheduledAt);
       }
 
       const { data: fightId, error } = await supabase.rpc('admin_create_fight', {
@@ -129,14 +127,10 @@ export function FightCreation() {
         _rules: formData.rules
       });
 
-      console.log('Fight creation result:', { fightId, error });
-
       if (error) {
         console.error('Fight creation error:', error);
         throw error;
       }
-
-      console.log('Fight created successfully with ID:', fightId);
 
       toast({
         title: "Success",

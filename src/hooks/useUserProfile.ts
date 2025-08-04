@@ -77,7 +77,6 @@ export function useUserProfile() {
           filter: `user_id=eq.${user.id}`
         },
         (payload) => {
-          console.log('Profile changed:', payload);
           queryClient.invalidateQueries({ queryKey: ['user-profile', user.id] });
         }
       )
@@ -132,7 +131,6 @@ export function useUserTransactions() {
           filter: `user_id=eq.${user.id}`
         },
         (payload) => {
-          console.log('New transaction:', payload);
           queryClient.invalidateQueries({ queryKey: ['user-transactions', user.id] });
           queryClient.invalidateQueries({ queryKey: ['user-profile', user.id] });
         }
@@ -198,7 +196,6 @@ export function useUserBets() {
           filter: `user_id=eq.${user.id}`
         },
         (payload) => {
-          console.log('Bet updated:', payload);
           queryClient.invalidateQueries({ queryKey: ['user-bets', user.id] });
           queryClient.invalidateQueries({ queryKey: ['user-profile', user.id] });
         }

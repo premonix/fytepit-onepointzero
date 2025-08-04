@@ -25,13 +25,9 @@ import {
   AlertTriangle
 } from 'lucide-react';
 
-console.log('Admin.tsx file loaded');
-
 export default function Admin() {
   const { user } = useAuth();
   const { userRole, isAdmin, isSuperAdmin } = useUserRole();
-
-  console.log('Admin page loaded - userRole:', userRole, 'isAdmin:', isAdmin(), 'isSuperAdmin:', isSuperAdmin());
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background p-6">

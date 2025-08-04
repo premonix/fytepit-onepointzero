@@ -107,7 +107,7 @@ export default function LiveFights() {
       const fighter1 = shuffled[0];
       const fighter2 = shuffled[1];
 
-      console.log('Creating fight with database fighters:', fighter1.id, 'vs', fighter2.id);
+      
 
       const { data, error } = await supabase
         .rpc('admin_create_fight', {

@@ -22,7 +22,6 @@ export function useFighters() {
   // Set up real-time subscription
   useEffect(() => {
     const unsubscribe = FighterService.subscribeToFighterChanges((payload) => {
-      console.log('Fighter data changed:', payload);
       // Invalidate and refetch fighter data
       queryClient.invalidateQueries({ queryKey: FIGHTERS_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: FIGHTER_QUERY_KEY });

@@ -23,7 +23,7 @@ export const useSound = () => {
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + duration / 1000);
     } catch (error) {
-      console.log('[Sound] Audio not supported:', error);
+      // Audio not supported
     }
   }, [muted]);
 

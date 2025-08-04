@@ -87,7 +87,6 @@ export function useUserAchievements() {
           filter: `user_id=eq.${user.id}`
         },
         (payload) => {
-          console.log('New achievement earned:', payload);
           queryClient.invalidateQueries({ queryKey: ['user-achievements', user.id] });
         }
       )

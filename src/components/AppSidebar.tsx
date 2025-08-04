@@ -46,14 +46,11 @@ export function AppSidebar() {
   const { isAdmin, userRole, loading } = useUserRole();
   const currentPath = location.pathname;
 
-  console.log('AppSidebar - isAdmin:', isAdmin(), 'userRole:', userRole, 'loading:', loading);
-
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-muted/50";
 
   const handleLinkClick = (item: typeof mainItems[0]) => () => {
-    console.log('Navigating to:', item.url, 'Title:', item.title);
     playUI('click');
   };
 

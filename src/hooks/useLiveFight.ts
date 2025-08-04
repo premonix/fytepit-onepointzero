@@ -51,11 +51,9 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
       try {
         // Use the correct WebSocket URL for the edge function
         const wsUrl = `wss://fuifvbppttshpodpuqgf.functions.supabase.co/live-fight?fight_id=${fightId}`;
-        console.log('Connecting to WebSocket:', wsUrl);
         const websocket = new WebSocket(wsUrl);
 
         websocket.onopen = () => {
-          console.log('Connected to live fight:', fightId);
           setIsConnected(true);
           setError(null);
           setIsLoading(false);
@@ -78,7 +76,6 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
         };
 
         websocket.onclose = (event) => {
-          console.log('WebSocket connection closed:', event.code, event.reason);
           setIsConnected(false);
           
           // Don't attempt reconnect if it was a manual close or auth error
@@ -86,7 +83,6 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
             // Attempt to reconnect after 3 seconds
             setTimeout(() => {
               if (!websocket || websocket.readyState === WebSocket.CLOSED) {
-                console.log('Attempting to reconnect...');
                 connectWebSocket();
               }
             }, 3000);
@@ -160,7 +156,6 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
         } : null);
         
         // Invalidate all fight-related queries to refresh data across the app
-        console.log('Fight completed with stats updated - refreshing all data');
         queryClient.invalidateQueries({ queryKey: ['fights'] });
         queryClient.invalidateQueries({ queryKey: ['fighters'] });
         queryClient.invalidateQueries({ queryKey: ['bets'] });
@@ -174,7 +169,6 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
 
       case 'fight_countdown':
         // Handle countdown events
-        console.log('Fight countdown:', event.data.countdown);
         if ((window as any).setCountdown) {
           (window as any).setCountdown({ isActive: true, count: event.data.countdown });
         }
@@ -191,7 +185,7 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
         break;
 
       default:
-        console.log('Unknown fight event type:', event.type);
+        // Unknown event type
     }
   }, [queryClient]);
 
