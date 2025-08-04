@@ -1,4 +1,4 @@
-import { Home, Globe, Trophy, Book, Swords, HelpCircle, DollarSign, Calendar, Scroll, Settings, Zap } from "lucide-react";
+import { Home, Globe, Trophy, Book, Swords, HelpCircle, DollarSign, Calendar, Scroll, Settings, Zap, Users } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useUserRole } from "@/hooks/useUserRole";
 import {
@@ -19,7 +19,9 @@ const mainItems = [
   { title: "Worlds", url: "/worlds", icon: Globe },
   { title: "The Pit", url: "/pit", icon: Swords },
   { title: "Live Arena", url: "/live-fights", icon: Zap },
+  { title: "Tournaments", url: "/tournaments", icon: Trophy },
   { title: "Leaderboard", url: "/leaderboard", icon: Trophy },
+  { title: "Social", url: "/social", icon: Users },
 ];
 
 const gameItems = [

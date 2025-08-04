@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 import Index from "./pages/Index";
 import Worlds from "./pages/Worlds";
@@ -16,6 +17,8 @@ import Pit from "./pages/Pit";
 import FyteCard from "./pages/FyteCard";
 import Bloodbook from "./pages/Bloodbook";
 import Admin from "./pages/Admin";
+import Tournaments from "./pages/Tournaments";
+import Social from "./pages/Social";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Success from "./pages/Success";
@@ -50,6 +53,8 @@ const AppContent = () => {
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/live-fights" element={<ProtectedRoute><LiveFights /></ProtectedRoute>} />
         <Route path="/live-fight/:fightId" element={<ProtectedRoute><LiveFight /></ProtectedRoute>} />
+        <Route path="/tournaments" element={<Tournaments />} />
+        <Route path="/social" element={<Social />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -60,11 +65,13 @@ const AppContent = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <ErrorBoundary>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </ErrorBoundary>
     </TooltipProvider>
   </QueryClientProvider>
 );
