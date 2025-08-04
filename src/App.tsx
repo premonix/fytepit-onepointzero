@@ -17,7 +17,9 @@ import FyteCard from "./pages/FyteCard";
 import Bloodbook from "./pages/Bloodbook";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
 import { SidebarLayout } from "./components/SidebarLayout";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,7 @@ const AppContent = () => {
   return (
     <SidebarLayout>
       <Routes>
+        <Route path="/auth" element={<Auth />} />
         <Route path="/" element={<Index />} />
         <Route path="/worlds" element={<Worlds />} />
         <Route path="/fighter/:fighterId" element={<Fighter />} />
@@ -33,10 +36,10 @@ const AppContent = () => {
         <Route path="/codex" element={<Codex />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/pricing" element={<Pricing />} />
-        <Route path="/pit" element={<Pit />} />
-        <Route path="/fyte-card" element={<FyteCard />} />
-        <Route path="/bloodbook" element={<Bloodbook />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/pit" element={<ProtectedRoute><Pit /></ProtectedRoute>} />
+        <Route path="/fyte-card" element={<ProtectedRoute><FyteCard /></ProtectedRoute>} />
+        <Route path="/bloodbook" element={<ProtectedRoute><Bloodbook /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </SidebarLayout>

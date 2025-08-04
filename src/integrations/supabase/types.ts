@@ -14,7 +14,308 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bets: {
+        Row: {
+          amount: number
+          created_at: string
+          fight_id: string
+          fighter_id: string
+          id: string
+          odds: number
+          payout: number | null
+          potential_payout: number
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          fight_id: string
+          fighter_id: string
+          id?: string
+          odds: number
+          payout?: number | null
+          potential_payout: number
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          fight_id?: string
+          fighter_id?: string
+          id?: string
+          odds?: number
+          payout?: number | null
+          potential_payout?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bets_fight_id_fkey"
+            columns: ["fight_id"]
+            isOneToOne: false
+            referencedRelation: "fights"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bets_fighter_id_fkey"
+            columns: ["fighter_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fighters: {
+        Row: {
+          abilities: string[] | null
+          attack: number
+          backstory: string | null
+          created_at: string
+          defense: number
+          description: string | null
+          health: number
+          id: string
+          image: string
+          losses: number | null
+          name: string
+          special_move: string | null
+          speed: number
+          total_shares: number | null
+          updated_at: string
+          value_per_share: number | null
+          wins: number | null
+          world: string
+        }
+        Insert: {
+          abilities?: string[] | null
+          attack: number
+          backstory?: string | null
+          created_at?: string
+          defense: number
+          description?: string | null
+          health: number
+          id: string
+          image: string
+          losses?: number | null
+          name: string
+          special_move?: string | null
+          speed: number
+          total_shares?: number | null
+          updated_at?: string
+          value_per_share?: number | null
+          wins?: number | null
+          world: string
+        }
+        Update: {
+          abilities?: string[] | null
+          attack?: number
+          backstory?: string | null
+          created_at?: string
+          defense?: number
+          description?: string | null
+          health?: number
+          id?: string
+          image?: string
+          losses?: number | null
+          name?: string
+          special_move?: string | null
+          speed?: number
+          total_shares?: number | null
+          updated_at?: string
+          value_per_share?: number | null
+          wins?: number | null
+          world?: string
+        }
+        Relationships: []
+      }
+      fights: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          fighter1_id: string
+          fighter2_id: string
+          id: string
+          scheduled_at: string | null
+          started_at: string | null
+          status: string
+          total_pot: number | null
+          updated_at: string
+          winner_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          fighter1_id: string
+          fighter2_id: string
+          id?: string
+          scheduled_at?: string | null
+          started_at?: string | null
+          status?: string
+          total_pot?: number | null
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          fighter1_id?: string
+          fighter2_id?: string
+          id?: string
+          scheduled_at?: string | null
+          started_at?: string | null
+          status?: string
+          total_pot?: number | null
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fights_fighter1_id_fkey"
+            columns: ["fighter1_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fights_fighter2_id_fkey"
+            columns: ["fighter2_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fights_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          total_balance: number | null
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          total_balance?: number | null
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          total_balance?: number | null
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          fighter_id: string | null
+          id: string
+          price_per_share: number | null
+          shares: number | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          fighter_id?: string | null
+          id?: string
+          price_per_share?: number | null
+          shares?: number | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          fighter_id?: string | null
+          id?: string
+          price_per_share?: number | null
+          shares?: number | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_fighter_id_fkey"
+            columns: ["fighter_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_fighters: {
+        Row: {
+          created_at: string
+          fighter_id: string
+          id: string
+          shares: number
+          total_investment: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          fighter_id: string
+          id?: string
+          shares?: number
+          total_investment?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          fighter_id?: string
+          id?: string
+          shares?: number
+          total_investment?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_fighters_fighter_id_fkey"
+            columns: ["fighter_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

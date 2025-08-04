@@ -5,6 +5,7 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { Button } from "@/components/ui/button";
 import { Volume2, VolumeX } from "lucide-react";
 import { useSound } from "@/hooks/useSound";
+import { UserMenu } from "@/components/UserMenu";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
               >
                 {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
               </Button>
+              <UserMenu />
             </div>
           </header>
 
