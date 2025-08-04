@@ -110,6 +110,18 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-12 pt-8">
+          {/* Gambling Disclaimer */}
+          <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
+            <p className="text-amber-800 dark:text-amber-200 text-sm font-medium mb-2">
+              ⚠️ Important Disclaimer
+            </p>
+            <p className="text-amber-700 dark:text-amber-300 text-xs leading-relaxed">
+              FYTEPIT does not currently hold a gambling license. While you can explore fighters, view battles, and participate in the platform, 
+              betting functionality with real money is not yet fully operational. We are working towards proper licensing and regulatory compliance. 
+              Any current betting features are for demonstration purposes only and do not constitute real gambling.
+            </p>
+          </div>
+
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
             <p className="text-muted-foreground text-sm">
               © 2024 FYTEPIT. The arena awaits.

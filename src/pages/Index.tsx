@@ -8,6 +8,8 @@ import { Hero3DBackground } from '@/components/Hero3DBackground';
 import { RealmSection } from '@/components/RealmSection';
 import { PortalSection } from '@/components/PortalSection';
 import { OwnTheFyteSection } from '@/components/OwnTheFyteSection';
+import { HowItWorksSection } from '@/components/HowItWorksSection';
+import { PricingSection } from '@/components/PricingSection';
 import { FighterSelectionSection } from '@/components/FighterSelectionSection';
 import { useSound } from '@/hooks/useSound';
 import { Link } from 'react-router-dom';
@@ -127,6 +129,12 @@ const Index = () => {
 
       {/* Portal Section */}
       <PortalSection />
+
+      {/* How It Works Section */}
+      <HowItWorksSection />
+
+      {/* Pricing Section */}
+      <PricingSection />
 
       {/* Own The Fyte Section */}
       <OwnTheFyteSection />
