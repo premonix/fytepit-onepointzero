@@ -1,7 +1,9 @@
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
+import { fighters } from '@/data/fighters';
+import { Fighter } from '@/types/fighter';
 
 // Combat Arena with pulsing energy barriers
 const CombatArena = () => {
@@ -327,6 +329,258 @@ const EnhancedParticles = () => {
   );
 };
 
+// Fighter Silhouettes System
+const FighterSilhouettes = ({ mouse }: { mouse: { x: number; y: number } }) => {
+  const fighterRefs = useRef<THREE.Group[]>([]);
+  const [activeFighters, setActiveFighters] = useState<Fighter[]>([]);
+  const [animationPhase, setAnimationPhase] = useState<'idle' | 'attack' | 'defend' | 'victory'>('idle');
+  const lastChangeTime = useRef(0);
+  const animationTimer = useRef(0);
+
+  // Select random fighters from different realms
+  const selectRandomFighters = () => {
+    const realms = ['dark-arena', 'sci-fi-ai', 'fantasy-tech', 'earth-1-0'];
+    const selectedRealms = realms.sort(() => Math.random() - 0.5).slice(0, 2);
+    
+    const fighter1 = fighters.filter(f => f.world === selectedRealms[0])[
+      Math.floor(Math.random() * fighters.filter(f => f.world === selectedRealms[0]).length)
+    ];
+    const fighter2 = fighters.filter(f => f.world === selectedRealms[1])[
+      Math.floor(Math.random() * fighters.filter(f => f.world === selectedRealms[1]).length)
+    ];
+    
+    return [fighter1, fighter2];
+  };
+
+  // Initialize fighters
+  useEffect(() => {
+    setActiveFighters(selectRandomFighters());
+  }, []);
+
+  // Get realm-specific colors
+  const getRealmColors = (world: string) => {
+    switch (world) {
+      case 'dark-arena':
+        return { primary: '#ff4444', emissive: '#ff2222', particle: '#ff8844' };
+      case 'sci-fi-ai':
+        return { primary: '#4488ff', emissive: '#2266ff', particle: '#44aaff' };
+      case 'fantasy-tech':
+        return { primary: '#aa44ff', emissive: '#8822ff', particle: '#cc66ff' };
+      case 'earth-1-0':
+        return { primary: '#66aa44', emissive: '#448822', particle: '#88cc44' };
+      default:
+        return { primary: '#888888', emissive: '#666666', particle: '#aaaaaa' };
+    }
+  };
+
+  // Create fighter silhouette geometry
+  const createFighterGeometry = (world: string) => {
+    const group = new THREE.Group();
+    const colors = getRealmColors(world);
+    
+    // Torso
+    const torsoGeometry = new THREE.CapsuleGeometry(0.4, 1.2, 8, 16);
+    const torsoMaterial = new THREE.MeshStandardMaterial({
+      color: colors.primary,
+      emissive: colors.emissive,
+      emissiveIntensity: 0.6,
+      transparent: true,
+      opacity: 0.8,
+    });
+    const torso = new THREE.Mesh(torsoGeometry, torsoMaterial);
+    torso.position.y = 0.6;
+    group.add(torso);
+
+    // Head
+    const headGeometry = world === 'sci-fi-ai' 
+      ? new THREE.ConeGeometry(0.3, 0.6, 8)
+      : new THREE.SphereGeometry(0.3, 16, 12);
+    const headMaterial = torsoMaterial.clone();
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.y = 1.5;
+    group.add(head);
+
+    // Arms
+    const armGeometry = new THREE.CapsuleGeometry(0.15, 0.8, 6, 12);
+    const leftArm = new THREE.Mesh(armGeometry, torsoMaterial.clone());
+    leftArm.position.set(-0.6, 0.8, 0);
+    leftArm.rotation.z = 0.3;
+    group.add(leftArm);
+
+    const rightArm = new THREE.Mesh(armGeometry, torsoMaterial.clone());
+    rightArm.position.set(0.6, 0.8, 0);
+    rightArm.rotation.z = -0.3;
+    group.add(rightArm);
+
+    // Legs
+    const legGeometry = new THREE.CapsuleGeometry(0.2, 1, 6, 12);
+    const leftLeg = new THREE.Mesh(legGeometry, torsoMaterial.clone());
+    leftLeg.position.set(-0.25, -0.5, 0);
+    group.add(leftLeg);
+
+    const rightLeg = new THREE.Mesh(legGeometry, torsoMaterial.clone());
+    rightLeg.position.set(0.25, -0.5, 0);
+    group.add(rightLeg);
+
+    // Realm-specific enhancements
+    if (world === 'dark-arena') {
+      // Add spikes/edges
+      const spikeGeometry = new THREE.ConeGeometry(0.1, 0.5, 6);
+      const spikeMaterial = new THREE.MeshStandardMaterial({
+        color: '#ff8844',
+        emissive: '#ff4422',
+        emissiveIntensity: 0.8,
+      });
+      const spike = new THREE.Mesh(spikeGeometry, spikeMaterial);
+      spike.position.set(0, 1.8, 0);
+      group.add(spike);
+    } else if (world === 'fantasy-tech') {
+      // Add mystical aura rings
+      const ringGeometry = new THREE.TorusGeometry(0.8, 0.05, 8, 16);
+      const ringMaterial = new THREE.MeshStandardMaterial({
+        color: colors.particle,
+        emissive: colors.emissive,
+        emissiveIntensity: 0.9,
+        transparent: true,
+        opacity: 0.6,
+      });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.position.y = 0.8;
+      ring.rotation.x = Math.PI / 2;
+      group.add(ring);
+    }
+
+    return group;
+  };
+
+  useFrame((state) => {
+    const elapsedTime = state.clock.elapsedTime;
+    
+    // Change fighters every 8 seconds
+    if (elapsedTime - lastChangeTime.current > 8) {
+      setActiveFighters(selectRandomFighters());
+      lastChangeTime.current = elapsedTime;
+      animationTimer.current = elapsedTime;
+      setAnimationPhase('idle');
+    }
+
+    // Animation cycle every 2 seconds
+    const animationCycle = (elapsedTime - animationTimer.current) % 6;
+    if (animationCycle < 1.5) {
+      setAnimationPhase('idle');
+    } else if (animationCycle < 3) {
+      setAnimationPhase('attack');
+    } else if (animationCycle < 4.5) {
+      setAnimationPhase('defend');
+    } else {
+      setAnimationPhase('victory');
+    }
+
+    // Animate fighter silhouettes
+    fighterRefs.current.forEach((fighter, index) => {
+      if (!fighter) return;
+      
+      const side = index === 0 ? -1 : 1;
+      
+      // Base positioning
+      fighter.position.x = side * 2.5;
+      fighter.position.y = -1.5;
+      fighter.position.z = 0;
+      
+      // Face each other
+      fighter.rotation.y = side > 0 ? Math.PI : 0;
+      
+      // Mouse interaction - slight head turn
+      const headTurn = mouse.x * 0.2 * side;
+      if (fighter.children[1]) { // Head
+        fighter.children[1].rotation.y = headTurn;
+      }
+      
+      // Combat animations
+      const baseY = -1.5;
+      const bounceOffset = Math.sin(elapsedTime * 2 + index) * 0.05;
+      
+      switch (animationPhase) {
+        case 'idle':
+          fighter.position.y = baseY + bounceOffset;
+          fighter.rotation.x = 0;
+          break;
+        case 'attack':
+          const attackLean = Math.sin(elapsedTime * 8) * 0.2;
+          fighter.position.y = baseY + Math.abs(attackLean) * 0.3;
+          fighter.rotation.x = attackLean * side;
+          // Arm animation
+          if (fighter.children[2] && fighter.children[3]) {
+            fighter.children[2].rotation.z = 0.3 + attackLean * 0.5;
+            fighter.children[3].rotation.z = -0.3 - attackLean * 0.5;
+          }
+          break;
+        case 'defend':
+          fighter.position.y = baseY + bounceOffset * 0.5;
+          fighter.rotation.x = -0.1 * side;
+          // Defensive stance
+          if (fighter.children[2] && fighter.children[3]) {
+            fighter.children[2].rotation.z = 0.8;
+            fighter.children[3].rotation.z = -0.8;
+          }
+          break;
+        case 'victory':
+          const victoryBounce = Math.sin(elapsedTime * 4) * 0.15;
+          fighter.position.y = baseY + Math.abs(victoryBounce);
+          fighter.rotation.x = victoryBounce * 0.3;
+          break;
+      }
+      
+      // Particle effects during combat
+      if (animationPhase === 'attack' && fighter.children.length > 5) {
+        const colors = getRealmColors(activeFighters[index]?.world || 'dark-arena');
+        const sparkIntensity = Math.sin(elapsedTime * 16) * 0.5 + 0.5;
+        
+        fighter.children.forEach((child) => {
+          if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+            child.material.emissiveIntensity = 0.6 + sparkIntensity * 0.4;
+          }
+        });
+      }
+    });
+  });
+
+  if (activeFighters.length < 2) return null;
+
+  return (
+    <group>
+      {activeFighters.map((fighter, index) => {
+        const fighterGeometry = createFighterGeometry(fighter.world);
+        
+        return (
+          <primitive
+            key={`${fighter.id}-${index}`}
+            object={fighterGeometry}
+            ref={(el: THREE.Group) => el && (fighterRefs.current[index] = el)}
+          />
+        );
+      })}
+      
+      {/* Combat impact effects */}
+      {animationPhase === 'attack' && (
+        <group>
+          {/* Energy burst at center */}
+          <mesh position={[0, 0, 0]}>
+            <sphereGeometry args={[0.3, 16, 12]} />
+            <meshStandardMaterial
+              color="#ffffff"
+              emissive="#ffaa00"
+              emissiveIntensity={2}
+              transparent
+              opacity={0.6}
+            />
+          </mesh>
+        </group>
+      )}
+    </group>
+  );
+};
+
 // Interactive Camera Controller
 const InteractiveCamera = ({ mouse }: { mouse: { x: number; y: number } }) => {
   const { camera } = useThree();
@@ -380,6 +634,7 @@ export const Hero3DBackground = () => {
         <PortalSystem />
         <CombatElements />
         <EnhancedParticles />
+        <FighterSilhouettes mouse={mouse} />
         
         {/* Subtle Orbit Controls */}
         <OrbitControls
