@@ -81,7 +81,7 @@ export const FighterSelectionSection = () => {
 
         {/* Fighter Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-          {fighters.slice(0, 20).map((fighter, index) => (
+          {fighters.slice(0, 40).map((fighter, index) => (
             <motion.div
               key={fighter.id}
               initial={{ opacity: 0, y: 50 }}
