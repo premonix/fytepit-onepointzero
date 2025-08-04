@@ -81,7 +81,7 @@ export const VideoMediaHero = () => {
             transition={{ duration: 1 }}
             className="absolute inset-0"
             style={{
-              backgroundImage: `url(https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&h=1080)`,
+              backgroundImage: `url(https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=1920&h=1080)`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}
