@@ -13,7 +13,7 @@ import {
   Brain,
   Gamepad2
 } from "lucide-react";
-import { Footer } from "@/components/Footer";
+
 
 const HowItWorks = () => {
   const steps = [
@@ -268,7 +268,7 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 };

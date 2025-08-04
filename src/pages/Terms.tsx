@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, FileText, AlertTriangle, CheckCircle } from "lucide-react";
-import { Footer } from "@/components/Footer";
+
 
 const Terms = () => {
   const sections = [
@@ -226,7 +226,7 @@ const Terms = () => {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 };

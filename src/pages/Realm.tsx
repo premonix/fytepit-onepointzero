@@ -25,7 +25,7 @@ import {
   Activity
 } from 'lucide-react';
 import { useSound } from '@/hooks/useSound';
-import { Footer } from '@/components/Footer';
+
 
 // Hero images for each realm - using the same space background as homepage
 const realmHeroImages = {
@@ -605,7 +605,7 @@ const Realm = () => {
       </div>
 
       {/* Footer */}
-      <Footer />
+      
     </div>
   );
 };

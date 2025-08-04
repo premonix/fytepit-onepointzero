@@ -24,7 +24,7 @@ import {
   DollarSign
 } from 'lucide-react';
 import { useSound } from '@/hooks/useSound';
-import { Footer } from '@/components/Footer';
+
 
 const Fighter = () => {
   const { fighterId } = useParams();
@@ -495,7 +495,7 @@ const Fighter = () => {
       </div>
 
       {/* Footer */}
-      <Footer />
+      
     </div>
   );
 };

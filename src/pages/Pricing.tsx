@@ -14,7 +14,7 @@ import {
   Users,
   Settings
 } from "lucide-react";
-import { Footer } from "@/components/Footer";
+
 import { useSubscription } from "@/hooks/useSubscription";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -434,7 +434,7 @@ const Pricing = () => {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 };

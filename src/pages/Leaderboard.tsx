@@ -12,7 +12,7 @@ import { FighterDetailsModal } from '@/components/FighterDetailsModal';
 import { LeaderboardStats } from '@/components/LeaderboardStats';
 import { RecentFights } from '@/components/RecentFights';
 import { PerformanceTrends } from '@/components/PerformanceTrends';
-import { Footer } from '@/components/Footer';
+
 
 const Leaderboard = () => {
   const [selectedWorld, setSelectedWorld] = useState<WorldType>('dark-arena');
@@ -307,7 +307,7 @@ const Leaderboard = () => {
       </div>
 
       {/* Footer */}
-      <Footer />
+      
     </div>
   );
 };

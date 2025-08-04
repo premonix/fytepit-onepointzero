@@ -17,7 +17,7 @@ import {
   Eye,
   Target
 } from 'lucide-react';
-import { Footer } from '@/components/Footer';
+
 import { useSound } from '@/hooks/useSound';
 import { worlds } from '@/data/worlds';
 
@@ -380,7 +380,7 @@ const Codex = () => {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Eye, Lock, Database, UserCheck, AlertTriangle } from "lucide-react";
-import { Footer } from "@/components/Footer";
+
 
 const Privacy = () => {
   const sections = [
@@ -238,7 +238,7 @@ const Privacy = () => {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 };
