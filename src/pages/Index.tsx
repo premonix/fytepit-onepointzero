@@ -152,18 +152,22 @@ const Index = () => {
                 Leaderboard
               </Button>
             </Link>
+            <Link to="/pit">
+              <Button variant="ghost" className="text-gray-400 hover:text-white" title="Practice Arena - Offline simulation training">
+                The Pit (Practice)
+              </Button>
+            </Link>
+            <Link to="/live-fights">
+              <Button variant="ghost" className="text-gray-400 hover:text-white" title="Live Arena - Real multiplayer fights">
+                Live Arena (Multiplayer)
+              </Button>
+            </Link>
             <Button 
               variant="ghost" 
               className="text-gray-400 hover:text-white"
               onClick={() => document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Select Fighters
-            </Button>
-            <Button variant="ghost" className="text-gray-400 hover:text-white">
-              Codex
-            </Button>
-            <Button variant="ghost" className="text-gray-400 hover:text-white">
-              Legal
             </Button>
           </div>
           

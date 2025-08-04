@@ -321,6 +321,21 @@ const Pit = () => {
         </div>
       </div>
 
+      {/* Context Info */}
+      <div className="bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 rounded-lg mx-4 mb-6 p-4">
+        <div className="flex items-start gap-3">
+          <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <Play className="w-3 h-3 text-primary" />
+          </div>
+          <div>
+            <h3 className="text-white font-orbitron font-bold text-sm mb-1">Training Arena</h3>
+            <p className="text-gray-300 text-xs leading-relaxed">
+              The Pit is your <span className="text-primary font-semibold">offline practice arena</span>. Test combat strategies, experiment with fighter matchups, and practice betting with simulated fights. All battles here use local AI - perfect for training before entering real multiplayer competitions.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Arena View */}

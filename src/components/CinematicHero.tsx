@@ -210,6 +210,31 @@ export const CinematicHero = () => {
           </motion.div>
         </motion.div>
 
+        {/* Arena Mode Context */}
+        <motion.div
+          className="mt-12 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 3.0 }}
+        >
+          <div className="grid md:grid-cols-2 gap-4 text-sm">
+            <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-lg p-4 backdrop-blur-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-white font-orbitron font-bold">THE PIT</span>
+              </div>
+              <p className="text-gray-300 text-xs">Offline practice arena for training and experimentation</p>
+            </div>
+            <div className="bg-gradient-to-r from-accent/20 to-accent/10 border border-accent/30 rounded-lg p-4 backdrop-blur-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                <span className="text-white font-orbitron font-bold">LIVE ARENA</span>
+              </div>
+              <p className="text-gray-300 text-xs">Real multiplayer fights with live streaming and rewards</p>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Stats Ticker */}
         <motion.div
           className="mt-16 flex justify-center gap-12 text-center"

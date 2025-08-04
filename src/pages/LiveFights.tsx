@@ -273,6 +273,21 @@ export default function LiveFights() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      {/* Context Info */}
+      <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-lg p-4 mb-6">
+        <div className="flex items-start gap-3">
+          <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <Activity className="w-3 h-3 text-primary" />
+          </div>
+          <div>
+            <h3 className="text-foreground font-semibold text-sm mb-1">Multiplayer Arena</h3>
+            <p className="text-muted-foreground text-xs leading-relaxed">
+              The Live Arena hosts <span className="text-primary font-semibold">real multiplayer fights</span> with live streaming, community betting, and actual rewards. These fights use WebSocket connections for real-time updates and are backed by the database for persistent results and leaderboards.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
