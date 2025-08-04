@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sword, ChevronDown, Play, Volume2, VolumeX, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
-import { GameLikeHero } from '@/components/GameLikeHero';
+import { VideoMediaHero } from '@/components/VideoMediaHero';
 import { Hero3DBackground } from '@/components/Hero3DBackground';
 import { RealmSection } from '@/components/RealmSection';
 import { PortalSection } from '@/components/PortalSection';
@@ -112,8 +112,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-black overflow-x-hidden">
-      {/* Game-Like Hero Section */}
-      <GameLikeHero />
+      {/* Video/Media Hero Section */}
+      <VideoMediaHero />
 
       {/* Fighter Selection Section */}
       <FighterSelectionSection />
