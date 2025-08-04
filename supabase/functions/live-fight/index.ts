@@ -363,33 +363,44 @@ class FightManager {
 
   private processFightRound(fightId: string) {
     const fight = this.fights.get(fightId);
-    if (!fight || fight.status !== 'live') return;
-
-    const actions = fight.engine.executeRound();
-    
-    // Broadcast each action
-    for (const action of actions) {
-      this.broadcastToFight(fightId, {
-        type: 'action',
-        data: { action },
-        timestamp: new Date()
-      });
+    if (!fight || fight.status !== 'live') {
+      console.log(`Round processing stopped for fight ${fightId}: fight=${!!fight}, status=${fight?.status}`);
+      return;
     }
 
-    // Broadcast state update
-    this.broadcastToFight(fightId, {
-      type: 'state_update',
-      data: {
-        state: fight.engine.getState(),
-        status: fight.status
-      },
-      timestamp: new Date()
+    console.log(`Processing round ${fight.engine.getState().round} for fight ${fightId}`);
+    const actions = fight.engine.executeRound();
+    console.log(`Generated ${actions.length} actions for round`);
+    
+    // Broadcast each action with delay for dramatic effect
+    actions.forEach((action, index) => {
+      setTimeout(() => {
+        this.broadcastToFight(fightId, {
+          type: 'action',
+          data: { action },
+          timestamp: new Date()
+        });
+        console.log(`Broadcasted action: ${action.description}`);
+      }, index * 500); // 500ms delay between actions
     });
 
-    // Check if fight is complete
-    if (fight.engine.isComplete()) {
-      this.completeFight(fightId);
-    }
+    // Broadcast state update after all actions
+    setTimeout(() => {
+      this.broadcastToFight(fightId, {
+        type: 'state_update',
+        data: {
+          state: fight.engine.getState(),
+          status: fight.status
+        },
+        timestamp: new Date()
+      });
+
+      // Check if fight is complete
+      if (fight.engine.isComplete()) {
+        console.log(`Fight ${fightId} is complete, ending simulation`);
+        this.completeFight(fightId);
+      }
+    }, actions.length * 500);
   }
 
   private completeFight(fightId: string) {
