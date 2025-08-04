@@ -27,12 +27,26 @@ interface LiveArenaProps {
   fightId: string;
 }
 
+interface CountdownState {
+  isActive: boolean;
+  count: number;
+}
+
 export function LiveArena({ fightId }: LiveArenaProps) {
   const { fight, isConnected, isLoading, error, spectators, placeBet, reactToFight, startFight } = useLiveFight(fightId);
   const [betAmount, setBetAmount] = useState<string>('');
   const [selectedFighter, setSelectedFighter] = useState<string | null>(null);
   const [isBetting, setIsBetting] = useState(false);
+  const [countdown, setCountdown] = useState<CountdownState>({ isActive: false, count: 0 });
   const { toast } = useToast();
+
+  // Expose countdown setter globally for the useLiveFight hook
+  React.useEffect(() => {
+    (window as any).setCountdown = setCountdown;
+    return () => {
+      delete (window as any).setCountdown;
+    };
+  }, []);
 
   if (isLoading) {
     return (
@@ -346,19 +360,35 @@ export function LiveArena({ fightId }: LiveArenaProps) {
               <div className="text-center">
                 <motion.div
                   className="text-6xl font-bold text-primary mb-4"
-                  animate={{ scale: fight.status === 'live' ? [1, 1.1, 1] : 1 }}
-                  transition={{ duration: 2, repeat: fight.status === 'live' ? Infinity : 0 }}
+                animate={{ scale: fight.status === 'live' ? [1, 1.1, 1] : 1 }}
+                transition={{ duration: 2, repeat: fight.status === 'live' ? Infinity : 0 }}
+              >
+                VS
+              </motion.div>
+              
+              {/* Countdown Display */}
+              {countdown.isActive && (
+                <motion.div
+                  className="text-8xl font-bold text-destructive mb-4"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
                 >
-                  VS
+                  {countdown.count}
                 </motion.div>
-                <div className="text-lg text-muted-foreground">
-                  {fight.status === 'upcoming' && fight.startTime && 
-                    `Starts ${fight.startTime.toLocaleTimeString()}`
-                  }
-                  {fight.status === 'live' && "FIGHT IN PROGRESS!"}
-                  {fight.status === 'completed' && fight.winner && 
-                    `${fight.winner.name} Wins!`
-                  }
+              )}
+              
+              <div className="text-lg text-muted-foreground">
+                {countdown.isActive && "Fight starting..."}
+                {!countdown.isActive && fight.status === 'upcoming' && fight.startTime && 
+                  `Starts ${fight.startTime.toLocaleTimeString()}`
+                }
+                {!countdown.isActive && fight.status === 'upcoming' && !fight.startTime && 
+                  "Ready to start"
+                }
+                {!countdown.isActive && fight.status === 'live' && "FIGHT IN PROGRESS!"}
+                {!countdown.isActive && fight.status === 'completed' && fight.winner && 
+                  `${fight.winner.name} Wins!`
+                }
                 </div>
               </div>
             </CardContent>
@@ -397,7 +427,7 @@ export function LiveArena({ fightId }: LiveArenaProps) {
           )}
 
           {/* Start Fight Button */}
-          {fight.status === 'upcoming' && (
+          {fight.status === 'upcoming' && !countdown.isActive && (
             <Card>
               <CardContent className="p-4">
                 <Button 
@@ -409,6 +439,11 @@ export function LiveArena({ fightId }: LiveArenaProps) {
                   <Play className="w-4 h-4 mr-2" />
                   Start Fight
                 </Button>
+                {!isConnected && (
+                  <p className="text-xs text-muted-foreground mt-2 text-center">
+                    Waiting for connection...
+                  </p>
+                )}
               </CardContent>
             </Card>
           )}

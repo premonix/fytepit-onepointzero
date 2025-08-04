@@ -151,8 +151,11 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
         break;
 
       case 'fight_countdown':
-        // Handle countdown events if needed
+        // Handle countdown events
         console.log('Fight countdown:', event.data.countdown);
+        if ((window as any).setCountdown) {
+          (window as any).setCountdown({ isActive: true, count: event.data.countdown });
+        }
         break;
 
       case 'fight_started':
@@ -160,6 +163,9 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
           ...prev,
           status: 'live'
         } : null);
+        if ((window as any).setCountdown) {
+          (window as any).setCountdown({ isActive: false, count: 0 });
+        }
         break;
 
       default:

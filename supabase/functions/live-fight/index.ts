@@ -535,7 +535,13 @@ serve(async (req) => {
   }
 
   // Initialize fight if not exists
-  const fightExists = await fightManager.initializeFight(fightId);
+  let fightExists = false;
+  try {
+    fightExists = await fightManager.initializeFight(fightId);
+  } catch (error) {
+    console.error('Failed to initialize fight:', error);
+  }
+  
   if (!fightExists) {
     return new Response("Fight not found", { 
       status: 404,
@@ -553,6 +559,7 @@ serve(async (req) => {
   socket.onmessage = (event) => {
     try {
       const message = JSON.parse(event.data);
+      console.log(`Received message for fight ${fightId}:`, message.type);
       fightManager.handleMessage(fightId, socket, message);
     } catch (error) {
       console.error('Error handling message:', error);
@@ -565,7 +572,7 @@ serve(async (req) => {
   };
 
   socket.onerror = (error) => {
-    console.error('WebSocket error:', error);
+    console.error(`WebSocket error for fight ${fightId}:`, error);
     fightManager.removeClient(fightId, socket);
   };
 
