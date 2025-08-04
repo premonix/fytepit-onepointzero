@@ -16,6 +16,7 @@ import worldMapImage from '@/assets/fytepit-world-map.jpg';
 import nullbyteImage from '@/assets/nullbyte.jpg';
 import axiomImage from '@/assets/axiom-v3.jpg';
 import sigmarisImage from '@/assets/sigmaris.jpg';
+import globomaximus from '@/assets/globomaximus.jpg';
 
 const realms = [
   {
@@ -78,7 +79,7 @@ The arena remembers its champions, but Earth's fighters fight with ego, media ma
 
 History won't remember the speeches — just the smackdowns.`,
     backgroundImage: worldMapImage,
-    fighterSilhouette: nullbyteImage,
+    fighterSilhouette: globomaximus,
     primaryColor: '#0088cc',
     accentColor: '#cc6600'
   }
