@@ -138,40 +138,55 @@ export type Database = {
         Row: {
           completed_at: string | null
           created_at: string
+          fight_type: string | null
           fighter1_id: string
           fighter2_id: string
           id: string
+          max_betting_amount: number | null
+          rules: Json | null
           scheduled_at: string | null
           started_at: string | null
           status: string
           total_pot: number | null
+          tournament_id: string | null
           updated_at: string
+          venue: string | null
           winner_id: string | null
         }
         Insert: {
           completed_at?: string | null
           created_at?: string
+          fight_type?: string | null
           fighter1_id: string
           fighter2_id: string
           id?: string
+          max_betting_amount?: number | null
+          rules?: Json | null
           scheduled_at?: string | null
           started_at?: string | null
           status?: string
           total_pot?: number | null
+          tournament_id?: string | null
           updated_at?: string
+          venue?: string | null
           winner_id?: string | null
         }
         Update: {
           completed_at?: string | null
           created_at?: string
+          fight_type?: string | null
           fighter1_id?: string
           fighter2_id?: string
           id?: string
+          max_betting_amount?: number | null
+          rules?: Json | null
           scheduled_at?: string | null
           started_at?: string | null
           status?: string
           total_pot?: number | null
+          tournament_id?: string | null
           updated_at?: string
+          venue?: string | null
           winner_id?: string | null
         }
         Relationships: [
@@ -187,6 +202,13 @@ export type Database = {
             columns: ["fighter2_id"]
             isOneToOne: false
             referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fights_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
             referencedColumns: ["id"]
           },
           {
@@ -314,6 +336,171 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      tournament_matches: {
+        Row: {
+          created_at: string | null
+          fight_id: string | null
+          id: string
+          match_number: number
+          next_match_id: string | null
+          round_number: number
+          status: string | null
+          tournament_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          fight_id?: string | null
+          id?: string
+          match_number: number
+          next_match_id?: string | null
+          round_number: number
+          status?: string | null
+          tournament_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          fight_id?: string | null
+          id?: string
+          match_number?: number
+          next_match_id?: string | null
+          round_number?: number
+          status?: string | null
+          tournament_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tournament_matches_fight_id_fkey"
+            columns: ["fight_id"]
+            isOneToOne: false
+            referencedRelation: "fights"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tournament_matches_next_match_id_fkey"
+            columns: ["next_match_id"]
+            isOneToOne: false
+            referencedRelation: "tournament_matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tournament_matches_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tournament_participants: {
+        Row: {
+          created_at: string | null
+          eliminated_round: number | null
+          fighter_id: string | null
+          id: string
+          is_eliminated: boolean | null
+          seed_number: number | null
+          tournament_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          eliminated_round?: number | null
+          fighter_id?: string | null
+          id?: string
+          is_eliminated?: boolean | null
+          seed_number?: number | null
+          tournament_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          eliminated_round?: number | null
+          fighter_id?: string | null
+          id?: string
+          is_eliminated?: boolean | null
+          seed_number?: number | null
+          tournament_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tournament_participants_fighter_id_fkey"
+            columns: ["fighter_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tournament_participants_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tournaments: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          end_date: string | null
+          entry_fee: number | null
+          id: string
+          max_participants: number
+          name: string
+          prize_pool: number | null
+          start_date: string | null
+          status: string | null
+          tournament_type: string | null
+          updated_at: string | null
+          winner_id: string | null
+          world: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date?: string | null
+          entry_fee?: number | null
+          id?: string
+          max_participants?: number
+          name: string
+          prize_pool?: number | null
+          start_date?: string | null
+          status?: string | null
+          tournament_type?: string | null
+          updated_at?: string | null
+          winner_id?: string | null
+          world: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date?: string | null
+          entry_fee?: number | null
+          id?: string
+          max_participants?: number
+          name?: string
+          prize_pool?: number | null
+          start_date?: string | null
+          status?: string | null
+          tournament_type?: string | null
+          updated_at?: string | null
+          winner_id?: string | null
+          world?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tournaments_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "fighters"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       transactions: {
         Row: {
@@ -474,6 +661,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_add_tournament_fighter: {
+        Args: {
+          _tournament_id: string
+          _fighter_id: string
+          _seed_number?: number
+        }
+        Returns: boolean
+      }
+      admin_create_fight: {
+        Args: {
+          _fighter1_id: string
+          _fighter2_id: string
+          _fight_type?: string
+          _scheduled_at?: string
+          _venue?: string
+          _max_betting_amount?: number
+          _tournament_id?: string
+          _rules?: Json
+        }
+        Returns: string
+      }
       admin_create_fighter: {
         Args: {
           _id: string
@@ -491,8 +699,25 @@ export type Database = {
         }
         Returns: boolean
       }
+      admin_create_tournament: {
+        Args: {
+          _name: string
+          _description: string
+          _world: string
+          _tournament_type?: string
+          _max_participants?: number
+          _entry_fee?: number
+          _prize_pool?: number
+          _start_date?: string
+        }
+        Returns: string
+      }
       admin_delete_fighter: {
         Args: { _fighter_id: string }
+        Returns: boolean
+      }
+      admin_generate_tournament_bracket: {
+        Args: { _tournament_id: string }
         Returns: boolean
       }
       admin_update_fight: {
