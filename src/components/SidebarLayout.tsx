@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Volume2, VolumeX } from "lucide-react";
 import { useSound } from "@/hooks/useSound";
 import { UserMenu } from "@/components/UserMenu";
+import { Footer } from "@/components/Footer";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -17,10 +18,13 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
 
   if (isMobile) {
     return (
-      <>
+      <div className="min-h-screen flex flex-col">
         <MobileMenu />
-        {children}
-      </>
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer />
+      </div>
     );
   }
 
@@ -52,6 +56,9 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
           <main className="flex-1">
             {children}
           </main>
+          
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
     </SidebarProvider>
