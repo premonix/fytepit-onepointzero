@@ -48,12 +48,14 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
       try {
         // Use the correct WebSocket URL for the edge function
         const wsUrl = `wss://fuifvbppttshpodpuqgf.functions.supabase.co/live-fight?fight_id=${fightId}`;
+        console.log('Connecting to WebSocket:', wsUrl);
         const websocket = new WebSocket(wsUrl);
 
         websocket.onopen = () => {
           console.log('Connected to live fight:', fightId);
           setIsConnected(true);
           setError(null);
+          setIsLoading(false);
         };
 
         websocket.onmessage = (event) => {
@@ -67,27 +69,33 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
 
         websocket.onerror = (error) => {
           console.error('WebSocket error:', error);
-          setError('Connection error occurred');
+          setError('Connection error occurred - trying fallback mode');
           setIsConnected(false);
+          setIsLoading(false);
         };
 
-        websocket.onclose = () => {
-          console.log('WebSocket connection closed');
+        websocket.onclose = (event) => {
+          console.log('WebSocket connection closed:', event.code, event.reason);
           setIsConnected(false);
           
-          // Attempt to reconnect after 3 seconds
-          setTimeout(() => {
-            if (!websocket || websocket.readyState === WebSocket.CLOSED) {
-              connectWebSocket();
-            }
-          }, 3000);
+          // Don't attempt reconnect if it was a manual close or auth error
+          if (event.code !== 1000 && event.code !== 1001 && event.code !== 1006) {
+            // Attempt to reconnect after 3 seconds
+            setTimeout(() => {
+              if (!websocket || websocket.readyState === WebSocket.CLOSED) {
+                console.log('Attempting to reconnect...');
+                connectWebSocket();
+              }
+            }, 3000);
+          }
         };
 
         setWs(websocket);
       } catch (err) {
         console.error('Failed to create WebSocket connection:', err);
-        setError('Failed to connect to live fight');
+        setError('Failed to connect to live fight - using offline mode');
         setIsLoading(false);
+        setIsConnected(false);
       }
     };
 

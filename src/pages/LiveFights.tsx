@@ -89,10 +89,12 @@ export default function LiveFights() {
 
   const createRandomFight = async () => {
     try {
-      // Select two random fighters
+      // Select two random fighters using their actual IDs
       const shuffled = [...fighters].sort(() => 0.5 - Math.random());
       const fighter1 = shuffled[0];
       const fighter2 = shuffled[1];
+
+      console.log('Creating fight with fighters:', fighter1.id, 'vs', fighter2.id);
 
       const { data, error } = await supabase
         .rpc('admin_create_fight', {
@@ -104,6 +106,7 @@ export default function LiveFights() {
         });
 
       if (error) {
+        console.error('Fight creation error:', error);
         throw error;
       }
 
@@ -118,7 +121,7 @@ export default function LiveFights() {
       console.error('Failed to create fight:', error);
       toast({
         title: "Error",
-        description: "Failed to create fight",
+        description: error.message || "Failed to create fight",
         variant: "destructive"
       });
     }
