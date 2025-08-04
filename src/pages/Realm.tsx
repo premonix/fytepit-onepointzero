@@ -27,6 +27,14 @@ import {
 import { useSound } from '@/hooks/useSound';
 import { Footer } from '@/components/Footer';
 
+// Hero images for each realm
+const realmHeroImages = {
+  'dark-arena': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=400&fit=crop', // Circuit board - tech/industrial
+  'sci-fi-ai': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=400&fit=crop', // Programming/code
+  'fantasy-tech': 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&h=400&fit=crop', // Robot/AI
+  'earth-1-0': 'https://images.unsplash.com/photo-1494891848038-7bd20242006b?w=1200&h=400&fit=crop' // Building/architecture
+};
+
 const realmLore = {
   'dark-arena': {
     fullName: 'BRUTALIS PRIME',
@@ -173,7 +181,7 @@ const Realm = () => {
       <div 
         className="relative h-96 bg-cover bg-center"
         style={{ 
-          background: `linear-gradient(135deg, ${world.theme.primary}15, ${world.theme.accent}15), url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=400&fit=crop')`,
+          backgroundImage: `linear-gradient(135deg, ${world.theme.primary}15, ${world.theme.accent}15), url('${realmHeroImages[world.id as keyof typeof realmHeroImages]}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
