@@ -89,12 +89,25 @@ export default function LiveFights() {
 
   const createRandomFight = async () => {
     try {
-      // Select two random fighters using their actual IDs
-      const shuffled = [...fighters].sort(() => 0.5 - Math.random());
+      // First, get all fighters that actually exist in the database
+      const { data: dbFighters, error: fetchError } = await supabase
+        .from('fighters')
+        .select('id, name');
+
+      if (fetchError) {
+        throw fetchError;
+      }
+
+      if (!dbFighters || dbFighters.length < 2) {
+        throw new Error('Not enough fighters in database to create a fight');
+      }
+
+      // Select two random fighters from database fighters
+      const shuffled = [...dbFighters].sort(() => 0.5 - Math.random());
       const fighter1 = shuffled[0];
       const fighter2 = shuffled[1];
 
-      console.log('Creating fight with fighters:', fighter1.id, 'vs', fighter2.id);
+      console.log('Creating fight with database fighters:', fighter1.id, 'vs', fighter2.id);
 
       const { data, error } = await supabase
         .rpc('admin_create_fight', {
@@ -114,6 +127,9 @@ export default function LiveFights() {
         title: "Fight Created!",
         description: `${fighter1.name} vs ${fighter2.name} - Ready to go live!`,
       });
+
+      // Reload the fights list
+      await loadLiveFights();
 
       // Navigate to the new fight
       navigate(`/live-fight/${data}`);
