@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/hooks/useAuth';
 import { User, Settings, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { NotificationBell } from '@/components/NotificationBell';
 
 export function UserMenu() {
   const { user, signOut } = useAuth();
@@ -37,7 +38,9 @@ export function UserMenu() {
   };
 
   return (
-    <DropdownMenu>
+    <div className="flex items-center gap-4">
+      <NotificationBell />
+      <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
@@ -72,6 +75,7 @@ export function UserMenu() {
           Sign Out
         </DropdownMenuItem>
       </DropdownMenuContent>
-    </DropdownMenu>
+      </DropdownMenu>
+    </div>
   );
 }

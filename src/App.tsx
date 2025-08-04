@@ -19,6 +19,7 @@ import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Success from "./pages/Success";
+import Profile from "./pages/Profile";
 import { SidebarLayout } from "./components/SidebarLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminRoute } from "./components/AdminRoute";
@@ -42,6 +43,7 @@ const AppContent = () => {
         <Route path="/pit" element={<ProtectedRoute><Pit /></ProtectedRoute>} />
         <Route path="/fyte-card" element={<ProtectedRoute><FyteCard /></ProtectedRoute>} />
         <Route path="/bloodbook" element={<ProtectedRoute><Bloodbook /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
