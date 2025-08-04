@@ -203,7 +203,9 @@ class FightManager {
     engine: SimpleCombatEngine;
     clients: Set<WebSocket>;
     intervalId?: number;
+    countdownId?: number;
     status: 'upcoming' | 'live' | 'completed';
+    isStarting: boolean;
   }>();
 
   private supabase = createClient(
@@ -259,7 +261,8 @@ class FightManager {
       this.fights.set(fightId, {
         engine,
         clients: new Set(),
-        status: fightData.status as 'upcoming' | 'live' | 'completed'
+        status: fightData.status as 'upcoming' | 'live' | 'completed',
+        isStarting: false
       });
 
       console.log(`Fight ${fightId} initialized with ${fighter1.name} vs ${fighter2.name}`);
@@ -318,9 +321,10 @@ class FightManager {
 
   startFight(fightId: string) {
     const fight = this.fights.get(fightId);
-    if (!fight || fight.status !== 'upcoming') return;
+    if (!fight || fight.status !== 'upcoming' || fight.isStarting) return;
 
     fight.status = 'live';
+    fight.isStarting = false;
     console.log(`Starting fight ${fightId}`);
 
     // Update database
@@ -334,6 +338,13 @@ class FightManager {
       .then(({ error }) => {
         if (error) console.error('Failed to update fight status:', error);
       });
+
+    // Broadcast fight start
+    this.broadcastToFight(fightId, {
+      type: 'fight_started',
+      data: { status: 'live' },
+      timestamp: new Date()
+    });
 
     // Start combat simulation
     fight.intervalId = setInterval(() => {
@@ -381,9 +392,14 @@ class FightManager {
 
     console.log(`Fight ${fightId} completed. Winner: ${winner?.name || 'Draw'}`);
 
-    // Clear interval
+    // Clear intervals
     if (fight.intervalId) {
       clearInterval(fight.intervalId);
+      fight.intervalId = undefined;
+    }
+    if (fight.countdownId) {
+      clearInterval(fight.countdownId);
+      fight.countdownId = undefined;
     }
 
     // Update database
@@ -432,7 +448,16 @@ class FightManager {
 
     switch (message.type) {
       case 'start_fight':
-        if (fight.status === 'upcoming') {
+        if (fight.status === 'upcoming' && !fight.isStarting) {
+          fight.isStarting = true;
+          
+          // Clear any existing countdown
+          if (fight.countdownId) {
+            clearInterval(fight.countdownId);
+          }
+          
+          console.log(`Starting countdown for fight ${fightId}`);
+          
           // Start with a 10 second countdown
           this.broadcastToFight(fightId, {
             type: 'fight_countdown',
@@ -441,7 +466,7 @@ class FightManager {
           });
           
           let countdown = 9;
-          const countdownInterval = setInterval(() => {
+          fight.countdownId = setInterval(() => {
             if (countdown > 0) {
               this.broadcastToFight(fightId, {
                 type: 'fight_countdown',
@@ -450,7 +475,8 @@ class FightManager {
               });
               countdown--;
             } else {
-              clearInterval(countdownInterval);
+              clearInterval(fight.countdownId!);
+              fight.countdownId = undefined;
               this.startFight(fightId);
             }
           }, 1000);

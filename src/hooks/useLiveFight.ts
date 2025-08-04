@@ -17,7 +17,7 @@ export interface LiveFight {
 }
 
 export interface FightEvent {
-  type: 'state_update' | 'action' | 'spectator_update' | 'bet_update' | 'fight_complete' | 'fight_countdown';
+  type: 'state_update' | 'action' | 'spectator_update' | 'bet_update' | 'fight_complete' | 'fight_countdown' | 'fight_started';
   data: any;
   timestamp: Date;
 }
@@ -153,6 +153,13 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
       case 'fight_countdown':
         // Handle countdown events if needed
         console.log('Fight countdown:', event.data.countdown);
+        break;
+
+      case 'fight_started':
+        setFight(prev => prev ? {
+          ...prev,
+          status: 'live'
+        } : null);
         break;
 
       default:
