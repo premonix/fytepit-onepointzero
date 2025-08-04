@@ -37,7 +37,10 @@ export function LiveArena({ fightId }: LiveArenaProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Connecting to live fight...</p>
+        </div>
       </div>
     );
   }
@@ -46,8 +49,15 @@ export function LiveArena({ fightId }: LiveArenaProps) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Card className="w-96">
-          <CardContent className="pt-6">
-            <p className="text-center text-destructive">{error || 'Fight not found'}</p>
+          <CardContent className="pt-6 text-center space-y-4">
+            <div className="text-yellow-500 text-6xl mb-4">⚠️</div>
+            <h3 className="text-lg font-semibold">Connection Issues</h3>
+            <p className="text-muted-foreground">
+              {error || 'Fight not found'}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Running in offline mode - you can still view the fight details but won't see real-time updates.
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -264,8 +274,15 @@ export function LiveArena({ fightId }: LiveArenaProps) {
               </div>
               
               <div className="flex items-center gap-2 text-sm">
-                <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
-                <span>{isConnected ? 'Connected' : 'Disconnected'}</span>
+                <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                <span>
+                  {isConnected ? 'Live' : 'Offline Mode'}
+                  {!isConnected && (
+                    <span className="text-xs text-muted-foreground ml-1">
+                      (Limited functionality)
+                    </span>
+                  )}
+                </span>
               </div>
             </div>
 

@@ -1,1 +1,4 @@
 project_id = "fuifvbppttshpodpuqgf"
+
+[functions.live-fight]
+verify_jwt = false
