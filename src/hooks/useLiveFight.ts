@@ -17,7 +17,7 @@ export interface LiveFight {
 }
 
 export interface FightEvent {
-  type: 'state_update' | 'action' | 'spectator_update' | 'bet_update' | 'fight_complete';
+  type: 'state_update' | 'action' | 'spectator_update' | 'bet_update' | 'fight_complete' | 'fight_countdown';
   data: any;
   timestamp: Date;
 }
@@ -30,6 +30,7 @@ interface UseLiveFightReturn {
   spectators: number;
   placeBet: (fighterId: string, amount: number) => Promise<void>;
   reactToFight: (reaction: string) => void;
+  startFight: () => void;
 }
 
 export function useLiveFight(fightId: string): UseLiveFightReturn {
@@ -149,6 +150,11 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
         } : null);
         break;
 
+      case 'fight_countdown':
+        // Handle countdown events if needed
+        console.log('Fight countdown:', event.data.countdown);
+        break;
+
       default:
         console.log('Unknown fight event type:', event.type);
     }
@@ -206,6 +212,14 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
       }
     }));
   }, [isConnected, ws, fight?.id]);
+
+  const startFight = useCallback(() => {
+    if (!isConnected || !ws) return;
+
+    ws.send(JSON.stringify({
+      type: 'start_fight'
+    }));
+  }, [isConnected, ws]);
 
   // Load initial fight data
   useEffect(() => {
@@ -282,6 +296,7 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
     error,
     spectators,
     placeBet,
-    reactToFight
+    reactToFight,
+    startFight
   };
 }

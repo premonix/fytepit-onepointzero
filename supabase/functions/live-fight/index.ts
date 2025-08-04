@@ -207,8 +207,8 @@ class FightManager {
   }>();
 
   private supabase = createClient(
-    Deno.env.get('SUPABASE_URL') ?? '',
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    'https://fuifvbppttshpodpuqgf.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1aWZ2YnBwdHRzaHBvZHB1cWdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMzcyOTUsImV4cCI6MjA2OTkxMzI5NX0.hCQ8zWWtOyuOlMlXirhM4J1H1FxxR2002hpMB5ESqhY'
   );
 
   async initializeFight(fightId: string): Promise<boolean> {
@@ -433,7 +433,27 @@ class FightManager {
     switch (message.type) {
       case 'start_fight':
         if (fight.status === 'upcoming') {
-          this.startFight(fightId);
+          // Start with a 10 second countdown
+          this.broadcastToFight(fightId, {
+            type: 'fight_countdown',
+            data: { countdown: 10 },
+            timestamp: new Date()
+          });
+          
+          let countdown = 9;
+          const countdownInterval = setInterval(() => {
+            if (countdown > 0) {
+              this.broadcastToFight(fightId, {
+                type: 'fight_countdown',
+                data: { countdown },
+                timestamp: new Date()
+              });
+              countdown--;
+            } else {
+              clearInterval(countdownInterval);
+              this.startFight(fightId);
+            }
+          }, 1000);
         }
         break;
       

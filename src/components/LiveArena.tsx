@@ -28,7 +28,7 @@ interface LiveArenaProps {
 }
 
 export function LiveArena({ fightId }: LiveArenaProps) {
-  const { fight, isConnected, isLoading, error, spectators, placeBet, reactToFight } = useLiveFight(fightId);
+  const { fight, isConnected, isLoading, error, spectators, placeBet, reactToFight, startFight } = useLiveFight(fightId);
   const [betAmount, setBetAmount] = useState<string>('');
   const [selectedFighter, setSelectedFighter] = useState<string | null>(null);
   const [isBetting, setIsBetting] = useState(false);
@@ -391,6 +391,23 @@ export function LiveArena({ fightId }: LiveArenaProps) {
                 >
                   {isBetting ? 'Placing Bet...' : 
                    fight.status === 'live' ? 'Place Live Bet' : 'Place Bet'}
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Start Fight Button */}
+          {fight.status === 'upcoming' && (
+            <Card>
+              <CardContent className="p-4">
+                <Button 
+                  className="w-full"
+                  size="lg"
+                  onClick={startFight}
+                  disabled={!isConnected}
+                >
+                  <Play className="w-4 h-4 mr-2" />
+                  Start Fight
                 </Button>
               </CardContent>
             </Card>
