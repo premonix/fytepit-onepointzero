@@ -241,6 +241,17 @@ export function LiveArena({ fightId }: LiveArenaProps) {
                 {isSelected ? "Selected" : "Select to Bet"}
               </Button>
             )}
+
+            {fight.status === 'live' && (
+              <Button
+                variant={isSelected ? "default" : "outline"}
+                size="sm"
+                className="w-full"
+                onClick={() => setSelectedFighter(fighter.id)}
+              >
+                {isSelected ? "Selected for Live Bet" : "Select for Live Bet"}
+              </Button>
+            )}
           </CardContent>
         </Card>
       </motion.div>
@@ -353,13 +364,13 @@ export function LiveArena({ fightId }: LiveArenaProps) {
             </CardContent>
           </Card>
 
-          {/* Betting Interface */}
-          {fight.status === 'upcoming' && (
+          {/* Betting Interface - Allow betting for upcoming and live fights */}
+          {(fight.status === 'upcoming' || fight.status === 'live') && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <DollarSign className="w-5 h-5" />
-                  Place Your Bet
+                  {fight.status === 'live' ? 'Live Betting' : 'Place Your Bet'}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -378,7 +389,8 @@ export function LiveArena({ fightId }: LiveArenaProps) {
                   onClick={handlePlaceBet}
                   disabled={!selectedFighter || !betAmount || isBetting}
                 >
-                  {isBetting ? 'Placing Bet...' : 'Place Bet'}
+                  {isBetting ? 'Placing Bet...' : 
+                   fight.status === 'live' ? 'Place Live Bet' : 'Place Bet'}
                 </Button>
               </CardContent>
             </Card>
