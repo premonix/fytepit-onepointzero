@@ -199,13 +199,10 @@ export const VideoMediaHero = () => {
                 transition={{ duration: 0.6 }}
                 className="text-center"
               >
-                <h2 
-                  className="text-5xl font-black mb-4"
-                  style={{ color: currentRealm.theme.primary }}
-                >
+                <h2 className="text-5xl font-black mb-4 text-white drop-shadow-lg">
                   {currentRealm.name}
                 </h2>
-                <p className="text-xl text-white/90 mb-6 max-w-md mx-auto leading-relaxed">
+                <p className="text-xl text-white mb-6 max-w-md mx-auto leading-relaxed drop-shadow-md">
                   {currentRealm.description}
                 </p>
                 
