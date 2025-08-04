@@ -852,6 +852,23 @@ export type Database = {
         }
         Returns: boolean
       }
+      check_user_achievements: {
+        Args: { _user_id: string }
+        Returns: {
+          new_achievement_id: string
+          achievement_name: string
+        }[]
+      }
+      create_notification: {
+        Args: {
+          _user_id: string
+          _type: string
+          _title: string
+          _message: string
+          _data?: Json
+        }
+        Returns: string
+      }
       get_admin_analytics: {
         Args: Record<PropertyKey, never>
         Returns: Json
@@ -879,6 +896,19 @@ export type Database = {
       get_tournament_bracket: {
         Args: { _tournament_id: string }
         Returns: Json
+      }
+      get_user_fight_history: {
+        Args: { _user_id: string }
+        Returns: {
+          fight_id: string
+          fighter1_name: string
+          fighter2_name: string
+          winner_name: string
+          bet_amount: number
+          bet_outcome: string
+          payout: number
+          fight_date: string
+        }[]
       }
       get_user_role: {
         Args: { _user_id: string }
