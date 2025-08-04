@@ -6,12 +6,14 @@ import { Button } from '@/components/ui/button';
 import { worlds } from '@/data/worlds';
 import { fighters } from '@/data/fighters';
 import { useSound } from '@/hooks/useSound';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const VideoMediaHero = () => {
   const [currentRealmIndex, setCurrentRealmIndex] = useState(0);
   const [currentFighterIndex, setCurrentFighterIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const { playUI, muted, toggleMute } = useSound();
+  const isMobile = useIsMobile();
 
   const currentRealm = worlds[currentRealmIndex];
   const realmFighters = fighters.filter(f => f.world === currentRealm.id);
@@ -74,7 +76,7 @@ export const VideoMediaHero = () => {
   };
 
   return (
-    <section className="relative h-screen flex flex-col overflow-hidden">
+    <section className={`relative ${isMobile ? 'min-h-screen' : 'h-screen'} flex flex-col overflow-hidden`}>
       {/* Dynamic Video-like Background */}
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">
@@ -108,7 +110,7 @@ export const VideoMediaHero = () => {
 
       {/* Header */}
       <motion.div 
-        className="relative z-30 p-6"
+        className={`relative z-30 ${isMobile ? 'p-4' : 'p-6'}`}
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -116,18 +118,18 @@ export const VideoMediaHero = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div 
-              className="w-12 h-12 rounded-lg flex items-center justify-center"
+              className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-lg flex items-center justify-center`}
               style={{ background: currentRealm.theme.gradient }}
             >
-              <Sword className="w-6 h-6 text-white" />
+              <Sword className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">FYTEPIT</h1>
+              <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-white`}>FYTEPIT</h1>
               <p className="text-sm text-gray-300">Interdimensional Combat Arena</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
@@ -136,22 +138,24 @@ export const VideoMediaHero = () => {
             >
               {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setAutoPlay(!autoPlay)}
-              className="text-white/70 hover:text-white"
-            >
-              {autoPlay ? 'Pause' : 'Play'}
-            </Button>
+            {!isMobile && (
+              <Button
+                variant="ghost"
+                onClick={() => setAutoPlay(!autoPlay)}
+                className="text-white/70 hover:text-white"
+              >
+                {autoPlay ? 'Pause' : 'Play'}
+              </Button>
+            )}
           </div>
         </div>
       </motion.div>
 
       {/* Main Content Area */}
-      <div className="relative z-20 flex-1 flex">
+      <div className={`relative z-20 flex-1 flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
         {/* Left: Realm Showcase */}
         <motion.div 
-          className="w-1/2 p-8 flex flex-col justify-center"
+          className={`${isMobile ? 'w-full px-4 py-6' : 'w-1/2 p-8'} flex flex-col justify-center`}
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
@@ -199,15 +203,15 @@ export const VideoMediaHero = () => {
                 transition={{ duration: 0.6 }}
                 className="text-center"
               >
-                <h2 className="text-5xl font-black mb-4 text-white drop-shadow-lg">
+                <h2 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-black mb-4 text-white drop-shadow-lg`}>
                   {currentRealm.name}
                 </h2>
-                <p className="text-xl text-white mb-6 max-w-md mx-auto leading-relaxed drop-shadow-md">
+                <p className={`${isMobile ? 'text-lg' : 'text-xl'} text-white mb-6 max-w-md mx-auto leading-relaxed drop-shadow-md`}>
                   {currentRealm.description}
                 </p>
                 
                 {/* Realm Stats */}
-                <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className={`grid grid-cols-2 gap-4 mb-8 ${isMobile ? 'max-w-sm mx-auto' : ''}`}>
                   <div className="bg-black/50 rounded-lg p-4 border border-white/20">
                     <p className="text-white/70 text-sm">Power Source</p>
                     <p className="text-white font-semibold">{currentRealm.powerSource}</p>
@@ -219,10 +223,10 @@ export const VideoMediaHero = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-4 justify-center">
+                <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-4 justify-center`}>
                   <Button
                     onClick={handleEnterPit}
-                    className="px-8 py-3 text-lg font-bold text-white border-2 border-white/30 hover:bg-white/20"
+                    className={`${isMobile ? 'px-6 py-3 text-base' : 'px-8 py-3 text-lg'} font-bold text-white border-2 border-white/30 hover:bg-white/20`}
                     style={{ background: currentRealm.theme.gradient }}
                   >
                     <Play className="w-5 h-5 mr-2" />
@@ -232,7 +236,7 @@ export const VideoMediaHero = () => {
                   <Link to="/worlds">
                     <Button
                       variant="outline"
-                      className="px-8 py-3 text-lg font-bold border-2 border-white/50 text-white hover:bg-white/20"
+                      className={`${isMobile ? 'px-6 py-3 text-base w-full' : 'px-8 py-3 text-lg'} font-bold border-2 border-white/50 text-white hover:bg-white/20`}
                       onClick={() => playUI('click')}
                     >
                       <Zap className="w-5 h-5 mr-2" />
@@ -247,7 +251,7 @@ export const VideoMediaHero = () => {
 
         {/* Right: Fighter Showcase */}
         <motion.div 
-          className="w-1/2 p-8 flex flex-col justify-center"
+          className={`${isMobile ? 'w-full px-4 py-6' : 'w-1/2 p-8'} flex flex-col justify-center`}
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
@@ -255,7 +259,7 @@ export const VideoMediaHero = () => {
           <div className="relative h-full">
             {/* Fighter Carousel Header */}
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-white">FEATURED FIGHTERS</h3>
+              <h3 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-white`}>FEATURED FIGHTERS</h3>
               
               <div className="flex items-center gap-2">
                 <Button
@@ -278,7 +282,7 @@ export const VideoMediaHero = () => {
             </div>
 
             {/* Main Fighter Display */}
-            <div className="relative h-96 mb-6">
+            <div className={`relative ${isMobile ? 'h-64' : 'h-96'} mb-6`}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentFighterIndex}
@@ -299,28 +303,28 @@ export const VideoMediaHero = () => {
                     
                     {/* Fighter Info Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h4 className="text-3xl font-bold text-white mb-2">
+                    <div className={`absolute bottom-0 left-0 right-0 ${isMobile ? 'p-4' : 'p-6'}`}>
+                      <h4 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold text-white mb-2`}>
                         {featuredFighters[currentFighterIndex]?.name}
                       </h4>
-                      <p className="text-white/80 mb-4 line-clamp-2">
+                      <p className={`text-white/80 mb-4 ${isMobile ? 'text-sm line-clamp-1' : 'line-clamp-2'}`}>
                         {featuredFighters[currentFighterIndex]?.description}
                       </p>
                       
                       {/* Fighter Stats */}
-                      <div className="flex gap-4">
-                        <div className="bg-black/60 rounded px-3 py-1">
-                          <span className="text-green-400 font-bold">
+                      <div className={`flex ${isMobile ? 'gap-2' : 'gap-4'}`}>
+                        <div className={`bg-black/60 rounded ${isMobile ? 'px-2 py-1' : 'px-3 py-1'}`}>
+                          <span className={`text-green-400 font-bold ${isMobile ? 'text-xs' : ''}`}>
                             {featuredFighters[currentFighterIndex]?.wins}W
                           </span>
                         </div>
-                        <div className="bg-black/60 rounded px-3 py-1">
-                          <span className="text-red-400 font-bold">
+                        <div className={`bg-black/60 rounded ${isMobile ? 'px-2 py-1' : 'px-3 py-1'}`}>
+                          <span className={`text-red-400 font-bold ${isMobile ? 'text-xs' : ''}`}>
                             {featuredFighters[currentFighterIndex]?.losses}L
                           </span>
                         </div>
-                        <div className="bg-black/60 rounded px-3 py-1">
-                          <span className="text-blue-400 font-bold">
+                        <div className={`bg-black/60 rounded ${isMobile ? 'px-2 py-1' : 'px-3 py-1'}`}>
+                          <span className={`text-blue-400 font-bold ${isMobile ? 'text-xs' : ''}`}>
                             {featuredFighters[currentFighterIndex]?.stats.attack} ATK
                           </span>
                         </div>
@@ -332,14 +336,14 @@ export const VideoMediaHero = () => {
             </div>
 
             {/* Fighter Thumbnails */}
-            <div className="grid grid-cols-4 gap-2">
-              {featuredFighters.slice(0, 4).map((fighter, index) => (
+            <div className={`grid ${isMobile ? 'grid-cols-3' : 'grid-cols-4'} gap-2`}>
+              {featuredFighters.slice(0, isMobile ? 3 : 4).map((fighter, index) => (
                 <motion.div
                   key={fighter.id}
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`relative h-16 rounded cursor-pointer transition-all duration-300 overflow-hidden border-2 ${
+                  className={`relative ${isMobile ? 'h-12' : 'h-16'} rounded cursor-pointer transition-all duration-300 overflow-hidden border-2 ${
                     index === currentFighterIndex % featuredFighters.length 
                       ? 'border-white scale-105' 
                       : 'border-white/30 hover:border-white/60'
@@ -369,12 +373,12 @@ export const VideoMediaHero = () => {
 
       {/* Bottom Stats Bar */}
       <motion.div 
-        className="relative z-20 bg-black/60 backdrop-blur-sm border-t border-white/20 p-4"
+        className={`relative z-20 bg-black/60 backdrop-blur-sm border-t border-white/20 ${isMobile ? 'p-3' : 'p-4'}`}
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, delay: 0.6 }}
       >
-        <div className="flex justify-center gap-12">
+        <div className={`flex justify-center ${isMobile ? 'gap-6' : 'gap-12'}`}>
           {[
             { icon: Users, label: 'Active Fighters', value: fighters.length },
             { icon: Zap, label: 'Realms', value: worlds.length },
@@ -382,7 +386,7 @@ export const VideoMediaHero = () => {
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
-              className="flex items-center gap-3 text-white"
+              className={`flex items-center ${isMobile ? 'gap-2' : 'gap-3'} text-white`}
               animate={{ 
                 textShadow: [
                   '0 0 10px rgba(255,255,255,0.3)',
@@ -392,10 +396,10 @@ export const VideoMediaHero = () => {
               }}
               transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
             >
-              <stat.icon className="w-6 h-6 text-primary" />
+              <stat.icon className={`${isMobile ? 'w-4 h-4' : 'w-6 h-6'} text-primary`} />
               <div>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <div className="text-sm text-white/70">{stat.label}</div>
+                <div className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold`}>{stat.value}</div>
+                <div className={`${isMobile ? 'text-xs' : 'text-sm'} text-white/70`}>{stat.label}</div>
               </div>
             </motion.div>
           ))}
