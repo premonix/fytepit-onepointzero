@@ -282,6 +282,39 @@ export type Database = {
         }
         Relationships: []
       }
+      system_settings: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_public: boolean | null
+          setting_key: string
+          setting_value: Json
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          setting_key: string
+          setting_value: Json
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          setting_key?: string
+          setting_value?: Json
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number
@@ -364,6 +397,54 @@ export type Database = {
           },
         ]
       }
+      user_reports: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          reason: string
+          reported_content_id: string | null
+          reported_content_type: string
+          reported_user_id: string | null
+          reporter_id: string | null
+          resolution_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          reason: string
+          reported_content_id?: string | null
+          reported_content_type: string
+          reported_user_id?: string | null
+          reporter_id?: string | null
+          resolution_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          reason?: string
+          reported_content_id?: string | null
+          reported_content_type?: string
+          reported_user_id?: string | null
+          reporter_id?: string | null
+          resolution_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -393,6 +474,52 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_create_fighter: {
+        Args: {
+          _id: string
+          _name: string
+          _world: string
+          _image: string
+          _attack: number
+          _defense: number
+          _speed: number
+          _health: number
+          _description?: string
+          _backstory?: string
+          _special_move?: string
+          _abilities?: string[]
+        }
+        Returns: boolean
+      }
+      admin_delete_fighter: {
+        Args: { _fighter_id: string }
+        Returns: boolean
+      }
+      admin_update_fight: {
+        Args: { _fight_id: string; _winner_id?: string; _status?: string }
+        Returns: boolean
+      }
+      admin_update_fighter: {
+        Args: {
+          _id: string
+          _name: string
+          _world: string
+          _image: string
+          _attack: number
+          _defense: number
+          _speed: number
+          _health: number
+          _description?: string
+          _backstory?: string
+          _special_move?: string
+          _abilities?: string[]
+        }
+        Returns: boolean
+      }
+      get_admin_analytics: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       get_all_users_admin: {
         Args: Record<PropertyKey, never>
         Returns: {

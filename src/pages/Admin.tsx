@@ -3,6 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { UserManagement } from '@/components/UserManagement';
+import { FighterManagement } from '@/components/FighterManagement';
+import { FightManagement } from '@/components/FightManagement';
+import { SystemSettings } from '@/components/SystemSettings';
+import { ContentModeration } from '@/components/ContentModeration';
+import { AdminAnalytics } from '@/components/AdminAnalytics';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useAuth } from '@/hooks/useAuth';
 import { 
@@ -12,7 +17,10 @@ import {
   Activity, 
   Settings, 
   Crown,
-  BarChart3
+  BarChart3,
+  Swords,
+  Trophy,
+  AlertTriangle
 } from 'lucide-react';
 
 console.log('Admin.tsx file loaded');
@@ -43,59 +51,17 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Admin Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">--</div>
-              <p className="text-xs text-muted-foreground">Loading...</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Fights</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">--</div>
-              <p className="text-xs text-muted-foreground">Loading...</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
-              <Database className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">--</div>
-              <p className="text-xs text-muted-foreground">Loading...</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">--</div>
-              <p className="text-xs text-muted-foreground">Loading...</p>
-            </CardContent>
-          </Card>
-        </div>
+        {/* Admin Analytics */}
+        <AdminAnalytics />
 
         {/* Admin Tabs */}
         <Tabs defaultValue="users" className="space-y-6">
           <TabsList>
             <TabsTrigger value="users">User Management</TabsTrigger>
+            {isAdmin() && <TabsTrigger value="analytics">Analytics</TabsTrigger>}
             {isAdmin() && <TabsTrigger value="fighters">Fighter Management</TabsTrigger>}
             {isAdmin() && <TabsTrigger value="fights">Fight Management</TabsTrigger>}
+            {isAdmin() && <TabsTrigger value="moderation">Content Moderation</TabsTrigger>}
             {isSuperAdmin() && <TabsTrigger value="system">System Settings</TabsTrigger>}
           </TabsList>
 
@@ -104,53 +70,32 @@ export default function Admin() {
           </TabsContent>
 
           {isAdmin() && (
+            <TabsContent value="analytics" className="space-y-6">
+              <AdminAnalytics />
+            </TabsContent>
+          )}
+
+          {isAdmin() && (
             <TabsContent value="fighters" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Fighter Management</CardTitle>
-                  <CardDescription>
-                    Manage fighters, their stats, and availability
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Fighter management interface coming soon...</p>
-                </CardContent>
-              </Card>
+              <FighterManagement />
             </TabsContent>
           )}
 
           {isAdmin() && (
             <TabsContent value="fights" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Fight Management</CardTitle>
-                  <CardDescription>
-                    Schedule fights, manage tournaments, and view results
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Fight management interface coming soon...</p>
-                </CardContent>
-              </Card>
+              <FightManagement />
+            </TabsContent>
+          )}
+
+          {isAdmin() && (
+            <TabsContent value="moderation" className="space-y-6">
+              <ContentModeration />
             </TabsContent>
           )}
 
           {isSuperAdmin() && (
             <TabsContent value="system" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Settings className="w-5 h-5" />
-                    System Settings
-                  </CardTitle>
-                  <CardDescription>
-                    Platform configuration and advanced settings
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">System settings interface coming soon...</p>
-                </CardContent>
-              </Card>
+              <SystemSettings />
             </TabsContent>
           )}
         </Tabs>
