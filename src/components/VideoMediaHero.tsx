@@ -15,7 +15,7 @@ export const VideoMediaHero = () => {
 
   const currentRealm = worlds[currentRealmIndex];
   const realmFighters = fighters.filter(f => f.world === currentRealm.id);
-  const featuredFighters = fighters.slice(0, 8); // Top 8 fighters for showcase
+  const featuredFighters = realmFighters; // Show fighters from current realm
 
   // Auto-advance realm showcase
   useEffect(() => {
@@ -28,9 +28,13 @@ export const VideoMediaHero = () => {
     return () => clearInterval(interval);
   }, [autoPlay]);
 
-  // Auto-advance fighter showcase
+  // Auto-advance fighter showcase - reset when realm changes
   useEffect(() => {
-    if (!autoPlay) return;
+    setCurrentFighterIndex(0); // Reset fighter index when realm changes
+  }, [currentRealmIndex]);
+
+  useEffect(() => {
+    if (!autoPlay || featuredFighters.length === 0) return;
     
     const interval = setInterval(() => {
       setCurrentFighterIndex(prev => (prev + 1) % featuredFighters.length);
@@ -338,7 +342,7 @@ export const VideoMediaHero = () => {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: index * 0.1 }}
                   className={`relative h-16 rounded cursor-pointer transition-all duration-300 overflow-hidden border-2 ${
-                    index === currentFighterIndex % 4 
+                    index === currentFighterIndex % featuredFighters.length 
                       ? 'border-white scale-105' 
                       : 'border-white/30 hover:border-white/60'
                   }`}
