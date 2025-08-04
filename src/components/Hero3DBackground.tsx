@@ -373,82 +373,641 @@ const FighterSilhouettes = ({ mouse }: { mouse: { x: number; y: number } }) => {
     }
   };
 
-  // Create fighter silhouette geometry
-  const createFighterGeometry = (world: string) => {
+  // Create fighter-specific geometry based on characteristics
+  const createFighterGeometry = (fighter: Fighter) => {
     const group = new THREE.Group();
-    const colors = getRealmColors(world);
+    const colors = getRealmColors(fighter.world);
     
-    // Torso
-    const torsoGeometry = new THREE.CapsuleGeometry(0.4, 1.2, 8, 16);
-    const torsoMaterial = new THREE.MeshStandardMaterial({
+    // Base material
+    const baseMaterial = new THREE.MeshStandardMaterial({
       color: colors.primary,
       emissive: colors.emissive,
       emissiveIntensity: 0.6,
       transparent: true,
       opacity: 0.8,
     });
-    const torso = new THREE.Mesh(torsoGeometry, torsoMaterial);
+
+    // Fighter-specific characteristics
+    switch (fighter.name) {
+      case 'Nullbyte':
+        return createDigitalGlitchFighter(group, baseMaterial, colors);
+      case 'Gorehound':
+        return createChainsawFighter(group, baseMaterial, colors);
+      case 'TremorJack':
+        return createHeavyMechFighter(group, baseMaterial, colors);
+      case 'Blayze Coil':
+        return createFlameWhipFighter(group, baseMaterial, colors);
+      case 'Vanta Maw':
+        return createGravityFighter(group, baseMaterial, colors);
+      case 'Redline 09':
+        return createSpeedsterFighter(group, baseMaterial, colors);
+      case 'Axiom V3':
+        return createPerfectionFighter(group, baseMaterial, colors);
+      case 'NOVA Shard':
+        return createSolarFighter(group, baseMaterial, colors);
+      case 'Velora':
+        return createDancerFighter(group, baseMaterial, colors);
+      case 'PulseSync':
+        return createTwinFighter(group, baseMaterial, colors);
+      case 'Thornhelm':
+        return createNatureFighter(group, baseMaterial, colors);
+      case 'Caerith the Cursed':
+        return createCursedFighter(group, baseMaterial, colors);
+      case 'The Dread Relic':
+        return createMassiveFighter(group, baseMaterial, colors);
+      case 'Sigmaris':
+        return createDivineFighter(group, baseMaterial, colors);
+      case 'GloboMaximus':
+        return createEgoFighter(group, baseMaterial, colors);
+      case 'Kremlord':
+        return createTankFighter(group, baseMaterial, colors);
+      default:
+        return createGenericFighter(group, baseMaterial, colors, fighter);
+    }
+  };
+
+  // Specific fighter creation functions
+  const createDigitalGlitchFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Angular, fragmented geometry for digital AI
+    const torsoGeometry = new THREE.BoxGeometry(0.8, 1.4, 0.4);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.7;
+    group.add(torso);
+
+    // Cubic head with digital artifacts
+    const headGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.6;
+    head.rotation.y = 0.2;
+    group.add(head);
+
+    // Fragmented arms
+    for (let i = 0; i < 3; i++) {
+      const armPiece = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.3, 0.2), material);
+      armPiece.position.set(-0.7, 1 - i * 0.3, 0);
+      armPiece.rotation.z = 0.3 + i * 0.2;
+      group.add(armPiece);
+    }
+
+    // Add glitch effect cubes
+    for (let i = 0; i < 5; i++) {
+      const glitch = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), material.clone());
+      glitch.material.emissiveIntensity = 1.2;
+      glitch.position.set(
+        (Math.random() - 0.5) * 2,
+        Math.random() * 2,
+        (Math.random() - 0.5) * 0.5
+      );
+      group.add(glitch);
+    }
+
+    return group;
+  };
+
+  const createChainsawFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Bulky torso
+    const torsoGeometry = new THREE.CapsuleGeometry(0.5, 1.5, 8, 16);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.8;
+    group.add(torso);
+
+    // Intimidating head
+    const headGeometry = new THREE.SphereGeometry(0.35, 16, 12);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.8;
+    group.add(head);
+
+    // Chainsaw arms - cylinders with teeth
+    const chainsawMaterial = material.clone();
+    chainsawMaterial.color.setHex(0x888888);
+    chainsawMaterial.emissive.setHex(0x444444);
+
+    const leftChainsaw = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.2, 1.2), chainsawMaterial);
+    leftChainsaw.position.set(-0.8, 0.8, 0);
+    leftChainsaw.rotation.z = 1.2;
+    group.add(leftChainsaw);
+
+    const rightChainsaw = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.2, 1.2), chainsawMaterial);
+    rightChainsaw.position.set(0.8, 0.8, 0);
+    rightChainsaw.rotation.z = -1.2;
+    group.add(rightChainsaw);
+
+    // Add teeth details
+    for (let i = 0; i < 8; i++) {
+      const tooth = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.2, 4), chainsawMaterial);
+      tooth.position.set(-0.8 + Math.cos(i) * 0.25, 0.8 + Math.sin(i) * 0.25, 0);
+      group.add(tooth);
+    }
+
+    return group;
+  };
+
+  const createHeavyMechFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Massive, industrial build
+    const torsoGeometry = new THREE.BoxGeometry(1.2, 1.8, 0.8);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.9;
+    group.add(torso);
+
+    // Boxy mech head
+    const headGeometry = new THREE.BoxGeometry(0.6, 0.4, 0.6);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 2;
+    group.add(head);
+
+    // Drill arms
+    const drillMaterial = material.clone();
+    drillMaterial.color.setHex(0x666666);
+    
+    const leftDrill = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.5, 8), drillMaterial);
+    leftDrill.position.set(-0.9, 1, 0);
+    leftDrill.rotation.z = Math.PI / 2;
+    group.add(leftDrill);
+
+    const rightDrill = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.5, 8), drillMaterial);
+    rightDrill.position.set(0.9, 1, 0);
+    rightDrill.rotation.z = -Math.PI / 2;
+    group.add(rightDrill);
+
+    // Thick legs
+    const legGeometry = new THREE.CylinderGeometry(0.3, 0.3, 1.2);
+    const leftLeg = new THREE.Mesh(legGeometry, material);
+    leftLeg.position.set(-0.4, -0.6, 0);
+    group.add(leftLeg);
+
+    const rightLeg = new THREE.Mesh(legGeometry, material);
+    rightLeg.position.set(0.4, -0.6, 0);
+    group.add(rightLeg);
+
+    return group;
+  };
+
+  const createSpeedsterFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Sleek, aerodynamic build
+    const torsoGeometry = new THREE.CapsuleGeometry(0.3, 1.1, 8, 16);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.5;
+    torso.scale.set(1, 1, 0.7); // Streamlined
+    group.add(torso);
+
+    // Aerodynamic head
+    const headGeometry = new THREE.ConeGeometry(0.25, 0.5, 8);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.3;
+    head.rotation.x = Math.PI;
+    group.add(head);
+
+    // Thin, fast arms
+    const armGeometry = new THREE.CapsuleGeometry(0.1, 0.7, 6, 12);
+    const leftArm = new THREE.Mesh(armGeometry, material);
+    leftArm.position.set(-0.4, 0.7, 0);
+    leftArm.rotation.z = 0.5;
+    group.add(leftArm);
+
+    const rightArm = new THREE.Mesh(armGeometry, material);
+    rightArm.position.set(0.4, 0.7, 0);
+    rightArm.rotation.z = -0.5;
+    group.add(rightArm);
+
+    // Speed trail effects
+    for (let i = 0; i < 3; i++) {
+      const trail = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.5), material.clone());
+      trail.material.transparent = true;
+      trail.material.opacity = 0.3 - i * 0.1;
+      trail.position.set(0, 0.5, -0.5 - i * 0.3);
+      group.add(trail);
+    }
+
+    return group;
+  };
+
+  const createDancerFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Graceful, flowing form
+    const torsoGeometry = new THREE.CapsuleGeometry(0.35, 1.2, 12, 20);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.6;
+    group.add(torso);
+
+    // Elegant head
+    const headGeometry = new THREE.SphereGeometry(0.28, 20, 16);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.5;
+    group.add(head);
+
+    // Flowing arms in dance pose
+    const armGeometry = new THREE.CapsuleGeometry(0.12, 0.8, 8, 16);
+    const leftArm = new THREE.Mesh(armGeometry, material);
+    leftArm.position.set(-0.6, 1, 0);
+    leftArm.rotation.z = 0.8;
+    leftArm.rotation.y = 0.3;
+    group.add(leftArm);
+
+    const rightArm = new THREE.Mesh(armGeometry, material);
+    rightArm.position.set(0.6, 1.2, 0);
+    rightArm.rotation.z = -0.5;
+    rightArm.rotation.y = -0.3;
+    group.add(rightArm);
+
+    // Holographic blade effects
+    const bladeGeometry = new THREE.PlaneGeometry(0.1, 1.2);
+    const bladeMaterial = material.clone();
+    bladeMaterial.transparent = true;
+    bladeMaterial.opacity = 0.6;
+    bladeMaterial.emissiveIntensity = 1;
+
+    const blade1 = new THREE.Mesh(bladeGeometry, bladeMaterial);
+    blade1.position.set(-0.9, 1.3, 0);
+    blade1.rotation.z = 0.8;
+    group.add(blade1);
+
+    const blade2 = new THREE.Mesh(bladeGeometry, bladeMaterial);
+    blade2.position.set(0.9, 1.5, 0);
+    blade2.rotation.z = -0.5;
+    group.add(blade2);
+
+    return group;
+  };
+
+  const createMassiveFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Enormous, imposing presence
+    const torsoGeometry = new THREE.BoxGeometry(1.5, 2.2, 1);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 1.1;
+    group.add(torso);
+
+    // Massive helmet
+    const headGeometry = new THREE.CylinderGeometry(0.6, 0.7, 0.8, 8);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 2.6;
+    group.add(head);
+
+    // Thick armored arms
+    const armGeometry = new THREE.BoxGeometry(0.4, 1.2, 0.4);
+    const leftArm = new THREE.Mesh(armGeometry, material);
+    leftArm.position.set(-1, 1.3, 0);
+    group.add(leftArm);
+
+    const rightArm = new THREE.Mesh(armGeometry, material);
+    rightArm.position.set(1, 1.3, 0);
+    group.add(rightArm);
+
+    // Massive legs
+    const legGeometry = new THREE.BoxGeometry(0.5, 1.5, 0.5);
+    const leftLeg = new THREE.Mesh(legGeometry, material);
+    leftLeg.position.set(-0.5, -0.75, 0);
+    group.add(leftLeg);
+
+    const rightLeg = new THREE.Mesh(legGeometry, material);
+    rightLeg.position.set(0.5, -0.75, 0);
+    group.add(rightLeg);
+
+    // Scale up the entire fighter
+    group.scale.setScalar(1.3);
+
+    return group;
+  };
+
+  const createGenericFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any, fighter: Fighter) => {
+    // Adjust proportions based on stats
+    const attackScale = fighter.stats.attack / 100;
+    const defenseScale = fighter.stats.defense / 100;
+    const speedScale = fighter.stats.speed / 100;
+
+    // Torso size based on defense
+    const torsoGeometry = new THREE.CapsuleGeometry(0.3 + defenseScale * 0.2, 1 + defenseScale * 0.3, 8, 16);
+    const torso = new THREE.Mesh(torsoGeometry, material);
     torso.position.y = 0.6;
     group.add(torso);
 
     // Head
-    const headGeometry = world === 'sci-fi-ai' 
-      ? new THREE.ConeGeometry(0.3, 0.6, 8)
-      : new THREE.SphereGeometry(0.3, 16, 12);
-    const headMaterial = torsoMaterial.clone();
-    const head = new THREE.Mesh(headGeometry, headMaterial);
-    head.position.y = 1.5;
+    const headGeometry = new THREE.SphereGeometry(0.25 + defenseScale * 0.1, 16, 12);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.4 + defenseScale * 0.2;
     group.add(head);
 
-    // Arms
-    const armGeometry = new THREE.CapsuleGeometry(0.15, 0.8, 6, 12);
-    const leftArm = new THREE.Mesh(armGeometry, torsoMaterial.clone());
-    leftArm.position.set(-0.6, 0.8, 0);
+    // Arms - size based on attack
+    const armGeometry = new THREE.CapsuleGeometry(0.1 + attackScale * 0.1, 0.7 + attackScale * 0.2, 6, 12);
+    const leftArm = new THREE.Mesh(armGeometry, material);
+    leftArm.position.set(-0.5 - defenseScale * 0.1, 0.8, 0);
     leftArm.rotation.z = 0.3;
     group.add(leftArm);
 
-    const rightArm = new THREE.Mesh(armGeometry, torsoMaterial.clone());
-    rightArm.position.set(0.6, 0.8, 0);
+    const rightArm = new THREE.Mesh(armGeometry, material);
+    rightArm.position.set(0.5 + defenseScale * 0.1, 0.8, 0);
     rightArm.rotation.z = -0.3;
     group.add(rightArm);
 
-    // Legs
-    const legGeometry = new THREE.CapsuleGeometry(0.2, 1, 6, 12);
-    const leftLeg = new THREE.Mesh(legGeometry, torsoMaterial.clone());
-    leftLeg.position.set(-0.25, -0.5, 0);
+    // Legs - proportional to speed
+    const legGeometry = new THREE.CapsuleGeometry(0.15 + speedScale * 0.05, 0.8 + speedScale * 0.2, 6, 12);
+    const leftLeg = new THREE.Mesh(legGeometry, material);
+    leftLeg.position.set(-0.2, -0.4, 0);
     group.add(leftLeg);
 
-    const rightLeg = new THREE.Mesh(legGeometry, torsoMaterial.clone());
-    rightLeg.position.set(0.25, -0.5, 0);
+    const rightLeg = new THREE.Mesh(legGeometry, material);
+    rightLeg.position.set(0.2, -0.4, 0);
     group.add(rightLeg);
 
-    // Realm-specific enhancements
-    if (world === 'dark-arena') {
-      // Add spikes/edges
-      const spikeGeometry = new THREE.ConeGeometry(0.1, 0.5, 6);
-      const spikeMaterial = new THREE.MeshStandardMaterial({
-        color: '#ff8844',
-        emissive: '#ff4422',
-        emissiveIntensity: 0.8,
-      });
-      const spike = new THREE.Mesh(spikeGeometry, spikeMaterial);
-      spike.position.set(0, 1.8, 0);
-      group.add(spike);
-    } else if (world === 'fantasy-tech') {
-      // Add mystical aura rings
-      const ringGeometry = new THREE.TorusGeometry(0.8, 0.05, 8, 16);
-      const ringMaterial = new THREE.MeshStandardMaterial({
-        color: colors.particle,
-        emissive: colors.emissive,
-        emissiveIntensity: 0.9,
-        transparent: true,
-        opacity: 0.6,
-      });
-      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-      ring.position.y = 0.8;
-      ring.rotation.x = Math.PI / 2;
-      group.add(ring);
+    return group;
+  };
+
+  // Additional fighter-specific functions
+  const createFlameWhipFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Agile fighter with flame effects
+    const torsoGeometry = new THREE.CapsuleGeometry(0.4, 1.3, 8, 16);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.7;
+    group.add(torso);
+
+    // Flame-styled head
+    const headGeometry = new THREE.SphereGeometry(0.32, 16, 12);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.6;
+    group.add(head);
+
+    // Whip arms with flame trails
+    const whipMaterial = material.clone();
+    whipMaterial.color.setHex(0xff6600);
+    whipMaterial.emissiveIntensity = 0.9;
+
+    for (let i = 0; i < 4; i++) {
+      const whipSegment = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.08, 0.3), whipMaterial);
+      whipSegment.position.set(-0.6, 1 - i * 0.2, 0);
+      whipSegment.rotation.z = 0.4 + i * 0.1;
+      group.add(whipSegment);
     }
+
+    return group;
+  };
+
+  const createGravityFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Dark, imposing presence with gravity effects
+    const torsoGeometry = new THREE.SphereGeometry(0.6, 16, 12);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.8;
+    torso.scale.set(1, 1.5, 1);
+    group.add(torso);
+
+    // Void-like head
+    const headGeometry = new THREE.SphereGeometry(0.4, 16, 12);
+    const headMaterial = material.clone();
+    headMaterial.color.setHex(0x000000);
+    headMaterial.emissiveIntensity = 1.2;
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.y = 1.8;
+    group.add(head);
+
+    // Gravity orbs around the fighter
+    for (let i = 0; i < 6; i++) {
+      const orb = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), material.clone());
+      orb.material.emissiveIntensity = 1;
+      const angle = (i / 6) * Math.PI * 2;
+      orb.position.set(Math.cos(angle) * 1.2, 1 + Math.sin(angle) * 0.5, Math.sin(angle) * 1.2);
+      group.add(orb);
+    }
+
+    return group;
+  };
+
+  const createPerfectionFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Sleek, geometric perfection
+    const torsoGeometry = new THREE.BoxGeometry(0.7, 1.4, 0.35);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.7;
+    group.add(torso);
+
+    // Perfect geometric head
+    const headGeometry = new THREE.OctahedronGeometry(0.35);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.6;
+    group.add(head);
+
+    // Precise geometric arms
+    const armGeometry = new THREE.BoxGeometry(0.15, 0.8, 0.15);
+    const leftArm = new THREE.Mesh(armGeometry, material);
+    leftArm.position.set(-0.55, 0.8, 0);
+    leftArm.rotation.z = 0.2;
+    group.add(leftArm);
+
+    const rightArm = new THREE.Mesh(armGeometry, material);
+    rightArm.position.set(0.55, 0.8, 0);
+    rightArm.rotation.z = -0.2;
+    group.add(rightArm);
+
+    return group;
+  };
+
+  const createSolarFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Solar-powered energy fighter
+    const torsoGeometry = new THREE.CapsuleGeometry(0.4, 1.2, 12, 20);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.6;
+    group.add(torso);
+
+    // Solar crown head
+    const headGeometry = new THREE.ConeGeometry(0.35, 0.7, 12);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.8;
+    group.add(head);
+
+    // Solar energy rays
+    for (let i = 0; i < 8; i++) {
+      const ray = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.8), material.clone());
+      ray.material.emissiveIntensity = 1.5;
+      const angle = (i / 8) * Math.PI * 2;
+      ray.position.set(Math.cos(angle) * 0.6, 1.8, Math.sin(angle) * 0.6);
+      ray.rotation.z = angle;
+      group.add(ray);
+    }
+
+    return group;
+  };
+
+  const createTwinFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Twin synchronized fighters
+    for (let twin = 0; twin < 2; twin++) {
+      const offset = twin === 0 ? -0.3 : 0.3;
+      
+      const twinTorso = new THREE.Mesh(new THREE.CapsuleGeometry(0.25, 1, 8, 16), material);
+      twinTorso.position.set(offset, 0.5, 0);
+      group.add(twinTorso);
+
+      const twinHead = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 12), material);
+      twinHead.position.set(offset, 1.3, 0);
+      group.add(twinHead);
+
+      // Connection between twins
+      const connection = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.6), material.clone());
+      connection.material.emissiveIntensity = 1.2;
+      connection.position.set(0, 0.8, 0);
+      connection.rotation.z = Math.PI / 2;
+      if (twin === 0) group.add(connection);
+    }
+
+    return group;
+  };
+
+  const createNatureFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Nature-tech hybrid
+    const torsoGeometry = new THREE.CapsuleGeometry(0.45, 1.4, 12, 20);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.7;
+    group.add(torso);
+
+    // Crown-like head
+    const headGeometry = new THREE.ConeGeometry(0.4, 0.8, 8);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.8;
+    group.add(head);
+
+    // Vine-like extensions
+    for (let i = 0; i < 6; i++) {
+      const vine = new THREE.Mesh(new THREE.TorusGeometry(0.3 + i * 0.1, 0.05, 8, 16), material.clone());
+      vine.material.color.setHex(0x44aa44);
+      vine.position.y = 0.8;
+      vine.rotation.x = Math.PI / 2;
+      vine.rotation.z = (i / 6) * Math.PI * 2;
+      group.add(vine);
+    }
+
+    return group;
+  };
+
+  const createCursedFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Cursed, corrupted form
+    const torsoGeometry = new THREE.CapsuleGeometry(0.42, 1.3, 8, 16);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.65;
+    torso.rotation.z = 0.1; // Slight tilt
+    group.add(torso);
+
+    // Corrupted head
+    const headGeometry = new THREE.SphereGeometry(0.35, 16, 12);
+    const headMaterial = material.clone();
+    headMaterial.color.setHex(0x660033);
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.y = 1.6;
+    head.scale.set(1.2, 0.8, 1); // Distorted
+    group.add(head);
+
+    // Corruption particles
+    for (let i = 0; i < 8; i++) {
+      const particle = new THREE.Mesh(new THREE.SphereGeometry(0.05, 6, 4), material.clone());
+      particle.material.color.setHex(0x440022);
+      particle.material.emissiveIntensity = 1.5;
+      particle.position.set(
+        (Math.random() - 0.5) * 2,
+        Math.random() * 2,
+        (Math.random() - 0.5) * 0.8
+      );
+      group.add(particle);
+    }
+
+    return group;
+  };
+
+  const createDivineFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Divine, godlike presence
+    const torsoGeometry = new THREE.CapsuleGeometry(0.5, 1.6, 16, 24);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.8;
+    group.add(torso);
+
+    // Divine halo head
+    const headGeometry = new THREE.SphereGeometry(0.38, 20, 16);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.9;
+    group.add(head);
+
+    // Divine halo
+    const haloGeometry = new THREE.TorusGeometry(0.6, 0.05, 16, 32);
+    const haloMaterial = material.clone();
+    haloMaterial.emissiveIntensity = 2;
+    const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+    halo.position.y = 2.3;
+    halo.rotation.x = Math.PI / 2;
+    group.add(halo);
+
+    // Divine wings
+    for (let wing = 0; wing < 2; wing++) {
+      const wingGeometry = new THREE.PlaneGeometry(0.8, 1.5);
+      const wingMaterial = material.clone();
+      wingMaterial.transparent = true;
+      wingMaterial.opacity = 0.7;
+      const wingMesh = new THREE.Mesh(wingGeometry, wingMaterial);
+      wingMesh.position.set(wing === 0 ? -0.8 : 0.8, 1.2, 0);
+      wingMesh.rotation.y = wing === 0 ? 0.3 : -0.3;
+      group.add(wingMesh);
+    }
+
+    return group;
+  };
+
+  const createEgoFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Larger-than-life, ego-driven fighter
+    const torsoGeometry = new THREE.CapsuleGeometry(0.55, 1.5, 8, 16);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.75;
+    group.add(torso);
+
+    // Oversized head
+    const headGeometry = new THREE.SphereGeometry(0.45, 16, 12);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.8;
+    group.add(head);
+
+    // Dramatic cape
+    const capeGeometry = new THREE.PlaneGeometry(1.5, 2);
+    const capeMaterial = material.clone();
+    capeMaterial.transparent = true;
+    capeMaterial.opacity = 0.8;
+    const cape = new THREE.Mesh(capeGeometry, capeMaterial);
+    cape.position.set(0, 0.8, -0.3);
+    group.add(cape);
+
+    // Ego aura
+    const auraGeometry = new THREE.RingGeometry(1, 1.5, 16);
+    const auraMaterial = material.clone();
+    auraMaterial.transparent = true;
+    auraMaterial.opacity = 0.3;
+    auraMaterial.emissiveIntensity = 1.5;
+    const aura = new THREE.Mesh(auraGeometry, auraMaterial);
+    aura.position.y = 0.8;
+    aura.rotation.x = Math.PI / 2;
+    group.add(aura);
+
+    return group;
+  };
+
+  const createTankFighter = (group: THREE.Group, material: THREE.MeshStandardMaterial, colors: any) => {
+    // Heavily armored, defensive tank
+    const torsoGeometry = new THREE.BoxGeometry(1, 1.6, 0.8);
+    const torso = new THREE.Mesh(torsoGeometry, material);
+    torso.position.y = 0.8;
+    group.add(torso);
+
+    // Fortified head
+    const headGeometry = new THREE.BoxGeometry(0.6, 0.5, 0.6);
+    const head = new THREE.Mesh(headGeometry, material);
+    head.position.y = 1.8;
+    group.add(head);
+
+    // Heavy shoulder armor
+    for (let shoulder = 0; shoulder < 2; shoulder++) {
+      const armorGeometry = new THREE.BoxGeometry(0.4, 0.6, 0.4);
+      const armor = new THREE.Mesh(armorGeometry, material);
+      armor.position.set(shoulder === 0 ? -0.7 : 0.7, 1.2, 0);
+      group.add(armor);
+    }
+
+    // Thick legs
+    const legGeometry = new THREE.BoxGeometry(0.4, 1.2, 0.4);
+    const leftLeg = new THREE.Mesh(legGeometry, material);
+    leftLeg.position.set(-0.3, -0.6, 0);
+    group.add(leftLeg);
+
+    const rightLeg = new THREE.Mesh(legGeometry, material);
+    rightLeg.position.set(0.3, -0.6, 0);
+    group.add(rightLeg);
 
     return group;
   };
@@ -550,7 +1109,7 @@ const FighterSilhouettes = ({ mouse }: { mouse: { x: number; y: number } }) => {
   return (
     <group>
       {activeFighters.map((fighter, index) => {
-        const fighterGeometry = createFighterGeometry(fighter.world);
+        const fighterGeometry = createFighterGeometry(fighter);
         
         return (
           <primitive
