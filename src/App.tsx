@@ -42,7 +42,7 @@ const AppContent = () => {
         <Route path="/pit" element={<ProtectedRoute><Pit /></ProtectedRoute>} />
         <Route path="/fyte-card" element={<ProtectedRoute><FyteCard /></ProtectedRoute>} />
         <Route path="/bloodbook" element={<ProtectedRoute><Bloodbook /></ProtectedRoute>} />
-        <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </SidebarLayout>
