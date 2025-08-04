@@ -27,12 +27,12 @@ import {
 import { useSound } from '@/hooks/useSound';
 import { Footer } from '@/components/Footer';
 
-// Hero images for each realm
+// Hero images for each realm - using the same space background as homepage
 const realmHeroImages = {
-  'dark-arena': 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&h=400', // Industrial warehouse/factory
-  'sci-fi-ai': 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&h=400', // Modern tech/data center
-  'fantasy-tech': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&h=400', // Abstract tech/mystical
-  'earth-1-0': 'https://images.unsplash.com/photo-1541872705-1f73c6400ec9?auto=format&fit=crop&w=1200&h=400' // Government building/political arena
+  'dark-arena': 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1920&h=1080', // Deep space - matches homepage
+  'sci-fi-ai': 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1920&h=1080', // Deep space - matches homepage
+  'fantasy-tech': 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1920&h=1080', // Deep space - matches homepage
+  'earth-1-0': 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1920&h=1080' // Deep space - matches homepage
 };
 
 const realmLore = {
@@ -186,9 +186,9 @@ const Realm = () => {
           backgroundPosition: 'center'
         }}
       >
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/40" />
         <div 
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-60"
           style={{
             background: `linear-gradient(135deg, ${world.theme.primary}, ${world.theme.accent})`
           }}
