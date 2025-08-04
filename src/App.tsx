@@ -25,12 +25,14 @@ import LiveFights from "./pages/LiveFights";
 import { SidebarLayout } from "./components/SidebarLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminRoute } from "./components/AdminRoute";
+import { RealtimeNotifications } from "./components/RealtimeNotifications";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
   return (
     <SidebarLayout>
+      <RealtimeNotifications />
       <Routes>
         <Route path="/auth" element={<Auth />} />
         <Route path="/success" element={<Success />} />

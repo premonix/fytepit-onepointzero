@@ -12,6 +12,8 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { UserAchievements } from '@/components/UserAchievements';
+import { useCheckAchievements } from '@/hooks/useAchievements';
 import { 
   User, 
   Trophy, 
@@ -25,7 +27,8 @@ import {
   BarChart3,
   History,
   CreditCard,
-  ArrowUpDown
+  ArrowUpDown,
+  Award
 } from 'lucide-react';
 
 interface UserProfile {
@@ -90,10 +93,10 @@ const Profile = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   
-  // Use unified data hooks
   const { data: profile, isLoading: profileLoading } = useUserProfile();
   const { data: transactions, isLoading: transactionsLoading } = useUserTransactions();
   const { data: bets, isLoading: betsLoading } = useUserBets();
+  const checkAchievements = useCheckAchievements();
   
   // Keep existing state for other features
   const [achievements, setAchievements] = useState<Achievement[]>([]);
@@ -106,6 +109,13 @@ const Profile = () => {
     display_name: '',
     bio: ''
   });
+
+  // Check achievements when profile loads or updates
+  useEffect(() => {
+    if (profile && user) {
+      checkAchievements.mutate();
+    }
+  }, [profile?.total_balance, bets?.length]);
 
   useEffect(() => {
     if (user) {
@@ -380,7 +390,7 @@ const Profile = () => {
               Transactions
             </TabsTrigger>
             <TabsTrigger value="achievements" className="data-[state=active]:bg-gray-700">
-              <Trophy className="w-4 h-4 mr-2" />
+              <Award className="w-4 h-4 mr-2" />
               Achievements
             </TabsTrigger>
             <TabsTrigger value="notifications" className="data-[state=active]:bg-gray-700">
