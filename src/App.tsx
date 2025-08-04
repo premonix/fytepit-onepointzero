@@ -18,6 +18,7 @@ import Bloodbook from "./pages/Bloodbook";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import Success from "./pages/Success";
 import { SidebarLayout } from "./components/SidebarLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminRoute } from "./components/AdminRoute";
@@ -29,6 +30,7 @@ const AppContent = () => {
     <SidebarLayout>
       <Routes>
         <Route path="/auth" element={<Auth />} />
+        <Route path="/success" element={<Success />} />
         <Route path="/" element={<Index />} />
         <Route path="/worlds" element={<Worlds />} />
         <Route path="/fighter/:fighterId" element={<Fighter />} />

@@ -11,11 +11,16 @@ import {
   Zap,
   Trophy,
   Palette,
-  Users
+  Users,
+  Settings
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import { useSubscription } from "@/hooks/useSubscription";
+import { useAuth } from "@/hooks/useAuth";
 
 const Pricing = () => {
+  const { user } = useAuth();
+  const { subscription, createCheckout, openCustomerPortal } = useSubscription();
   const fighterTiers = [
     {
       name: "Free",
@@ -143,6 +148,37 @@ const Pricing = () => {
           >
             Whether you're here to fight, bet, or build — there's a tier for you.
           </motion.p>
+          
+          {/* Current Subscription Status */}
+          {user && (
+            <motion.div
+              className="mt-8 flex items-center justify-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">Current Plan:</span>
+                <Badge variant={subscription.subscription_tier === 'free' ? 'secondary' : 'default'}>
+                  {subscription.subscription_tier === 'free' && <Trophy className="w-3 h-3 mr-1" />}
+                  {subscription.subscription_tier === 'fractional' && <Crown className="w-3 h-3 mr-1" />}
+                  {subscription.subscription_tier === 'premium' && <Star className="w-3 h-3 mr-1" />}
+                  {subscription.subscription_tier.charAt(0).toUpperCase() + subscription.subscription_tier.slice(1)}
+                </Badge>
+              </div>
+              {subscription.subscription_tier !== 'free' && (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={openCustomerPortal}
+                  className="gap-2"
+                >
+                  <Settings className="w-3 h-3" />
+                  Manage Subscription
+                </Button>
+              )}
+            </motion.div>
+          )}
         </div>
       </motion.section>
 
@@ -200,8 +236,25 @@ const Pricing = () => {
                       <Button 
                         className="w-full" 
                         variant={tier.popular ? "default" : "outline"}
+                        onClick={() => {
+                          if (tier.name === "Free") {
+                            window.location.href = "/auth";
+                          } else if (tier.name === "Fractional Stake") {
+                            if (user) {
+                              createCheckout('fractional');
+                            } else {
+                              window.location.href = "/auth";
+                            }
+                          } else {
+                            if (user) {
+                              createCheckout('premium');
+                            } else {
+                              window.location.href = "/auth";
+                            }
+                          }
+                        }}
                       >
-                        {tier.name === "Free" ? "Get Started" : "Choose Plan"}
+                        {tier.name === "Free" ? "Get Started" : user ? "Choose Plan" : "Sign In to Subscribe"}
                       </Button>
                     </CardContent>
                   </Card>
