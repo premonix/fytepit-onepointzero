@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { UserManagement } from '@/components/UserManagement';
 import { FighterManagement } from '@/components/FighterManagement';
 import { FightManagement } from '@/components/FightManagement';
+import { FightCreation } from '@/components/FightCreation';
+import { TournamentManagement } from '@/components/TournamentManagement';
 import { SystemSettings } from '@/components/SystemSettings';
 import { ContentModeration } from '@/components/ContentModeration';
 import { AdminAnalytics } from '@/components/AdminAnalytics';
@@ -56,13 +58,15 @@ export default function Admin() {
 
         {/* Admin Tabs */}
         <Tabs defaultValue="users" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="users">User Management</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-8">
+            <TabsTrigger value="users">Users</TabsTrigger>
             {isAdmin() && <TabsTrigger value="analytics">Analytics</TabsTrigger>}
-            {isAdmin() && <TabsTrigger value="fighters">Fighter Management</TabsTrigger>}
-            {isAdmin() && <TabsTrigger value="fights">Fight Management</TabsTrigger>}
-            {isAdmin() && <TabsTrigger value="moderation">Content Moderation</TabsTrigger>}
-            {isSuperAdmin() && <TabsTrigger value="system">System Settings</TabsTrigger>}
+            {isAdmin() && <TabsTrigger value="fighters">Fighters</TabsTrigger>
+            {isAdmin() && <TabsTrigger value="fights">Fights</TabsTrigger>
+            {isAdmin() && <TabsTrigger value="create-fight">Create Fight</TabsTrigger>}
+            {isAdmin() && <TabsTrigger value="tournaments">Tournaments</TabsTrigger>}
+            {isAdmin() && <TabsTrigger value="moderation">Moderation</TabsTrigger>}
+            {isSuperAdmin() && <TabsTrigger value="system">Settings</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="users" className="space-y-6">
@@ -84,6 +88,18 @@ export default function Admin() {
           {isAdmin() && (
             <TabsContent value="fights" className="space-y-6">
               <FightManagement />
+            </TabsContent>
+          )}
+
+          {isAdmin() && (
+            <TabsContent value="create-fight" className="space-y-6">
+              <FightCreation />
+            </TabsContent>
+          )}
+
+          {isAdmin() && (
+            <TabsContent value="tournaments" className="space-y-6">
+              <TournamentManagement />
             </TabsContent>
           )}
 
