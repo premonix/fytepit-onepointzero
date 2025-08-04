@@ -4,6 +4,7 @@ import { Sword, ChevronDown, Play, Volume2, VolumeX, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { VideoMediaHero } from '@/components/VideoMediaHero';
+import { PlatformIntroSection } from '@/components/PlatformIntroSection';
 import { Hero3DBackground } from '@/components/Hero3DBackground';
 import { RealmSection } from '@/components/RealmSection';
 import { PortalSection } from '@/components/PortalSection';
@@ -116,6 +117,9 @@ const Index = () => {
     <div className="min-h-screen bg-black overflow-x-hidden">
       {/* Video/Media Hero Section */}
       <VideoMediaHero />
+
+      {/* Platform Introduction Section */}
+      <PlatformIntroSection />
 
       {/* Fighter Selection Section */}
       <FighterSelectionSection />
