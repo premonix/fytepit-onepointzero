@@ -422,20 +422,46 @@ class FightManager {
       fight.countdownId = undefined;
     }
 
-    // Update database
-    this.supabase
-      .from('fights')
-      .update({ 
-        status: 'completed',
-        completed_at: new Date().toISOString(),
-        winner_id: winner?.id || null
-      })
-      .eq('id', fightId)
-      .then(({ error }) => {
-        if (error) console.error('Failed to update fight completion:', error);
-      });
+    // Use the comprehensive completion function to update all stats
+    if (winner) {
+      this.supabase
+        .rpc('complete_fight_with_stats', {
+          _fight_id: fightId,
+          _winner_id: winner.id
+        })
+        .then(({ error }) => {
+          if (error) {
+            console.error('Failed to complete fight with stats:', error);
+          } else {
+            console.log(`Fight ${fightId} stats updated successfully`);
+            
+            // Broadcast final completion with updated stats
+            this.broadcastToFight(fightId, {
+              type: 'fight_complete_with_stats',
+              data: { 
+                winner,
+                stats_updated: true
+              },
+              timestamp: new Date()
+            });
+          }
+        });
+    } else {
+      // Handle draw case
+      this.supabase
+        .from('fights')
+        .update({ 
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+          winner_id: null
+        })
+        .eq('id', fightId)
+        .then(({ error }) => {
+          if (error) console.error('Failed to update fight completion:', error);
+        });
+    }
 
-    // Broadcast completion
+    // Broadcast basic completion
     this.broadcastToFight(fightId, {
       type: 'fight_complete',
       data: { winner },

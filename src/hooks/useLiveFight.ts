@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Fighter } from '@/types/fighter';
 import { CombatState, CombatAction } from '@/engine/CombatEngine';
 import { supabase } from '@/integrations/supabase/client';
@@ -17,7 +18,7 @@ export interface LiveFight {
 }
 
 export interface FightEvent {
-  type: 'state_update' | 'action' | 'spectator_update' | 'bet_update' | 'fight_complete' | 'fight_countdown' | 'fight_started';
+  type: 'state_update' | 'action' | 'spectator_update' | 'bet_update' | 'fight_complete' | 'fight_countdown' | 'fight_started' | 'fight_complete_with_stats';
   data: any;
   timestamp: Date;
 }
@@ -34,6 +35,7 @@ interface UseLiveFightReturn {
 }
 
 export function useLiveFight(fightId: string): UseLiveFightReturn {
+  const queryClient = useQueryClient();
   const [fight, setFight] = useState<LiveFight | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -150,6 +152,23 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
         } : null);
         break;
 
+      case 'fight_complete_with_stats':
+        setFight(prev => prev ? {
+          ...prev,
+          status: 'completed',
+          winner: event.data.winner
+        } : null);
+        
+        // Invalidate all fight-related queries to refresh data across the app
+        console.log('Fight completed with stats updated - refreshing all data');
+        queryClient.invalidateQueries({ queryKey: ['fights'] });
+        queryClient.invalidateQueries({ queryKey: ['fighters'] });
+        queryClient.invalidateQueries({ queryKey: ['bets'] });
+        queryClient.invalidateQueries({ queryKey: ['profile'] });
+        queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
+        queryClient.invalidateQueries({ queryKey: ['notifications'] });
+        break;
+
       case 'fight_countdown':
         // Handle countdown events
         console.log('Fight countdown:', event.data.countdown);
@@ -171,7 +190,7 @@ export function useLiveFight(fightId: string): UseLiveFightReturn {
       default:
         console.log('Unknown fight event type:', event.type);
     }
-  }, []);
+  }, [queryClient]);
 
   const placeBet = useCallback(async (fighterId: string, amount: number) => {
     if (!fight || !isConnected || !ws) {

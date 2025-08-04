@@ -859,6 +859,10 @@ export type Database = {
           achievement_name: string
         }[]
       }
+      complete_fight_with_stats: {
+        Args: { _fight_id: string; _winner_id: string }
+        Returns: boolean
+      }
       create_notification: {
         Args: {
           _user_id: string
