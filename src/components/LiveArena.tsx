@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,14 @@ import {
   Eye,
   TrendingUp,
   Flame,
-  Volume2
+  Volume2,
+  ArrowLeft,
+  Share2,
+  Twitter,
+  Facebook,
+  Copy,
+  Trophy,
+  Star
 } from 'lucide-react';
 import { useLiveFight } from '@/hooks/useLiveFight';
 import { Fighter } from '@/types/fighter';
@@ -33,6 +41,7 @@ interface CountdownState {
 }
 
 export function LiveArena({ fightId }: LiveArenaProps) {
+  const navigate = useNavigate();
   const { fight, isConnected, isLoading, error, spectators, placeBet, reactToFight, startFight } = useLiveFight(fightId);
   const [betAmount, setBetAmount] = useState<string>('');
   const [selectedFighter, setSelectedFighter] = useState<string | null>(null);
@@ -514,6 +523,157 @@ export function LiveArena({ fightId }: LiveArenaProps) {
           </CardContent>
         </Card>
       )}
+
+      {/* Fight Completed - Navigation & Social Sharing */}
+      {fight.status === 'completed' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-4"
+        >
+          {/* Winner Announcement */}
+          {fight.winner && (
+            <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10">
+              <CardContent className="p-6 text-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring" }}
+                  className="space-y-4"
+                >
+                  <Trophy className="w-16 h-16 text-primary mx-auto" />
+                  <div>
+                    <h2 className="text-3xl font-bold mb-2">Victory!</h2>
+                    <p className="text-xl text-muted-foreground">
+                      <span className="font-semibold text-primary">{fight.winner.name}</span> wins the fight!
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Star className="w-5 h-5 text-yellow-500" />
+                    <span className="font-medium">Epic Battle Complete</span>
+                    <Star className="w-5 h-5 text-yellow-500" />
+                  </div>
+                </motion.div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Action Buttons */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Navigation Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ArrowLeft className="w-5 h-5" />
+                  Navigation
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => navigate(-1)}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Go Back
+                </Button>
+                <Button 
+                  className="w-full"
+                  onClick={() => navigate('/live-fights')}
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Watch More Fights
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => navigate('/leaderboard')}
+                >
+                  <Trophy className="w-4 h-4 mr-2" />
+                  View Leaderboard
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Social Sharing Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Share2 className="w-5 h-5" />
+                  Share Results
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <SocialShareButton
+                  platform="twitter"
+                  text={`🏆 ${fight.winner?.name || 'Epic fight'} just won an amazing battle in FytePit! ${fight.fighter1.name} vs ${fight.fighter2.name} was incredible! #FytePit #Fighting`}
+                  url={window.location.href}
+                />
+                <SocialShareButton
+                  platform="facebook"
+                  url={window.location.href}
+                  text={`Check out this epic fight! ${fight.winner?.name || 'Amazing battle'} in FytePit`}
+                />
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => copyFightResults()}
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy Fight Link
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      )}
     </div>
+  );
+
+  // Helper function to copy fight results
+  function copyFightResults() {
+    const fightSummary = `🏆 ${fight.winner?.name || 'Epic battle'} wins!\n${fight.fighter1.name} vs ${fight.fighter2.name}\nWatch the full fight: ${window.location.href}`;
+    navigator.clipboard.writeText(fightSummary).then(() => {
+      toast({
+        title: "Copied!",
+        description: "Fight results copied to clipboard",
+      });
+    }).catch(() => {
+      toast({
+        title: "Copy Failed",
+        description: "Please copy the link manually",
+        variant: "destructive"
+      });
+    });
+  }
+}
+
+// Social Share Button Component
+function SocialShareButton({ platform, text, url }: { platform: 'twitter' | 'facebook'; text: string; url: string }) {
+  const handleShare = () => {
+    let shareUrl = '';
+    
+    if (platform === 'twitter') {
+      shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    } else if (platform === 'facebook') {
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
+    }
+    
+    window.open(shareUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+  };
+
+  return (
+    <Button
+      variant="outline"
+      className="w-full"
+      onClick={handleShare}
+    >
+      {platform === 'twitter' ? (
+        <Twitter className="w-4 h-4 mr-2" />
+      ) : (
+        <Facebook className="w-4 h-4 mr-2" />
+      )}
+      Share on {platform === 'twitter' ? 'Twitter' : 'Facebook'}
+    </Button>
   );
 }
