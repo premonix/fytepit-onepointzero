@@ -321,11 +321,20 @@ class FightManager {
 
   startFight(fightId: string) {
     const fight = this.fights.get(fightId);
-    if (!fight || fight.status !== 'upcoming' || fight.isStarting) return;
+    if (!fight) {
+      console.error(`Fight ${fightId} not found when trying to start`);
+      return;
+    }
+    
+    if (fight.status !== 'upcoming') {
+      console.error(`Fight ${fightId} status is ${fight.status}, expected 'upcoming'`);
+      return;
+    }
 
+    console.log(`Starting fight ${fightId} - current status: ${fight.status}, isStarting: ${fight.isStarting}`);
+    
     fight.status = 'live';
     fight.isStarting = false;
-    console.log(`Starting fight ${fightId}`);
 
     // Update database
     this.supabase
