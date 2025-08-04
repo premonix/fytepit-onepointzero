@@ -87,6 +87,8 @@ export function FightCreation() {
   };
 
   const handleCreateFight = async () => {
+    console.log('Form data before validation:', formData);
+    
     if (!formData.fighter1_id || !formData.fighter2_id) {
       toast({
         title: "Error",
@@ -113,6 +115,7 @@ export function FightCreation() {
         const [hours, minutes] = formData.scheduled_time.split(':');
         scheduledAt = new Date(formData.scheduled_date);
         scheduledAt.setHours(parseInt(hours), parseInt(minutes));
+        console.log('Scheduled at:', scheduledAt);
       }
 
       const { data: fightId, error } = await supabase.rpc('admin_create_fight', {
@@ -128,7 +131,12 @@ export function FightCreation() {
 
       console.log('Fight creation result:', { fightId, error });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Fight creation error:', error);
+        throw error;
+      }
+
+      console.log('Fight created successfully with ID:', fightId);
 
       toast({
         title: "Success",
@@ -155,7 +163,7 @@ export function FightCreation() {
       console.error('Error creating fight:', error);
       toast({
         title: "Error",
-        description: "Failed to create fight. Please try again.",
+        description: error?.message || "Failed to create fight. Please try again.",
         variant: "destructive",
       });
     } finally {
