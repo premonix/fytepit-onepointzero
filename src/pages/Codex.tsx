@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Footer } from '@/components/Footer';
 import { useSound } from '@/hooks/useSound';
+import { worlds } from '@/data/worlds';
 
 const Codex = () => {
   const [selectedCategory, setSelectedCategory] = useState('lore');
@@ -322,129 +323,57 @@ const Codex = () => {
 
             <TabsContent value="realms" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-                <Card className="bg-gradient-to-br from-red-900/20 to-black border-red-800">
-                  <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-3">
-                      <Eye className="w-6 h-6 text-red-400" />
-                      Dark Arena
-                    </CardTitle>
-                    <CardDescription className="text-gray-400">
-                      Realm of Shadow and Steel
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-gray-300">
-                      A brutal wasteland where only the strongest survive. Ancient technology merges with dark magic to create weapons of unimaginable power.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="text-sm">
-                        <span className="text-gray-400">Dominant Element:</span>
-                        <span className="text-red-400 ml-2">Shadow Energy</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Fighting Style:</span>
-                        <span className="text-white ml-2">Aggressive Melee</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Specialty:</span>
-                        <span className="text-white ml-2">Raw Power</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-blue-900/20 to-black border-blue-800">
-                  <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-3">
-                      <Zap className="w-6 h-6 text-blue-400" />
-                      Sci-Fi AI
-                    </CardTitle>
-                    <CardDescription className="text-gray-400">
-                      Realm of Logic and Lightning
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-gray-300">
-                      A digital fortress where artificial intelligence has evolved beyond human comprehension. Precision and strategy dominate every encounter.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="text-sm">
-                        <span className="text-gray-400">Dominant Element:</span>
-                        <span className="text-blue-400 ml-2">Digital Energy</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Fighting Style:</span>
-                        <span className="text-white ml-2">Tactical Ranged</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Specialty:</span>
-                        <span className="text-white ml-2">Strategic Analysis</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-purple-900/20 to-black border-purple-800">
-                  <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-3">
-                      <Shield className="w-6 h-6 text-purple-400" />
-                      Fantasy Tech
-                    </CardTitle>
-                    <CardDescription className="text-gray-400">
-                      Realm of Magic and Machine
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-gray-300">
-                      Where ancient sorcery interfaces with cutting-edge technology. Unpredictable and mystical, defying conventional combat logic.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="text-sm">
-                        <span className="text-gray-400">Dominant Element:</span>
-                        <span className="text-purple-400 ml-2">Arcane Tech</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Fighting Style:</span>
-                        <span className="text-white ml-2">Adaptive Hybrid</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Specialty:</span>
-                        <span className="text-white ml-2">Mystical Arts</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-blue-600/20 to-orange-600/20 border-blue-600">
-                  <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-3">
-                      <Globe className="w-6 h-6 text-blue-400" />
-                      Earth 1.0
-                    </CardTitle>
-                    <CardDescription className="text-gray-400">
-                      Realm of Politics and Viral Power
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-gray-300">
-                      A satirical battleground where global leaders settle disputes through combat. Media manipulation and viral surges fuel unpredictable power.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="text-sm">
-                        <span className="text-gray-400">Dominant Element:</span>
-                        <span className="text-blue-400 ml-2">Media Hype</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Fighting Style:</span>
-                        <span className="text-white ml-2">Ego-Driven</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-gray-400">Specialty:</span>
-                        <span className="text-white ml-2">Viral Manipulation</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                {worlds.map((world, index) => (
+                  <motion.div
+                    key={world.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Card 
+                      className="border-2 transition-all duration-300 hover:scale-105"
+                      style={{ 
+                        background: `linear-gradient(135deg, ${world.theme.primary}20, ${world.theme.accent}20)`,
+                        borderColor: world.theme.primary
+                      }}
+                    >
+                      <CardHeader>
+                        <CardTitle className="text-white flex items-center gap-3">
+                          {world.id === 'dark-arena' && <Eye className="w-6 h-6" style={{ color: world.theme.primary }} />}
+                          {world.id === 'sci-fi-ai' && <Zap className="w-6 h-6" style={{ color: world.theme.primary }} />}
+                          {world.id === 'fantasy-tech' && <Shield className="w-6 h-6" style={{ color: world.theme.primary }} />}
+                          {world.id === 'earth-1-0' && <Globe className="w-6 h-6" style={{ color: world.theme.primary }} />}
+                          {world.name}
+                        </CardTitle>
+                        <CardDescription className="text-gray-400">
+                          {world.id === 'dark-arena' && 'Realm of Shadow and Steel'}
+                          {world.id === 'sci-fi-ai' && 'Realm of Logic and Lightning'}
+                          {world.id === 'fantasy-tech' && 'Realm of Magic and Machine'}
+                          {world.id === 'earth-1-0' && 'Realm of Politics and Viral Power'}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <p className="text-sm text-gray-300">
+                          {world.description}
+                        </p>
+                        <div className="space-y-2">
+                          <div className="text-sm">
+                            <span className="text-gray-400">Power Source:</span>
+                            <span className="ml-2" style={{ color: world.theme.primary }}>{world.powerSource}</span>
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-gray-400">Visual Style:</span>
+                            <span className="text-white ml-2">{world.visualStyle}</span>
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-gray-400">Combat Flavor:</span>
+                            <span className="text-white ml-2">{world.combatFlavor}</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
               </div>
             </TabsContent>
           </Tabs>
