@@ -1,5 +1,6 @@
 import { Home, Globe, Trophy, Book, Swords, HelpCircle, DollarSign, Calendar, Scroll, Settings } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useUserRole } from "@/hooks/useUserRole";
 import {
   Sidebar,
   SidebarContent,
@@ -39,6 +40,7 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const { playUI } = useSound();
+  const { isAdmin } = useUserRole();
   const currentPath = location.pathname;
 
   const isActive = (path: string) => currentPath === path;
@@ -104,15 +106,17 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Admin */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-gray-400">
-            {state !== "collapsed" && "Admin"}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            {renderMenuItems(adminItems)}
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {/* Admin - Only show to admins */}
+        {isAdmin() && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-gray-400">
+              {state !== "collapsed" && "Admin"}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              {renderMenuItems(adminItems)}
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
     </Sidebar>
   );

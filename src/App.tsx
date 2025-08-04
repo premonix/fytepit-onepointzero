@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import { SidebarLayout } from "./components/SidebarLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AdminRoute } from "./components/AdminRoute";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +40,7 @@ const AppContent = () => {
         <Route path="/pit" element={<ProtectedRoute><Pit /></ProtectedRoute>} />
         <Route path="/fyte-card" element={<ProtectedRoute><FyteCard /></ProtectedRoute>} />
         <Route path="/bloodbook" element={<ProtectedRoute><Bloodbook /></ProtectedRoute>} />
-        <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+        <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </SidebarLayout>
