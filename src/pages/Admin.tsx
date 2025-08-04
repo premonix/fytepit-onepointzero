@@ -58,14 +58,18 @@ export default function Admin() {
 
         {/* Admin Tabs */}
         <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-8">
+          <TabsList>
             <TabsTrigger value="users">Users</TabsTrigger>
-            {isAdmin() && <TabsTrigger value="analytics">Analytics</TabsTrigger>}
-            {isAdmin() && <TabsTrigger value="fighters">Fighters</TabsTrigger>
-            {isAdmin() && <TabsTrigger value="fights">Fights</TabsTrigger>
-            {isAdmin() && <TabsTrigger value="create-fight">Create Fight</TabsTrigger>}
-            {isAdmin() && <TabsTrigger value="tournaments">Tournaments</TabsTrigger>}
-            {isAdmin() && <TabsTrigger value="moderation">Moderation</TabsTrigger>}
+            {isAdmin() && (
+              <>
+                <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                <TabsTrigger value="fighters">Fighters</TabsTrigger>
+                <TabsTrigger value="fights">Fights</TabsTrigger>
+                <TabsTrigger value="create-fight">Create Fight</TabsTrigger>
+                <TabsTrigger value="tournaments">Tournaments</TabsTrigger>
+                <TabsTrigger value="moderation">Moderation</TabsTrigger>
+              </>
+            )}
             {isSuperAdmin() && <TabsTrigger value="system">Settings</TabsTrigger>}
           </TabsList>
 
