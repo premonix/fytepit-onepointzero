@@ -29,10 +29,10 @@ import { Footer } from '@/components/Footer';
 
 // Hero images for each realm
 const realmHeroImages = {
-  'dark-arena': 'https://images.unsplash.com/photo-1494891848038-7bd20242006b?w=1200&h=400&fit=crop', // Industrial/dark building - brutal arena environment
-  'sci-fi-ai': 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1200&h=400&fit=crop', // Futuristic training/VR environment
-  'fantasy-tech': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=400&fit=crop', // Fantasy/mystical combat training ground
-  'earth-1-0': 'https://images.unsplash.com/photo-1541746972996-4e0b0f93e586?w=1200&h=400&fit=crop' // Political arena/debate stage for Earth's satirical battles
+  'dark-arena': 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&h=400', // Industrial warehouse/factory
+  'sci-fi-ai': 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&h=400', // Modern tech/data center
+  'fantasy-tech': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&h=400', // Abstract tech/mystical
+  'earth-1-0': 'https://images.unsplash.com/photo-1541872705-1f73c6400ec9?auto=format&fit=crop&w=1200&h=400' // Government building/political arena
 };
 
 const realmLore = {
