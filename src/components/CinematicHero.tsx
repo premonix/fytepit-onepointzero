@@ -96,24 +96,6 @@ export const CinematicHero = () => {
                 <p className="text-sm text-gray-400">Interdimensional Combat Arena</p>
               </div>
             </motion.div>
-            
-            <div className="flex items-center gap-2">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-              >
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={toggleMute}
-                  onMouseEnter={() => playUI('hover')}
-                  className="text-white hover:text-primary transition-all duration-300"
-                >
-                  {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                </Button>
-              </motion.div>
-            </div>
           </div>
         </div>
       </motion.div>
