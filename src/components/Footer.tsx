@@ -96,15 +96,21 @@ export const Footer = () => {
                   Admin Panel
                 </Button>
               </Link>
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
-                Terms of Service
-              </Button>
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
-                Privacy Policy
-              </Button>
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
-                Legal Notice
-              </Button>
+              <Link to="/terms" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  Terms of Service
+                </Button>
+              </Link>
+              <Link to="/privacy" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  Privacy Policy
+                </Button>
+              </Link>
+              <Link to="/legal" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  Legal Notice
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

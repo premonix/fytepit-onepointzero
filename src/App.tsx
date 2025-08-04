@@ -25,6 +25,9 @@ import Success from "./pages/Success";
 import Profile from "./pages/Profile";
 import LiveFight from "./pages/LiveFight";
 import LiveFights from "./pages/LiveFights";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import Legal from "./pages/Legal";
 import { SidebarLayout } from "./components/SidebarLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminRoute } from "./components/AdminRoute";
@@ -55,6 +58,9 @@ const AppContent = () => {
         <Route path="/live-fight/:fightId" element={<ProtectedRoute><LiveFight /></ProtectedRoute>} />
         <Route path="/tournaments" element={<Tournaments />} />
         <Route path="/social" element={<Social />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/legal" element={<Legal />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
