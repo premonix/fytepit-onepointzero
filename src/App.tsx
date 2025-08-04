@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Success from "./pages/Success";
 import Profile from "./pages/Profile";
+import LiveFight from "./pages/LiveFight";
 import { SidebarLayout } from "./components/SidebarLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminRoute } from "./components/AdminRoute";
@@ -44,6 +45,7 @@ const AppContent = () => {
         <Route path="/fyte-card" element={<ProtectedRoute><FyteCard /></ProtectedRoute>} />
         <Route path="/bloodbook" element={<ProtectedRoute><Bloodbook /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/live-fight/:fightId" element={<ProtectedRoute><LiveFight /></ProtectedRoute>} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
