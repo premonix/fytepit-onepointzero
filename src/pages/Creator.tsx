@@ -241,9 +241,12 @@ const Creator = () => {
                   <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${inspiration.color} mb-3`}>
                     <inspiration.icon className="w-6 h-6 text-white" />
                   </div>
-                  <p className="text-sm text-muted-foreground font-medium">
-                    {inspiration.title}'s {inspiration.description.toLowerCase().split(' ').slice(-3).join(' ')}
-                  </p>
+                  <div className="text-center">
+                    <h3 className="text-sm font-semibold text-foreground mb-1">{inspiration.title}</h3>
+                    <p className="text-xs text-muted-foreground italic">
+                      "{inspiration.quote}"
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </div>
