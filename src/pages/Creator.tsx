@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import puppetMasterHero from "@/assets/puppet-master-hero.jpg";
 import { 
   Trophy, 
   Zap, 
@@ -133,7 +134,15 @@ const Creator = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5" />
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src={puppetMasterHero} 
+            alt="Puppet master controlling digital realms"
+            className="w-full h-full object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-primary/20 to-accent/20" />
+        </div>
         
         {/* Floating particles */}
         <div className="absolute inset-0">
