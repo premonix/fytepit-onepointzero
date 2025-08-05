@@ -145,47 +145,134 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="bg-black border-t border-gray-800 py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-4 mb-6">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Header */}
+          <div className="flex items-center justify-center gap-4 mb-8">
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
               <Sword className="w-4 h-4 text-white" />
             </div>
             <h3 className="text-xl font-bold text-white">FYTEPIT</h3>
           </div>
           
-          <div className="flex justify-center gap-8 mb-6 text-gray-400">
-            <Link to="/worlds">
-              <Button variant="ghost" className="text-gray-400 hover:text-white">
-                Explore Worlds
-              </Button>
-            </Link>
-            <Link to="/leaderboard">
-              <Button variant="ghost" className="text-gray-400 hover:text-white">
-                Leaderboard
-              </Button>
-            </Link>
-            <Link to="/pit">
-              <Button variant="ghost" className="text-gray-400 hover:text-white" title="Practice Arena - Offline simulation training">
-                The Pit (Practice)
-              </Button>
-            </Link>
-            <Link to="/live-fights">
-              <Button variant="ghost" className="text-gray-400 hover:text-white" title="Live Arena - Real multiplayer fights">
-                Live Arena (Multiplayer)
-              </Button>
-            </Link>
-            <Button 
-              variant="ghost" 
-              className="text-gray-400 hover:text-white"
-              onClick={() => document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Select Fighters
-            </Button>
+          {/* Navigation Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            {/* Main Navigation */}
+            <div>
+              <h4 className="text-primary font-semibold mb-4">Main</h4>
+              <div className="space-y-2">
+                <Link to="/">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Home
+                  </Button>
+                </Link>
+                <Link to="/worlds">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Explore Worlds
+                  </Button>
+                </Link>
+                <Link to="/pit">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start" title="Practice Arena - Offline simulation training">
+                    The Pit (Practice)
+                  </Button>
+                </Link>
+                <Link to="/live-fights">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start" title="Live Arena - Real multiplayer fights">
+                    Live Arena (Multiplayer)
+                  </Button>
+                </Link>
+                <Link to="/tournaments">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Tournaments
+                  </Button>
+                </Link>
+                <Link to="/leaderboard">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Leaderboard
+                  </Button>
+                </Link>
+                <Link to="/social">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Social
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Game Features */}
+            <div>
+              <h4 className="text-primary font-semibold mb-4">Game</h4>
+              <div className="space-y-2">
+                <Link to="/fyte-card">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Fyte Card
+                  </Button>
+                </Link>
+                <Link to="/bloodbook">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Bloodbook
+                  </Button>
+                </Link>
+                <Link to="/codex">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Codex
+                  </Button>
+                </Link>
+                <Button 
+                  variant="ghost" 
+                  className="text-gray-400 hover:text-white w-full justify-start"
+                  onClick={() => document.getElementById('fighter-selection')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Select Fighters
+                </Button>
+              </div>
+            </div>
+
+            {/* Information */}
+            <div>
+              <h4 className="text-primary font-semibold mb-4">Info</h4>
+              <div className="space-y-2">
+                <Link to="/how-it-works">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    How It Works
+                  </Button>
+                </Link>
+                <Link to="/pricing">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Pricing
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="text-primary font-semibold mb-4">Legal</h4>
+              <div className="space-y-2">
+                <Link to="/terms">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Terms of Service
+                  </Button>
+                </Link>
+                <Link to="/privacy">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Privacy Policy
+                  </Button>
+                </Link>
+                <Link to="/legal">
+                  <Button variant="ghost" className="text-gray-400 hover:text-white w-full justify-start">
+                    Legal Notice
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
           
-          <p className="text-gray-500 text-sm">
-            © 2024 FYTEPIT. The arena awaits.
-          </p>
+          {/* Copyright */}
+          <div className="text-center pt-8 border-t border-gray-800">
+            <p className="text-gray-500 text-sm">
+              © 2024 FYTEPIT. The arena awaits.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
