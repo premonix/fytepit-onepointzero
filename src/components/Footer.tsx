@@ -34,22 +34,32 @@ export const Footer = () => {
             <div className="space-y-3">
               <Link to="/" className="block">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
-                  Fighters
+                  Home
                 </Button>
               </Link>
               <Link to="/pit" className="block">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
-                  The Pit
+                  The Pit (Practice)
                 </Button>
               </Link>
-              <Link to="/bloodbook" className="block">
+              <Link to="/live-fights" className="block">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
-                  Bloodbook
+                  Live Arena
+                </Button>
+              </Link>
+              <Link to="/tournaments" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  Tournaments
                 </Button>
               </Link>
               <Link to="/leaderboard" className="block">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
                   Leaderboard
+                </Button>
+              </Link>
+              <Link to="/social" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  Social
                 </Button>
               </Link>
             </div>
@@ -72,6 +82,11 @@ export const Footer = () => {
               <Link to="/fyte-card" className="block">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
                   Fyte Card
+                </Button>
+              </Link>
+              <Link to="/bloodbook" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  Bloodbook
                 </Button>
               </Link>
               <Link to="/how-it-works" className="block">
