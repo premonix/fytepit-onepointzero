@@ -1,4 +1,4 @@
-import { Home, Globe, Trophy, Book, Swords, HelpCircle, DollarSign, Calendar, Scroll, Settings, Zap, Users } from "lucide-react";
+import { Home, Globe, Trophy, Book, Swords, HelpCircle, DollarSign, Calendar, Scroll, Settings, Zap, Users, Sparkles } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useUserRole } from "@/hooks/useUserRole";
 import {
@@ -31,6 +31,7 @@ const gameItems = [
 ];
 
 const infoItems = [
+  { title: "The Creator", url: "/creator", icon: Sparkles },
   { title: "How It Works", url: "/how-it-works", icon: HelpCircle },
   { title: "Pricing", url: "/pricing", icon: DollarSign },
 ];

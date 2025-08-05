@@ -89,6 +89,11 @@ export const Footer = () => {
                   Bloodbook
                 </Button>
               </Link>
+              <Link to="/creator" className="block">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
+                  The Creator
+                </Button>
+              </Link>
               <Link to="/how-it-works" className="block">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary w-full justify-start p-0 h-auto">
                   How It Works
