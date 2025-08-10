@@ -29,6 +29,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Legal from "./pages/Legal";
 import Creator from "./pages/Creator";
+import Downloads from "./pages/Downloads";
 import { SidebarLayout } from "./components/SidebarLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminRoute } from "./components/AdminRoute";
@@ -63,6 +64,7 @@ const AppContent = () => {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/creator" element={<Creator />} />
+        <Route path="/downloads" element={<Downloads />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
