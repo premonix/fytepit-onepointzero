@@ -137,15 +137,25 @@ class SoundManager {
 
   // Load background music
   private async loadBackgroundMusic() {
+    console.log('Loading background music from GitHub...');
     this.backgroundMusic = new Howl({
       src: ['https://raw.githubusercontent.com/premonix/fytepit-onepointzero/main/public/background.mp3'],
       volume: this.musicVolume,
       loop: true,
       onload: () => {
-        console.log('Background music loaded successfully');
+        console.log('✅ Background music loaded successfully');
       },
       onloaderror: (error) => {
-        console.warn('Background music could not be loaded from GitHub:', error);
+        console.error('❌ Background music could not be loaded from GitHub:', error);
+      },
+      onplay: () => {
+        console.log('🎵 Background music started playing');
+      },
+      onpause: () => {
+        console.log('⏸️ Background music paused');
+      },
+      onstop: () => {
+        console.log('⏹️ Background music stopped');
       }
     });
   }
@@ -170,9 +180,24 @@ class SoundManager {
 
   // Play background music
   playBackgroundMusic() {
-    if (this.muted || !this.userInteracted || !this.backgroundMusic) return;
+    console.log('🎵 Attempting to play background music...');
+    console.log('Muted:', this.muted, 'User Interacted:', this.userInteracted, 'Background Music Loaded:', !!this.backgroundMusic);
+    
+    if (this.muted) {
+      console.log('❌ Cannot play music: Sound is muted');
+      return;
+    }
+    if (!this.userInteracted) {
+      console.log('❌ Cannot play music: User has not interacted yet');
+      return;
+    }
+    if (!this.backgroundMusic) {
+      console.log('❌ Cannot play music: Background music not loaded');
+      return;
+    }
     
     if (!this.musicPlaying) {
+      console.log('▶️ Playing background music...');
       this.backgroundMusic.play();
       this.musicPlaying = true;
       localStorage.setItem('musicEnabled', 'true');
