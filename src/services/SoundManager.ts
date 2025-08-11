@@ -101,15 +101,23 @@ class SoundManager {
   // Load background music
   private async loadBackgroundMusic() {
     console.log('Loading background music from GitHub...');
+    // Try multiple URL formats for better compatibility
+    const urls = [
+      'https://raw.githubusercontent.com/premonix/fytepit-onepointzero/main/public/background.mp3',
+      'https://github.com/premonix/fytepit-onepointzero/raw/main/public/background.mp3'
+    ];
+    
     this.backgroundMusic = new Howl({
-      src: ['https://raw.githubusercontent.com/premonix/fytepit-onepointzero/main/public/background.mp3'],
+      src: urls,
       volume: this.musicVolume,
       loop: true,
+      format: ['mp3'],
       onload: () => {
         console.log('✅ Background music loaded successfully');
       },
       onloaderror: (error) => {
         console.error('❌ Background music could not be loaded from GitHub:', error);
+        console.log('🔗 Tried URLs:', urls);
       },
       onplay: () => {
         console.log('🎵 Background music started playing');
