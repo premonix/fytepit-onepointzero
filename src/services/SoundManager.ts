@@ -33,65 +33,24 @@ class SoundManager {
 
   // Initialize sound system
   async initialize() {
-    console.log('🎵 Initializing Sound Manager...');
-    // Skip UI and realm sounds for now since files don't exist
-    // await this.loadUISounds();
-    // await this.loadRealmSounds();
+    console.log('🎵 Initializing Sound Manager (background music only)...');
     await this.loadBackgroundMusic();
     this.setupUserInteractionListener();
-    console.log('✅ Sound Manager initialized');
+    console.log('✅ Sound Manager initialized - background music ready');
   }
 
-  // Load UI sounds
+  // Load UI sounds - DISABLED (files don't exist)
   private async loadUISounds() {
-    const uiSounds = {
-      click: {
-        src: ['/sounds/ui/fyte-click.wav'],
-        volume: this.uiVolume
-      },
-      hover: {
-        src: ['/sounds/ui/menu-hover.wav'],
-        volume: this.uiVolume * 0.7
-      },
-      transition: {
-        src: ['/sounds/ui/page-transition.wav'],
-        volume: this.uiVolume * 0.8
-      },
-      loading: {
-        src: ['/sounds/ui/loading-pulse.wav'],
-        volume: this.uiVolume * 0.6,
-        loop: true
-      }
-    };
-
-    for (const [name, config] of Object.entries(uiSounds)) {
-      this.sounds.set(name, new Howl(config));
-    }
+    console.log('🔇 UI sounds disabled - files not available');
+    // All UI sound loading disabled to prevent 404 errors
+    return;
   }
 
-  // Load realm-specific sounds
+  // Load realm-specific sounds - DISABLED (files don't exist)
   private async loadRealmSounds() {
-    const realms = ['dark-arena', 'sci-fi-ai', 'fantasy-tech'];
-    
-    for (const realm of realms) {
-      const realmSounds: RealmSounds = {
-        ambient: new Howl({
-          src: [`/sounds/realms/${realm}/ambient.wav`],
-          volume: this.ambientVolume,
-          loop: true
-        }),
-        hover: new Howl({
-          src: [`/sounds/realms/${realm}/hover.wav`],
-          volume: this.uiVolume * 0.8
-        }),
-        select: new Howl({
-          src: [`/sounds/realms/${realm}/select.wav`],
-          volume: this.uiVolume
-        })
-      };
-      
-      this.realmSounds.set(realm, realmSounds);
-    }
+    console.log('🔇 Realm sounds disabled - files not available');
+    // All realm sound loading disabled to prevent 404 errors
+    return;
   }
 
   // Play UI sound
