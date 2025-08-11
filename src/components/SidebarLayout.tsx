@@ -3,10 +3,12 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileMenu } from "@/components/MobileMenu";
 import { Button } from "@/components/ui/button";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, Music, Pause } from "lucide-react";
 import { useSound } from "@/hooks/useSound";
+import { useSoundManager } from "@/services/SoundManager";
 import { UserMenu } from "@/components/UserMenu";
 import { Footer } from "@/components/Footer";
+import { useEffect, useState } from "react";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -15,6 +17,22 @@ interface SidebarLayoutProps {
 export function SidebarLayout({ children }: SidebarLayoutProps) {
   const isMobile = useIsMobile();
   const { muted, toggleMute, playUI } = useSound();
+  const soundManager = useSoundManager();
+  const [musicPlaying, setMusicPlaying] = useState(false);
+
+  useEffect(() => {
+    soundManager.initialize();
+    const updateMusicState = () => {
+      setMusicPlaying(soundManager.getState().musicPlaying);
+    };
+    const interval = setInterval(updateMusicState, 1000);
+    return () => clearInterval(interval);
+  }, [soundManager]);
+
+  const handleMusicToggle = () => {
+    const playing = soundManager.toggleBackgroundMusic();
+    setMusicPlaying(playing);
+  };
 
   if (isMobile) {
     return (
@@ -42,9 +60,20 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
               <Button 
                 variant="ghost" 
                 size="sm" 
+                onClick={handleMusicToggle}
+                onMouseEnter={() => playUI('hover')}
+                className="text-white hover:text-primary"
+                title={musicPlaying ? "Pause music" : "Play music"}
+              >
+                {musicPlaying ? <Pause className="w-4 h-4" /> : <Music className="w-4 h-4" />}
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
                 onClick={toggleMute}
                 onMouseEnter={() => playUI('hover')}
                 className="text-white hover:text-primary"
+                title={muted ? "Unmute all sounds" : "Mute all sounds"}
               >
                 {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
               </Button>

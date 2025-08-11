@@ -17,10 +17,14 @@ class SoundManager {
   private sounds: Map<string, Howl> = new Map();
   private realmSounds: Map<string, RealmSounds> = new Map();
   private currentAmbient: Howl | null = null;
+  private backgroundMusic: Howl | null = null;
   private masterVolume: number = 0.7;
   private uiVolume: number = 0.5;
   private ambientVolume: number = 0.3;
+  private musicVolume: number = 0.4;
   private muted: boolean = false;
+  private musicPlaying: boolean = false;
+  private userInteracted: boolean = false;
 
   constructor() {
     // Set global volume
@@ -31,6 +35,8 @@ class SoundManager {
   async initialize() {
     await this.loadUISounds();
     await this.loadRealmSounds();
+    await this.loadBackgroundMusic();
+    this.setupUserInteractionListener();
   }
 
   // Load UI sounds
@@ -129,6 +135,69 @@ class SoundManager {
     }
   }
 
+  // Load background music
+  private async loadBackgroundMusic() {
+    this.backgroundMusic = new Howl({
+      src: ['/sounds/music/background.mp3', '/sounds/music/background.ogg'],
+      volume: this.musicVolume,
+      loop: true,
+      onload: () => {
+        console.log('Background music loaded successfully');
+      },
+      onloaderror: () => {
+        console.warn('Background music could not be loaded');
+      }
+    });
+  }
+
+  // Setup user interaction listener for autoplay
+  private setupUserInteractionListener() {
+    const handleFirstInteraction = () => {
+      this.userInteracted = true;
+      const musicEnabled = localStorage.getItem('musicEnabled');
+      if (musicEnabled !== 'false') {
+        this.playBackgroundMusic();
+      }
+      
+      // Remove listeners after first interaction
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    };
+
+    document.addEventListener('click', handleFirstInteraction);
+    document.addEventListener('keydown', handleFirstInteraction);
+  }
+
+  // Play background music
+  playBackgroundMusic() {
+    if (this.muted || !this.userInteracted || !this.backgroundMusic) return;
+    
+    if (!this.musicPlaying) {
+      this.backgroundMusic.play();
+      this.musicPlaying = true;
+      localStorage.setItem('musicEnabled', 'true');
+    }
+  }
+
+  // Stop background music
+  stopBackgroundMusic() {
+    if (this.backgroundMusic && this.musicPlaying) {
+      this.backgroundMusic.stop();
+      this.musicPlaying = false;
+      localStorage.setItem('musicEnabled', 'false');
+    }
+  }
+
+  // Toggle background music
+  toggleBackgroundMusic() {
+    if (this.musicPlaying) {
+      this.stopBackgroundMusic();
+    } else {
+      this.playBackgroundMusic();
+    }
+    return this.musicPlaying;
+  }
+
   // Volume controls
   setMasterVolume(volume: number) {
     this.masterVolume = Math.max(0, Math.min(1, volume));
@@ -151,13 +220,26 @@ class SoundManager {
     });
   }
 
+  setMusicVolume(volume: number) {
+    this.musicVolume = Math.max(0, Math.min(1, volume));
+    if (this.backgroundMusic) {
+      this.backgroundMusic.volume(this.musicVolume);
+    }
+  }
+
   // Mute/unmute
   toggleMute() {
     this.muted = !this.muted;
     if (this.muted) {
       Howler.mute(true);
+      if (this.backgroundMusic && this.musicPlaying) {
+        this.backgroundMusic.pause();
+      }
     } else {
       Howler.mute(false);
+      if (this.backgroundMusic && this.musicPlaying) {
+        this.backgroundMusic.play();
+      }
     }
     return this.muted;
   }
@@ -168,7 +250,9 @@ class SoundManager {
       masterVolume: this.masterVolume,
       uiVolume: this.uiVolume,
       ambientVolume: this.ambientVolume,
+      musicVolume: this.musicVolume,
       muted: this.muted,
+      musicPlaying: this.musicPlaying,
       currentAmbient: this.currentAmbient !== null
     };
   }
@@ -176,6 +260,10 @@ class SoundManager {
   // Cleanup
   destroy() {
     this.stopAmbient();
+    this.stopBackgroundMusic();
+    if (this.backgroundMusic) {
+      this.backgroundMusic.unload();
+    }
     this.sounds.forEach(sound => sound.unload());
     this.realmSounds.forEach(realmSounds => {
       realmSounds.ambient.unload();
