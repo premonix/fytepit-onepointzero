@@ -138,7 +138,7 @@ class SoundManager {
   // Load background music
   private async loadBackgroundMusic() {
     this.backgroundMusic = new Howl({
-      src: ['https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/your-music.mp3'],
+      src: ['https://raw.githubusercontent.com/premonix/fytepit-onepointzero/main/public/background.mp3'],
       volume: this.musicVolume,
       loop: true,
       onload: () => {
