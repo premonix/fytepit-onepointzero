@@ -114,6 +114,7 @@ class SoundManager {
       format: ['mp3'],
       onload: () => {
         console.log('✅ Background music loaded successfully');
+        this.attemptAutoplay();
       },
       onloaderror: (error) => {
         console.error('❌ Background music could not be loaded from GitHub:', error);
@@ -131,7 +132,37 @@ class SoundManager {
     });
   }
 
-  // Setup user interaction listener for autoplay
+  // Attempt autoplay (with fallback to user interaction)
+  private attemptAutoplay() {
+    console.log('🎵 Attempting autoplay...');
+    const musicEnabled = localStorage.getItem('musicEnabled');
+    
+    // Check if user has explicitly disabled music
+    if (musicEnabled === 'false') {
+      console.log('❌ Autoplay skipped: User disabled music');
+      return;
+    }
+
+    // Don't attempt if already muted
+    if (this.muted) {
+      console.log('❌ Autoplay skipped: Sound is muted');
+      return;
+    }
+
+    try {
+      // Try to play immediately
+      if (this.backgroundMusic && !this.musicPlaying) {
+        console.log('▶️ Attempting immediate autoplay...');
+        this.backgroundMusic.play();
+        this.musicPlaying = true;
+        localStorage.setItem('musicEnabled', 'true');
+      }
+    } catch (error) {
+      console.log('❌ Autoplay blocked by browser, waiting for user interaction:', error);
+    }
+  }
+
+  // Setup user interaction listener for autoplay fallback
   private setupUserInteractionListener() {
     const handleFirstInteraction = () => {
       this.userInteracted = true;
