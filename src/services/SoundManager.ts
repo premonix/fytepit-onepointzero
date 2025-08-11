@@ -33,10 +33,13 @@ class SoundManager {
 
   // Initialize sound system
   async initialize() {
-    await this.loadUISounds();
-    await this.loadRealmSounds();
+    console.log('🎵 Initializing Sound Manager...');
+    // Skip UI and realm sounds for now since files don't exist
+    // await this.loadUISounds();
+    // await this.loadRealmSounds();
     await this.loadBackgroundMusic();
     this.setupUserInteractionListener();
+    console.log('✅ Sound Manager initialized');
   }
 
   // Load UI sounds
@@ -94,11 +97,12 @@ class SoundManager {
   // Play UI sound
   playUI(soundName: string, variant?: string) {
     if (this.muted) return;
-    
-    const sound = this.sounds.get(soundName);
-    if (sound) {
-      sound.play();
-    }
+    console.log(`🔊 UI sound request: ${soundName} (skipped - no UI sounds loaded)`);
+    // Skip UI sounds since files don't exist
+    // const sound = this.sounds.get(soundName);
+    // if (sound) {
+    //   sound.play();
+    // }
   }
 
   // Play realm hover sound
