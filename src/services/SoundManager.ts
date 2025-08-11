@@ -138,14 +138,14 @@ class SoundManager {
   // Load background music
   private async loadBackgroundMusic() {
     this.backgroundMusic = new Howl({
-      src: ['/sounds/music/background.mp3', '/sounds/music/background.ogg'],
+      src: ['https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/your-music.mp3'],
       volume: this.musicVolume,
       loop: true,
       onload: () => {
         console.log('Background music loaded successfully');
       },
-      onloaderror: () => {
-        console.warn('Background music could not be loaded');
+      onloaderror: (error) => {
+        console.warn('Background music could not be loaded from GitHub:', error);
       }
     });
   }
